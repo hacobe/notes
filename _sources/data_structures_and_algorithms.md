@@ -50,7 +50,9 @@
     * Solve https://leetcode.com/problems/design-bounded-blocking-queue/
     * Solve https://leetcode.com/problems/web-crawler-multithreaded/
     * Solve https://leetcode.com/problems/the-dining-philosophers/
-    * Solve https://leetcode.com/problems/building-h2o with Semaphore, Lock and Barrier
-    * Solve https://leetcode.com/problems/print-foobar-alternately/ with Event
+    * Solve https://leetcode.com/problems/building-h2o/
+    * Solve https://leetcode.com/problems/print-zero-even-odd/
+    * Solve https://leetcode.com/problems/fizz-buzz-multithreaded/
+    * Solve https://leetcode.com/problems/print-foobar-alternately/
 * Other leetcode problems
     * https://leetcode.com/problems/lru-cache/ with Python 3 OrderedDict and with CustomOrderedDict
