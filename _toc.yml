@@ -3,6 +3,9 @@ root: intro
 chapters:
   - file: computer_architecture
     sections:
+      - file: binary_addition
+      - file: overflow
+      - file: twos_complement
       - file: assembly
       - file: c_memory_management
       - file: concurrency
