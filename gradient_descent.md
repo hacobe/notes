@@ -1,4 +1,4 @@
-# Gradient desecent
+# Gradient descent
 
 **Gradient descent** is an algorithm for finding a minimum of a function.
 
