@@ -3,15 +3,17 @@ root: intro
 chapters:
   - file: computer_architecture
     sections:
+      - file: what_is_a_computer
       - file: binary_addition
       - file: overflow
       - file: twos_complement
       - file: assembly
       - file: c_memory_management
-      - file: concurrency
       - file: computer_chip
       - file: floating_point
       - file: flynns_taxonomy
+      - file: concurrency
+      - file: multithreading
   - file: data_structures_and_algorithms
     sections:
       - file: Basic comparison sorting
@@ -22,6 +24,7 @@ chapters:
       - file: Heap
       - file: Trie
       - file: backtracking
+      - file: sliding_window
   - file: machine_learning
     sections:
       - file: gradient_descent
@@ -29,10 +32,14 @@ chapters:
       - file: attention
       - file: graph_neural_networks
       - file: james_stein_estimation
+      - file: entropy
       - file: data_parallelism
       - file: t5_style_model_parallelism
+      - file: pipeline_parallelism
       - file: zero_offload
       - file: mixture_of_experts
   - file: miscellaneous
     sections:
       - file: broadcasting
+      - file: how_to_solve_it
+      - file: modular_exponentiation
