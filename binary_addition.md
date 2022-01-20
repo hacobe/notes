@@ -6,7 +6,7 @@ Let's design a very simple computer. It will take two inputs and add them.
 
 Here's the computer ([source](https://en.wikipedia.org/wiki/Fluidics)):
 
-<img src="/img/220px-Fluidic_AND_XOR.svg.png" />
+![fluidic_and_xor](/img/220px-Fluidic_AND_XOR.svg.png)
 
 The inputs are the two tubes at the the top of the tank.
 
@@ -46,7 +46,7 @@ Let's label the least significant digit of the first input A0, the least signifi
 
 Here's our computer:
 
-<img src="/img/adder.png" />
+![adder](/img/adder.png)
 
 If we wanted to add numbers with more binary digits, we could just imagine continuing the pattern by replacing the E bucket with a $C2\_{in}$ bucket and having that go into another tank with tubes flowing out to a S2 bucket and a $C3\_{in}$, which feeds into another replica and so on. Note that an E bucket is just like a $Ci\_{in}$ bucket with the difference that we're at the end of our computation for the E bucket.
 

@@ -4,7 +4,7 @@ For simplicity, assume that we have a computer that runs one program at a time a
 
 Memory is a contiguous block of bits, but by convention we divide it as follows:
 
-<img src="/img/cs61c_program_address_space.png" />
+![cs61c_program_address_space](/img/cs61c_program_address_space.png)
 
 FFFF FFFF in hexadecimal is 32 1s in binary.
 
