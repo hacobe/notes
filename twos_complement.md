@@ -1,6 +1,6 @@
 # Two's complement
 
-In a [previous post](binary_addition.html), we constructed a simple calculator using buckets, tubes and water. We can use this calculator to add any two positive numbers where the sum doesn't exceed the maximum number we can store in the output. And we showed how this model predicts certain errors when adding unsigned 8 bit numbers in Python in this [post](overflow.html).
+In a previous post on binary addition, we constructed a simple calculator using buckets, tubes and water. We can use this calculator to add any two positive numbers where the sum doesn't exceed the maximum number we can store in the output. And we showed how this model predicts certain errors when adding unsigned 8 bit numbers in Python in the post on overflow.
 
 What if you want to subtract numbers?
 
