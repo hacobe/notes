@@ -21,6 +21,7 @@ chapters:
       - file: Dynamic programming
       - file: Heap
       - file: Trie
+      - file: backtracking
   - file: machine_learning
     sections:
       - file: gradient_descent
@@ -28,6 +29,10 @@ chapters:
       - file: attention
       - file: graph_neural_networks
       - file: james_stein_estimation
+      - file: data_parallelism
+      - file: t5_style_model_parallelism
+      - file: zero_offload
+      - file: mixture_of_experts
   - file: miscellaneous
     sections:
       - file: broadcasting
