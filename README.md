@@ -1,4 +1,4 @@
-# Exercises
+# Technical notes
 
 ## Data structures and algorithms
 
