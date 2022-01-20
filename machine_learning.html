@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flynn’s taxonomy &#8212; Technical notes</title>
+    <title>Machine learning &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data structures and algorithms" href="data_structures_and_algorithms.html" />
-    <link rel="prev" title="Floating point" href="floating_point.html" />
+    <link rel="next" title="Gradient desecent" href="gradient_descent.html" />
+    <link rel="prev" title="Trie" href="Trie.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -89,16 +89,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="binary_addition.html">
      Binary addition
@@ -139,8 +139,8 @@
      Floating point
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
      Flynn’s taxonomy
     </a>
    </li>
@@ -193,11 +193,11 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="machine_learning.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
    Machine learning
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
@@ -211,6 +211,21 @@
    <li class="toctree-l2">
     <a class="reference internal" href="automatic_differentiation.html">
      Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein Estimation
     </a>
    </li>
   </ul>
@@ -273,7 +288,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/flynns_taxonomy.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/machine_learning.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -293,7 +308,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fflynns_taxonomy.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmachine_learning.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -314,44 +329,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sisd">
-   SISD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simd">
-   SIMD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example">
-   Example
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mimd">
-   MIMD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#usage">
-   Usage
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -360,54 +337,9 @@
         
               <div>
                 
-  <div class="section" id="flynn-s-taxonomy">
-<h1>Flynn’s taxonomy<a class="headerlink" href="#flynn-s-taxonomy" title="Permalink to this headline">¶</a></h1>
-<p>Flynn’s Taxonomy is a classification of computer architectures. It divides computer architectures into 4 classes: Single Instruction Single Data (SISD), Single Instruction Multiple Data (SIMD), Multiple Instruction Single Data (MISD) and Multiple Instruction Multiple Data (MIMD).<a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
-<div class="section" id="sisd">
-<h2>SISD<a class="headerlink" href="#sisd" title="Permalink to this headline">¶</a></h2>
-<p>For the purposes of classification, we abstract a computer architecture into a data pool, an instruction pool and processing units. In SISD, at each step, we fetch an instruction from the instruction pool and a unit of data from the data pool and send the instruction and the unit of data to the processing unit for execution:</p>
-<img src="/img/sisd.png" />
-<p>You can think of the instruction as a function and the unit of data as the inputs to the function. In the hardware, we fetch the instruction pointed to by the program counter, we load data into registers, and the processor executes the instruction on the registers.</p>
-</div>
-<div class="section" id="simd">
-<h2>SIMD<a class="headerlink" href="#simd" title="Permalink to this headline">¶</a></h2>
-<p>In SIMD, at each step, we fetch an instruction from the instruction pool and multiple units of data from the data pool and send the instruction and each unit of data to a processing unit for execution:</p>
-<img src="/img/simd.png" />
-<p>In the hardware, we fetch the instruction pointed to by the program counter, we load multiple data into wide registers (a single wide register can contain multiple integers or multiple floats) and the processor executes the instruction on the registers in parallel.</p>
-<p>Note that the processing unit do not have to be separate cores. SIMD can work within a single core, because an instruction can be applied to multiple data units in parallel within a single core.</p>
-</div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>Take the example of computing the element-wise sum of two vectors: <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code>. For SISD, at each step, we fetch a pair of elements (one element from <code class="docutils literal notranslate"><span class="pre">A</span></code> and one from <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction. See the image from this <a class="reference external" href="http://web.archive.org/web/20220108195313/http://ftp.cvut.cz/kernel/people/geoff/cell/ps3-linux-docs/CellProgrammingTutorial/BasicsOfSIMDProgramming.html">article</a> below, which shows multiple steps of computation:</p>
-<img src="/img/sisd_a_plus_b.png" />
-<p>For SIMD, at each step, we fetch multiple pairs of elements (the elements from <code class="docutils literal notranslate"><span class="pre">A</span></code> and the elements of <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction to each pair of elements in parallel. See the image below, which shows one step of computation:</p>
-<img src="/img/simd_a_plus_b.png" />
-</div>
-<div class="section" id="mimd">
-<h2>MIMD<a class="headerlink" href="#mimd" title="Permalink to this headline">¶</a></h2>
-<p>For MIMD, in each step, we fetch multiple data units from the data pool and multiple instructions from the instruction pool and send each data unit and instruction to separate processing units for execution in parallel:</p>
-<img src="/img/mimd.png" />
-<p>In the hardware, each core in a multi-core processor fetches data and an instruction and independently executes the instruction on the data in parallel.</p>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Older computer architectures like the Pentium 4, which launched in 2000, use SISD. The SSE x86, or Streaming SIMD Extensions x86, computer architecture extends the x86 architecture to include instructions for SIMD parallelism. Xeon e5345 is an example of a MIMD architecture that uses multiple cores. Modern computer architectures use SIMD within each core and MIMD across cores. I don’t discuss MISD, because it is rarely used in practice.</p>
-</div>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>UC Berkeley, CS61C, Spring 2015</p>
-<ul>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=BUmJQr426Ac&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=18">Lecture 18</a></p></li>
-</ul>
-</li>
-</ul>
-<hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>I think it’s standard to pronounce each acronym as a word instead of by letter. For example, pronounce MIMD as “mim-d” instead of “m-i-m-d”.</p>
-</dd>
-</dl>
+  <div class="section" id="machine-learning">
+<h1>Machine learning<a class="headerlink" href="#machine-learning" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -441,19 +373,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="floating_point.html" title="previous page">
+        <a class="left-prev" href="Trie.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Floating point</p>
+                <p class="prevnext-title">Trie</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="data_structures_and_algorithms.html" title="next page">
+        <a class="right-next" href="gradient_descent.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Data structures and algorithms</p>
+                <p class="prevnext-title">Gradient desecent</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

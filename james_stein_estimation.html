@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>James-Stein Estimation &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
+    <link rel="prev" title="Graph neural networks" href="graph_neural_networks.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient desecent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     James-Stein Estimation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/james_stein_estimation.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fjames_stein_estimation.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-james-stein-estimation">
+   What is James-Stein Estimation?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-is-it-so-surprising">
+   Why is it so surprising?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-the-trick">
+   What’s the trick?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-does-it-work">
+   How does it work?
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="james-stein-estimation">
+<h1>James-Stein Estimation<a class="headerlink" href="#james-stein-estimation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-james-stein-estimation">
+<h2>What is James-Stein Estimation?<a class="headerlink" href="#what-is-james-stein-estimation" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we observe <span class="math notranslate nohighlight">\(\textbf{x} \in \mathbb{R}^p\)</span>, where <span class="math notranslate nohighlight">\(x_i = \theta_i + \epsilon_i\)</span> for some unobserved <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(\epsilon_i \sim N(0, 1)\)</span>, and our goal is to find a function <span class="math notranslate nohighlight">\(f(\textbf{x}) = \hat \theta\)</span> that minimizes <span class="math notranslate nohighlight">\(E\left[\lVert \theta - \hat \theta \rVert^2\right]\)</span>.</p>
+<p>Because the distributions that generate each <span class="math notranslate nohighlight">\(x_i\)</span> are independent, it seems like all we can do is use each <span class="math notranslate nohighlight">\(x_i\)</span> as our estimate of <span class="math notranslate nohighlight">\(\theta_i\)</span> by choosing <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{x}\)</span>. Also, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is the Maximum Likelihood estimate of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
+<p>The James-Stein estimate instead chooses <span class="math notranslate nohighlight">\(f(\textbf{x}) = (1 - \frac{p - 2}{\rVert \textbf{x} \lVert^2}) \textbf{x}\)</span>.<a class="footnote-reference brackets" href="#id5" id="id1">1</a> The surprising result is that this estimate does better (according to our evaluation criteria) than the Maximum Likelihood estimate for any <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(p \ge 2\)</span>.</p>
+</div>
+<div class="section" id="why-is-it-so-surprising">
+<h2>Why is it so surprising?<a class="headerlink" href="#why-is-it-so-surprising" title="Permalink to this headline">¶</a></h2>
+<p>The James-Stein estimate uses all the samples to make a guess for each mean even though the distributions the samples come from are independent. It seems to suggest that we are improving our guess for a particular mean by using information from completely unrelated distributions. As described on the Wikipedia page for <a class="reference external" href="https://web.archive.org/web/20200601224707/https://en.wikipedia.org/wiki/Stein%27s_example">Stein’s example</a>: “To demonstrate the unintuitive nature of Stein’s example, consider the following real-world example. Suppose we are to estimate three unrelated parameters, such as the US wheat yield for 1993, the number of spectators at the Wimbledon tennis tournament in 2001, and the weight of a randomly chosen candy bar from the supermarket…At first sight it appears that somehow we get a better estimator for US wheat yield by measuring some other unrelated statistics such as the number of spectators at Wimbledon and the weight of a candy bar.”</p>
+</div>
+<div class="section" id="what-s-the-trick">
+<h2>What’s the trick?<a class="headerlink" href="#what-s-the-trick" title="Permalink to this headline">¶</a></h2>
+<p>At a high level, the Wikipedia page explains that “This is of course absurd; we have not obtained a better estimator for US wheat yield by itself, but we have produced an estimator for the vector of the means of all three random variables, which has a reduced total risk. This occurs because the cost of a bad estimate in one component of the vector is compensated by a better estimate in another component. Also, a specific set of the three estimated mean values obtained with the new estimator will not necessarily be better than the ordinary set (the measured values). It is only on average that the new estimator is better.”</p>
+</div>
+<div class="section" id="how-does-it-work">
+<h2>How does it work?<a class="headerlink" href="#how-does-it-work" title="Permalink to this headline">¶</a></h2>
+<p>Each <span class="math notranslate nohighlight">\(x_i\)</span> has some probability of being an outlier and misleading us about the value of <span class="math notranslate nohighlight">\(\theta_i\)</span>. But it’s much less likely for all the <span class="math notranslate nohighlight">\(x_i\)</span> to be outliers, because the distributions are independent. Similarly, a fair coin has a 50% chance of landing on heads, but the chance of 10 coins all landing on heads is 1 in 1024. Relatedly, estimating a metric that summarizes <span class="math notranslate nohighlight">\(\theta\)</span> (like its mean <span class="math notranslate nohighlight">\(\bar{\theta}\)</span>) is an easier task than estimating each component of <span class="math notranslate nohighlight">\(\theta\)</span>. If <span class="math notranslate nohighlight">\(\theta_1, \dots, \theta_p\)</span> are similar enough, then <span class="math notranslate nohighlight">\(\bar{\textbf{x}}\)</span> will give a better estimate of <span class="math notranslate nohighlight">\(\theta\)</span> than <span class="math notranslate nohighlight">\(\textbf{x}\)</span> (we see this clearly in the extreme case of <span class="math notranslate nohighlight">\(\theta_1 = \dots = \theta_p\)</span>, where the mean just uses more data to estimate the same quantity).</p>
+<p>On the other hand, if the variance of <span class="math notranslate nohighlight">\(\theta\)</span> is large, i.e., <span class="math notranslate nohighlight">\(\theta_1, \dots, \theta_p\)</span> are very different from each other, then <span class="math notranslate nohighlight">\(\bar{\textbf{x}}\)</span> will be a very poor estimate of <span class="math notranslate nohighlight">\(\theta\)</span>. In this case, getting a good estimate of <span class="math notranslate nohighlight">\(\bar{\theta}\)</span> doesn’t help us.</p>
+<p>There is a trade-off between estimating <span class="math notranslate nohighlight">\(\theta\)</span> based on a more reliable, but less relevant estimate of the global behavior and estimating it based on a less reliable, but more relevant estimate of its local behavior. This trade-off depends on the variance of <span class="math notranslate nohighlight">\(\theta\)</span>, i.e., the consistency of its local behavior. We don’t know the variance of <span class="math notranslate nohighlight">\(\theta\)</span>, but we can estimate it based on the variance of <span class="math notranslate nohighlight">\(\textbf{x}\)</span>. We can then construct an estimator for <span class="math notranslate nohighlight">\(\theta_i\)</span> that is an average between <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(\bar{\textbf{x}}\)</span> weighted by the inverse variance of <span class="math notranslate nohighlight">\(\textbf{x}\)</span>. The greater the variance, the more weight we put on <span class="math notranslate nohighlight">\(x_i\)</span> for our estimate of <span class="math notranslate nohighlight">\(\theta_i\)</span>. The smaller the variance, the more weight we put on <span class="math notranslate nohighlight">\(\bar{\textbf{x}}\)</span>.</p>
+<p>This is an instance of a Bias-Variance trade-off. A special feature of the mean squared error is that we can think of it as the sum of the squared bias of the estimator (how close is <span class="math notranslate nohighlight">\(\theta\)</span> to <span class="math notranslate nohighlight">\(E[\hat \theta]\)</span>?) and the variance of the estimator (how close is <span class="math notranslate nohighlight">\(E[\hat \theta]\)</span> to <span class="math notranslate nohighlight">\(\hat \theta\)</span> on average?). In this context, we’re weighing the increased bias of using information from other distributions with the decreased variance from using more data.</p>
+<p>To connect this back to the James-Stein estimate, consider <span class="math notranslate nohighlight">\(\lVert \theta \rVert\)</span>, i.e. the distance of <span class="math notranslate nohighlight">\(\theta\)</span> from the origin, as our summary metric of <span class="math notranslate nohighlight">\(\theta\)</span> instead of <span class="math notranslate nohighlight">\(\bar{\theta}\)</span>. We can get a reliable estimate of <span class="math notranslate nohighlight">\(\lVert \theta \rVert\)</span> based on all of the data we observe. If <span class="math notranslate nohighlight">\(\lVert \theta \rVert\)</span> is small, then a reasonable guess of <span class="math notranslate nohighlight">\(\theta\)</span> is 0 and the increase in bias is worth the decrease in variance from this “smoothed” guess. Otherwise, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is better: the increase in variance is offset by the decrease in bias from not guessing 0 for a vector with large magnitude.</p>
+<p>We can construct an estimator for <span class="math notranslate nohighlight">\(\theta_i\)</span> that is an average between <span class="math notranslate nohighlight">\(x_i\)</span> and 0 weighted by the inverse of our estimate of <span class="math notranslate nohighlight">\(\lVert \theta \rVert\)</span>. The greater the magnitude, the more weight we put on <span class="math notranslate nohighlight">\(x_i\)</span>. The smaller the magnitude, the more weight we put on 0. The James-Stein estimate is this weighted average when the weight we put on <span class="math notranslate nohighlight">\(x_i\)</span> is <span class="math notranslate nohighlight">\(1 - \frac{p - 2}{\lVert x \rVert^2}\)</span>.</p>
+<p>Why this particular function of the inverse magnitude for the weight? For one, <span class="math notranslate nohighlight">\(E[\lVert (1 - \frac{p - 2}{\lVert x \rVert^2}) \textbf{x} \rVert^2] \approx E[\lVert \theta \rVert^2]\)</span> when <span class="math notranslate nohighlight">\(p\)</span> is large.<a class="footnote-reference brackets" href="#id6" id="id2">2</a>. In another surprising twist, it’s also an estimate of the slope of the line through the origin that we get from regressing <span class="math notranslate nohighlight">\(\theta\)</span> on <span class="math notranslate nohighlight">\(\textbf{x}\)</span>.<a class="footnote-reference brackets" href="#id7" id="id3">3</a> We can’t run this regression, because we don’t observe <span class="math notranslate nohighlight">\(\theta\)</span>, but we can still construct an estimate of the slope using <span class="math notranslate nohighlight">\(\textbf{x}\)</span> alone. Under this interpretation, we use all the data to characterize a global relationship between <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\textbf{x}\)</span> and then exploit that to make a local prediction for each <span class="math notranslate nohighlight">\(\theta_i\)</span>. If we don’t require the line to go through the origin, then our estimate for the equation of the line becomes: <span class="math notranslate nohighlight">\(\frac{1}{\hat{\mathrm{Var}[\theta]}} \bar{\textbf{x}} + (1 - \frac{1}{\hat{\mathrm{Var}[\theta]}}) x_i\)</span> or an average of <span class="math notranslate nohighlight">\(\bar{\textbf{x}}\)</span> and <span class="math notranslate nohighlight">\(x_i\)</span> weighted by our estimate of the inverse variance of <span class="math notranslate nohighlight">\(\theta\)</span>.<a class="footnote-reference brackets" href="#id8" id="id4">4</a></p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>We can also replace <span class="math notranslate nohighlight">\(p - 2\)</span> with any <span class="math notranslate nohighlight">\(c \in (0, 2p - 4)\)</span> and the result still holds (<a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.ss/1177012274">Stigler 1990</a>, Pg. 1)</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p><a class="reference external" href="https://www.stat.washington.edu/~pdhoff/courses/581/LectureNotes/Static/shrinkage.pdf">Hoff 2013</a>, Pg. 12</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.ss/1177012274">Stigler 1990</a></p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p><a class="reference external" href="https://piazza.com/class_profile/get_resource/hzdbtb6jdr56q1/i2kz4qj4x102b1">Jordan 2014</a>, Pg. 7</p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="graph_neural_networks.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Graph neural networks</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="miscellaneous.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Miscellaneous</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

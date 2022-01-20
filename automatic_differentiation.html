@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flynn’s taxonomy &#8212; Technical notes</title>
+    <title>Automatic differentiation &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data structures and algorithms" href="data_structures_and_algorithms.html" />
-    <link rel="prev" title="Floating point" href="floating_point.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
+    <link rel="prev" title="Gradient desecent" href="gradient_descent.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -89,16 +91,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="binary_addition.html">
      Binary addition
@@ -139,8 +141,8 @@
      Floating point
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
      Flynn’s taxonomy
     </a>
    </li>
@@ -193,23 +195,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient desecent
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="automatic_differentiation.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Automatic differentiation
     </a>
    </li>
@@ -273,7 +275,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/flynns_taxonomy.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/automatic_differentiation.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -293,7 +295,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fflynns_taxonomy.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fautomatic_differentiation.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -320,31 +322,6 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sisd">
-   SISD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simd">
-   SIMD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example">
-   Example
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#mimd">
-   MIMD
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#usage">
-   Usage
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -360,54 +337,59 @@
         
               <div>
                 
-  <div class="section" id="flynn-s-taxonomy">
-<h1>Flynn’s taxonomy<a class="headerlink" href="#flynn-s-taxonomy" title="Permalink to this headline">¶</a></h1>
-<p>Flynn’s Taxonomy is a classification of computer architectures. It divides computer architectures into 4 classes: Single Instruction Single Data (SISD), Single Instruction Multiple Data (SIMD), Multiple Instruction Single Data (MISD) and Multiple Instruction Multiple Data (MIMD).<a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
-<div class="section" id="sisd">
-<h2>SISD<a class="headerlink" href="#sisd" title="Permalink to this headline">¶</a></h2>
-<p>For the purposes of classification, we abstract a computer architecture into a data pool, an instruction pool and processing units. In SISD, at each step, we fetch an instruction from the instruction pool and a unit of data from the data pool and send the instruction and the unit of data to the processing unit for execution:</p>
-<img src="/img/sisd.png" />
-<p>You can think of the instruction as a function and the unit of data as the inputs to the function. In the hardware, we fetch the instruction pointed to by the program counter, we load data into registers, and the processor executes the instruction on the registers.</p>
+  <div class="section" id="automatic-differentiation">
+<h1>Automatic differentiation<a class="headerlink" href="#automatic-differentiation" title="Permalink to this headline">¶</a></h1>
+<p><strong>Automatic differentiation</strong> is a technique for computing the gradient of a function specified by a computer program.</p>
+<p>It takes advantage of the fact that any function implemented in a computer program can be decomposed into primitive operations (or else how would the function be implemented in the first place?), which are themselves easy to differentiate and whose derivatives can then be combined to get the derivative of the original function.</p>
+<p>For example, suppose our primitive operations are multiplying by a constant, adding a constant and exponentiating by a constant. And the function we want to differentiate is <span class="math notranslate nohighlight">\(f(x) = 2 x^3 + 7\)</span>. We can write <span class="math notranslate nohighlight">\(f(x)\)</span> as a composition of primitive operations. Define <span class="math notranslate nohighlight">\(f_1(x) = x + 7\)</span>, <span class="math notranslate nohighlight">\(f_2(x) = 2x\)</span>, <span class="math notranslate nohighlight">\(f_3(x) = x^3\)</span>. Then <span class="math notranslate nohighlight">\(f(x) = f_1(f_2(f_3(x)))\)</span>.</p>
+<p>We can apply the chain rule to get the derivative. Define <span class="math notranslate nohighlight">\(g(x) = f_2(f_3(x))\)</span>. The chain rule states that <span class="math notranslate nohighlight">\(\frac{\partial} {\partial x} [ f_1(g(x)) ] = f'(g(x)) g'(x)\)</span>. By the same token, <span class="math notranslate nohighlight">\(g'(x) = f_2'(f_3(x)) f_3'(x)\)</span>. Putting that together, we have <span class="math notranslate nohighlight">\(f'(x) = f_1'(f_2(f_3(x))) f_2'(f_3(x)) f_3'(x)\)</span>, which is the derivate of the original function written in terms of the derivative of primitive operations.</p>
+<p>How do we do this more generally? First, we need a way to represent a function. Supposing that we can decompose a function into primitive operations, then we can represent a function as a <strong>computational graph</strong> where each node in the graph (a directed acyclic graph) is either a primitive operation or a variable. For example, the computational graph for <span class="math notranslate nohighlight">\(f(x, y, z)  = (x + y) \cdot z\)</span> looks like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    *
+   / \
+  +   z
+ / \
+x   y 
+</pre></div>
 </div>
-<div class="section" id="simd">
-<h2>SIMD<a class="headerlink" href="#simd" title="Permalink to this headline">¶</a></h2>
-<p>In SIMD, at each step, we fetch an instruction from the instruction pool and multiple units of data from the data pool and send the instruction and each unit of data to a processing unit for execution:</p>
-<img src="/img/simd.png" />
-<p>In the hardware, we fetch the instruction pointed to by the program counter, we load multiple data into wide registers (a single wide register can contain multiple integers or multiple floats) and the processor executes the instruction on the registers in parallel.</p>
-<p>Note that the processing unit do not have to be separate cores. SIMD can work within a single core, because an instruction can be applied to multiple data units in parallel within a single core.</p>
+<p>An automatic differentiator takes the root of a computational graph as input and values for the variable nodes and returns the gradient of the function evaluated at those input values.</p>
+<p><strong>How do we compute the gradient using the graph?</strong> Even though we don’t yet know how to calculate the partial derivative of the root node with respect to one of its grandchildren (<span class="math notranslate nohighlight">\(x\)</span> or <span class="math notranslate nohighlight">\(y\)</span>), we first notice that it’s easy to calculate the partial derivative of a node with respect to one of its children, because each parent node is a primitive operation and we know how to calculate derivatives for primitive operations by applying one of a few formulas. For example, relabel the computational graph above with <span class="math notranslate nohighlight">\(a = x + y\)</span> and <span class="math notranslate nohighlight">\(b = az\)</span>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    b
+    *
+   / \
+  a   z
+  +   
+ / \
+x   y 
+</pre></div>
 </div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>Take the example of computing the element-wise sum of two vectors: <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code>. For SISD, at each step, we fetch a pair of elements (one element from <code class="docutils literal notranslate"><span class="pre">A</span></code> and one from <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction. See the image from this <a class="reference external" href="http://web.archive.org/web/20220108195313/http://ftp.cvut.cz/kernel/people/geoff/cell/ps3-linux-docs/CellProgrammingTutorial/BasicsOfSIMDProgramming.html">article</a> below, which shows multiple steps of computation:</p>
-<img src="/img/sisd_a_plus_b.png" />
-<p>For SIMD, at each step, we fetch multiple pairs of elements (the elements from <code class="docutils literal notranslate"><span class="pre">A</span></code> and the elements of <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction to each pair of elements in parallel. See the image below, which shows one step of computation:</p>
-<img src="/img/simd_a_plus_b.png" />
+<p>The partial derviative of the <span class="math notranslate nohighlight">\(b\)</span> node with respect to its child node <span class="math notranslate nohighlight">\(a\)</span> is just <span class="math notranslate nohighlight">\(\frac{\partial}{\partial a} b = \frac{\partial}{\partial a} a \cdot z = a \frac{\partial{z}}{\partial{a}} + z \frac{\partial{a}}{\partial{a}} = z\)</span> according to the product rule of calculus.</p>
+<p>We can label each edge with the partial derivative of the parent/destination node with respect to its child/source node. Now, how do we use that information to get the partial derivatives of the root with respect to each of the leaf/variable nodes in the graph? For a given leaf node, it turns out that the sum over all the paths from that leaf to the root of the product of the edges for each path gives you the partial derivative of the root node with respect to the leaf node.</p>
+<p>That procedure is just a visual way of describing the multivariate chain rule. Suppose we have a function <span class="math notranslate nohighlight">\(f(u_1, u_2, \cdots, u_n)\)</span> where the input variables depend on some other variable <span class="math notranslate nohighlight">\(x\)</span> (<span class="math notranslate nohighlight">\(f\)</span> should be thought of as the root node in the graph, <span class="math notranslate nohighlight">\(u_i\)</span> as intermediate nodes and <span class="math notranslate nohighlight">\(x\)</span> as a leaf node), then <span class="math notranslate nohighlight">\(\frac{\partial f}{\partial x} = \sum_{i=1}^n \frac{\partial f}{\partial u_i} \frac{\partial u_i}{\partial x}\)</span>.</p>
+<p><strong>Forward and reverse mode accumulation</strong>: The way that we traverse the graph to compute these partial derivatives can dramatically alter the efficiency of the computation. Consider the following graph:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>     y
+     |
+     uk
+     |
+     .
+     .
+     .
+     |
+     u1
+     +
+  / | | \
+ x1 ... xp
+</pre></div>
 </div>
-<div class="section" id="mimd">
-<h2>MIMD<a class="headerlink" href="#mimd" title="Permalink to this headline">¶</a></h2>
-<p>For MIMD, in each step, we fetch multiple data units from the data pool and multiple instructions from the instruction pool and send each data unit and instruction to separate processing units for execution in parallel:</p>
-<img src="/img/mimd.png" />
-<p>In the hardware, each core in a multi-core processor fetches data and an instruction and independently executes the instruction on the data in parallel.</p>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>Older computer architectures like the Pentium 4, which launched in 2000, use SISD. The SSE x86, or Streaming SIMD Extensions x86, computer architecture extends the x86 architecture to include instructions for SIMD parallelism. Xeon e5345 is an example of a MIMD architecture that uses multiple cores. Modern computer architectures use SIMD within each core and MIMD across cores. I don’t discuss MISD, because it is rarely used in practice.</p>
-</div>
+<p>If we want to calculate the gradient of <span class="math notranslate nohighlight">\(y\)</span> and we start from the leaf nodes and move up, then we first calculate <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial x_1} = \frac{\partial u_1}{\partial x_1} \frac{\partial u_2}{\partial u_1} \dots \frac{\partial u_k}{\partial u_{k-1}} \frac{\partial y}{\partial u_k}\)</span>. We then sweep through the graph again to calculate <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial x_2} = \frac{\partial u_1}{\partial x_2} \frac{\partial u_2}{\partial u_1} \dots \frac{\partial u_k}{\partial u_{k-1}} \frac{\partial y}{\partial u_k}\)</span>. And again for <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial x_3}\)</span> and so on. Each time repeating the computation <span class="math notranslate nohighlight">\(\frac{\partial u_2}{\partial u_1} \dots \frac{\partial u_k}{\partial u_{k-1}} \frac{\partial y}{\partial u_k}\)</span>. This is forward mode accumulation and it requires <span class="math notranslate nohighlight">\(k \cdot p\)</span> multiplies to get the gradient.</p>
+<p>If we instead start from the top of the graph and move downwards caching the results as we go, then we first calculate <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial u_k}\)</span>, then <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial u_{k-1}}\)</span> as <span class="math notranslate nohighlight">\(\frac{\partial y}{\partial u_k} \cdot \frac{\partial u_k}{\partial u_{k-1}}\)</span> using the cached value for the first term and so on down the graph. This is reverse mode accumulation and it only requires <span class="math notranslate nohighlight">\(k + p\)</span> multiplies to get the gradient. In the case of gradient descent on the cost function of a neural network with millions of parameters, automatic differentiation with reverse mode accumulation (also called <strong>backpropagation</strong>) makes optimization feasible.</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>UC Berkeley, CS61C, Spring 2015</p>
-<ul>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=BUmJQr426Ac&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=18">Lecture 18</a></p></li>
+<li><p><a class="reference external" href="https://colah.github.io/posts/2015-08-Backprop/">https://colah.github.io/posts/2015-08-Backprop/</a></p></li>
+<li><p><a class="reference external" href="https://www.offconvex.org/2016/12/20/backprop/">https://www.offconvex.org/2016/12/20/backprop/</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Automatic_differentiation">https://en.wikipedia.org/wiki/Automatic_differentiation</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1811.05031.pdf">https://arxiv.org/pdf/1811.05031.pdf</a></p></li>
 </ul>
-</li>
-</ul>
-<hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>I think it’s standard to pronounce each acronym as a word instead of by letter. For example, pronounce MIMD as “mim-d” instead of “m-i-m-d”.</p>
-</dd>
-</dl>
 </div>
 </div>
 
@@ -441,19 +423,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="floating_point.html" title="previous page">
+        <a class="left-prev" href="gradient_descent.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Floating point</p>
+                <p class="prevnext-title">Gradient desecent</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="data_structures_and_algorithms.html" title="next page">
+        <a class="right-next" href="miscellaneous.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Data structures and algorithms</p>
+                <p class="prevnext-title">Miscellaneous</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
