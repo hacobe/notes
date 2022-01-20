@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quicksort &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/Quicksort.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FQuicksort.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/Quicksort.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intuition">
+   Intuition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stable-quicksort">
+   Stable Quicksort
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-quicksort">
+   Why Quicksort?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#unstable-in-place-quicksort">
+   Unstable, in-place quicksort
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connection-to-binary-search-trees">
+   Connection to Binary Search Trees
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="quicksort">
+<h1>Quicksort<a class="headerlink" href="#quicksort" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intuition">
+<h2>Intuition<a class="headerlink" href="#intuition" title="Permalink to this headline">¶</a></h2>
+<p>In merge sort, we divide the array in half and have to store each half. The key idea of Quicksort is that we can efficiently divide the array without creating additional arrays if in one pass of the array we can swap elements in such a way that one element moves to its final position in the sorted array and where all the elements to the left of that element are less than or equal to it and all the elements to the right are greater than it. Then, we can apply the same approach to the elements to the left and again to the elements to the right and so on until all the elements are in their final position in the sorted array.</p>
+</div>
+<div class="section" id="stable-quicksort">
+<h2>Stable Quicksort<a class="headerlink" href="#stable-quicksort" title="Permalink to this headline">¶</a></h2>
+<p>Take a deck of cards. In merge sort, we split the deck in half, sorted each half and then merged the two sorted halves together and the way we sorted each half was to split the half in half, sort each quarter and then merge the quarters together and so on…</p>
+<p>In Quicksort, we look at the first card in the deck and then scan through each card in the rest of the deck putting the cards less than (or equal to) the first card in one pile and the cards greater than the first card in another pile (an easier task than sorting the deck). Then we have a pile on the left, the first card, and a pile on the right. The first card is in its final position in the sorted deck, because all of the cards to the left it are less than or equal to it and all the cards to the right of it are greater than it. If we sorted the left pile and we sorted the right pile, then we would be done. But we can give the left pile to one friend to sort and the right pile to another friend to sort. Each friend can apply the same logic we have until a friend of friend … of a friend has say 3 cards and they divide those 3 cards into a left pile, the first card and the right pile and they hand each pile to a friend to sort who just hands the 1 card in their pile back and says it is sorted, but then the 3 cards are sorted, because the left pile of 1 card is sorted and the right pile of 1 card is sorted and we know the card on the left is less than or equal to the first card and the card on the right is greater than the first card and this goes all the way back up until our left pile is sorted and our right pile is sorted and we know the entire deck is then sorted.</p>
+<p>Instead of splitting the deck, sorting each half and then merging the sorted halves. In quick sort, we split the deck around the first card and sort each pile (not necessarily a half of the deck) on either side of the first card.</p>
+</div>
+<div class="section" id="why-quicksort">
+<h2>Why Quicksort?<a class="headerlink" href="#why-quicksort" title="Permalink to this headline">¶</a></h2>
+<p>Why do this instead of merge sort? At this point, the analogy of the deck breaks down. In merge sort, splitting the deck in half requires additional memory, because it requires storing each half in its own array in addition to the input array (the deck). For quick sort, it turns that out we can divide the deck into 2 piles “in-place”, i.e. by moving around elements in the input array rather than storing 2 new arrays (or by swapping cards while keeping the deck together rather than splitting the deck into piles).</p>
+<p>Is there a way to do merge sort without storing the 2 halves? No. We can write a merge sort that sorts the left side of the array with one function call and the right side of the array with another function call without splitting the array. However, when we try to ”merge” the two sides of the array, we have a problem. Suppose we have an array <code class="docutils literal notranslate"><span class="pre">[4,</span> <span class="pre">5,</span> <span class="pre">6,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> where the left side is sorted and the right side is sorted. We compare the first element of the left side (4) and the first element of the right side (1) and find that the right side is smaller, but when we move the right side to the front of the array then we overwrite the first element on the left and can no longer compare that to the second element on the right side (2). We need to store at least half of the array.</p>
+</div>
+<div class="section" id="unstable-in-place-quicksort">
+<h2>Unstable, in-place quicksort<a class="headerlink" href="#unstable-in-place-quicksort" title="Permalink to this headline">¶</a></h2>
+<p>Here’s an alternative way to divide the deck into 2 piles in quick sort without having to split the deck.</p>
+<p>Place a white pawn on the second card in the deck and a black pawn on the last card in the deck.</p>
+<p>Move the white pawn to right until we reach a card greater than the first card. Then, move the black pawn to the left until we reach a card less than the first card. Then, swap those 2 cards.</p>
+<p>Continue this process of moving the white pawn to the right and the black pawn to the left and swapping cards until the white pawn crosses the black pawn or vice versa. At that point, we know that all of the cards to the left of the white pawn (including the card that the black pawn is on) are less than or equal to the first card, because the white pawn has passed through them and we would have swapped any card greater than the first card. Similarly, we know that all the cards to the right of the black pawn are greater than the first card. All we have to do now is to swap the first card with the black pawn card (which we know is less than or equal to the first card, because the white pawn has passed through it).</p>
+</div>
+<div class="section" id="connection-to-binary-search-trees">
+<h2>Connection to Binary Search Trees<a class="headerlink" href="#connection-to-binary-search-trees" title="Permalink to this headline">¶</a></h2>
+<p>A certain flavor of quick sort is a space-optimized binary search tree sort. That flavor of quick sort requires:</p>
+<ul class="simple">
+<li><p>stable partition</p></li>
+<li><p>pivot is first element</p></li>
+</ul>
+<p>In that flavor, each run of quick sort corresponds to a BST, where the root is the pivot and each left and right subtree is a side of the partition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+    <span class="n">pivot_index</span> <span class="o">=</span> <span class="n">low</span>
+    <span class="n">pivot</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">]</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">low</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">high</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># check left &lt;= right first, because</span>
+        <span class="c1"># left might be out of range.</span>
+        <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># why left &lt;= right?</span>
+        <span class="c1"># &lt;=: stops when left and right cross</span>
+        <span class="c1"># &lt; : stop when left and right are equal</span>
+        <span class="k">while</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">right</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">left</span> <span class="o">&gt;</span> <span class="n">right</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">left</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+    <span class="c1"># why ‘right‘?</span>
+    <span class="c1"># for it to work, we want to show that arr[right] &lt; arr[pivot_index]</span>
+    <span class="c1"># (pivot_index is 0, so right &gt; pivot_index, which means we need arr[right] &lt; pivot)</span>
+    <span class="c1"># if we stopped when arr[right] &lt; pivot, then we’re good</span>
+    <span class="c1"># otherwise, we stopped when left &gt; right</span>
+    <span class="c1"># if left &gt; right that means arr[0], ..., arr[left - 1] is &lt;= pivot</span>
+    <span class="c1"># but left &gt; right so right &lt;= left - 1 so arr[right] &lt;= pivot which means we’re good</span>
+    <span class="c1"># so arr[right] &lt; arr[pivot_index]</span>
+    <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">pivot_index</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">right</span>
+
+<span class="k">def</span> <span class="nf">_quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">high</span><span class="p">:</span>
+        <span class="n">pivot_index</span> <span class="o">=</span> <span class="n">partition</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+        <span class="n">_quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">pivot_index</span><span class="p">)</span>
+        <span class="n">_quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">pivot_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">_quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+    
+<span class="k">def</span> <span class="nf">test_quicksort</span><span class="p">():</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
+    
+<span class="n">test_quicksort</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

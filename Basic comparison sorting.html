@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic comparison sorting &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/Basic comparison sorting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FBasic comparison sorting.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/Basic comparison sorting.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bubble-sort">
+   Bubble sort
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#intuition">
+     Intuition
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#insertion-sort">
+   Insertion sort
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation">
+     Implementation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Intuition
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#selection-sort">
+   Selection sort
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Implementation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#efficiency">
+     Efficiency
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Intuition
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="basic-comparison-sorting">
+<h1>Basic comparison sorting<a class="headerlink" href="#basic-comparison-sorting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bubble-sort">
+<h2>Bubble sort<a class="headerlink" href="#bubble-sort" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="intuition">
+<h3>Intuition<a class="headerlink" href="#intuition" title="Permalink to this headline">¶</a></h3>
+<p>Imagine a line of warriors. We want to rank all the warriors from the weakest to the strongest.</p>
+<p>We start with a pass through the line to decide the strongest warrior.</p>
+<p>Then, the first battle is between the warrior at the start of the line and the warrior to the right of him. If the warrior at the start of the line beats the warrior to the right of him, the warrior at the start of the line advances by swapping places with the warrior to the right of him. Otherwise, they don’t swap places and the warrior to the right takes over battling.</p>
+<p>Each battle is between a warrior and the warrior to the right until we get to the end of the line. The warrior who ends up at the end of the line is the winner.</p>
+<p>Then, we repeat the whole process again to decide the 2nd strongest warrior and again for the 3rd strongest and so on.</p>
+<p>All the winners stay at the end of line out of the fray after they’ve secured their position.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bubble_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">test_bubble_sort</span><span class="p">():</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">bubble_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
+    
+<span class="n">test_bubble_sort</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="insertion-sort">
+<h2>Insertion sort<a class="headerlink" href="#insertion-sort" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="implementation">
+<h3>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>You need to save the value of the focus card at the beginning, because it will change as you shift the other cards to the right.</p></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Intuition<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Suppose you have the following poker hand (with all of the same suit for simplicity and giving you a flush!):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>How would you sort this hand from the smallest card to the largest?</p>
+<p>You might naturally follow a process like this one.</p>
+<p>First, you take the 2nd card out of your hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="mi">8</span>
+<span class="mi">2</span>   <span class="n">J</span> <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>And look to see if the 2nd card is less than the 1st card:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="mi">8</span>
+<span class="mi">2</span>   <span class="n">J</span> <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>8 is greater than 2, so you put the card back in the same place in your hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>Then you might take out the 3rd card:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">J</span>  
+<span class="mi">2</span> <span class="mi">8</span>   <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>And look to see if the 3rd card is less than the 2nd card:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="n">J</span>  
+<span class="mi">2</span> <span class="mi">8</span>   <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>Jack is greater than 8 so you would put the card back in the same place in your hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>Similarly with the 4th card and then finally the 5th card:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>       <span class="mi">7</span>
+<span class="mi">2</span> <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span>
+</pre></div>
+</div>
+<p>The 7 is smaller than the King, so you move the King over to the right and you compare the 7 to the Jack:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>     <span class="mi">7</span>
+<span class="mi">2</span> <span class="mi">8</span> <span class="n">J</span>  <span class="n">K</span>
+</pre></div>
+</div>
+<p>Again the 7 is smaller, so you move the Jack to the right and compare the 7 to the 8:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>   <span class="mi">7</span>
+<span class="mi">2</span> <span class="mi">8</span>  <span class="n">J</span> <span class="n">K</span>
+</pre></div>
+</div>
+<p>Again the 7 is smaller, so you move the 8 to the right and compare the 7 to the 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="mi">7</span>
+<span class="mi">2</span>  <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span>
+</pre></div>
+</div>
+<p>In this case, 7 is bigger, so you put that card back in your hand after the 2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">7</span> <span class="mi">8</span> <span class="n">J</span> <span class="n">K</span>
+</pre></div>
+</div>
+<p>And the cards are sorted.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">insertion_sort</span><span class="p">(</span><span class="n">hand</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">focus_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hand</span><span class="p">)):</span>
+        <span class="c1"># The act of pulling it out of your hand can correspond to saving its value.</span>
+        <span class="n">focus_card</span> <span class="o">=</span> <span class="n">hand</span><span class="p">[</span><span class="n">focus_index</span><span class="p">]</span>
+        
+        <span class="c1"># Start by comparing to the card immediately to the left.</span>
+        <span class="n">comparison_index</span> <span class="o">=</span> <span class="n">focus_index</span> <span class="o">-</span> <span class="mi">1</span>
+        
+        <span class="c1"># Keep going until we reach the beginning or the card to the left is smaller than the focus card.</span>
+        <span class="k">while</span> <span class="n">comparison_index</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">focus_card</span> <span class="o">&lt;</span> <span class="n">hand</span><span class="p">[</span><span class="n">comparison_index</span><span class="p">]:</span>
+            <span class="c1"># If the card to the left is bigger than the focus card, then move that comparison card to the right.</span>
+            <span class="n">hand</span><span class="p">[</span><span class="n">comparison_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">hand</span><span class="p">[</span><span class="n">comparison_index</span><span class="p">]</span>
+            
+            <span class="c1"># And compare the focus card to the next card to the left.</span>
+            <span class="n">comparison_index</span> <span class="o">-=</span> <span class="mi">1</span>
+        
+        <span class="c1"># Remember that this is (comparison_index + 1)</span>
+        <span class="c1"># When focus_index = 1, focus_card = hand[1], comparison_index = 0,</span>
+        <span class="c1"># we want hand[1] = hand[1]</span>
+        <span class="c1"># Put the focus card back in your hand.</span>
+        <span class="n">hand</span><span class="p">[</span><span class="n">comparison_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">focus_card</span>
+        
+<span class="k">def</span> <span class="nf">test_insertion_sort</span><span class="p">():</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">insertion_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
+    
+<span class="n">test_insertion_sort</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="selection-sort">
+<h2>Selection sort<a class="headerlink" href="#selection-sort" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Implementation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>You do not need a separate variable for tracking the min value.
+You can just look it up in the array.</p></li>
+</ul>
+</div>
+<div class="section" id="efficiency">
+<h3>Efficiency<a class="headerlink" href="#efficiency" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Efficient in the number of writes to memory. Some memory, like Flash drives, have a lifetime limit in the number of writes after which the memory degrades. But there are other algorithms like cycle sort that are better in that case.</p></li>
+<li><p>More comparisons than insertion sort</p></li>
+<li><p>More efficient than merge sort for small lists (5-50)</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Intuition<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Similarly to the insertion sort, suppose you have a poker hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">8</span> <span class="n">K</span> <span class="mi">4</span> <span class="mi">2</span> <span class="n">J</span>
+</pre></div>
+</div>
+<p>A natural way you might approach sorting your hand (other than insertion sort) is to start at the first card and scan all the cards in your hand looking for the smallest card. And then swap the smallest card with the first card or do nothing if the smallest card is the first card.</p>
+<p>In this case, the smallest card is 2, so we swap it with 8:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="n">K</span> <span class="mi">4</span> <span class="mi">8</span> <span class="n">J</span>
+</pre></div>
+</div>
+<p>Then, we look for the smallest card starting at the 2nd card and scanning to the left. We find that the smallest card is 4 and swap it with the King:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">4</span> <span class="n">K</span> <span class="mi">8</span> <span class="n">J</span>
+</pre></div>
+</div>
+<p>And so on until the cards are sorted.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">selection_sort</span><span class="p">(</span><span class="n">hand</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">start_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hand</span><span class="p">)):</span>
+        <span class="n">min_index</span> <span class="o">=</span> <span class="n">start_index</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hand</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">hand</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">hand</span><span class="p">[</span><span class="n">min_index</span><span class="p">]:</span>
+                <span class="n">min_index</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="c1"># Remember to swap here instead of just setting equal</span>
+        <span class="n">hand</span><span class="p">[</span><span class="n">min_index</span><span class="p">],</span> <span class="n">hand</span><span class="p">[</span><span class="n">start_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">hand</span><span class="p">[</span><span class="n">start_index</span><span class="p">],</span> <span class="n">hand</span><span class="p">[</span><span class="n">min_index</span><span class="p">]</span>
+        
+<span class="k">def</span> <span class="nf">test_selection_sort</span><span class="p">():</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">selection_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
+    
+<span class="n">test_selection_sort</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
