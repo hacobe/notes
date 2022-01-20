@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>C memory management &#8212; Technical notes</title>
+    <title>Computer architecture &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Concurrency" href="concurrency.html" />
-    <link rel="prev" title="Assembly" href="assembly.html" />
+    <link rel="next" title="Assembly" href="assembly.html" />
+    <link rel="prev" title="Intro" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -92,7 +90,7 @@
 </ul>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="computer_architecture.html">
+  <a class="current reference internal" href="#">
    Computer architecture
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
@@ -100,14 +98,14 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="assembly.html">
      Assembly
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
      C memory management
     </a>
    </li>
@@ -221,7 +219,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/c_memory_management.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/computer_architecture.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -241,7 +239,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fc_memory_management.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcomputer_architecture.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -262,19 +260,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -283,24 +268,9 @@
         
               <div>
                 
-  <div class="section" id="c-memory-management">
-<h1>C memory management<a class="headerlink" href="#c-memory-management" title="Permalink to this headline">¶</a></h1>
-<p>For simplicity, assume that we have a computer that runs one program at a time and that the program uses all of the computer’s memory. Suppose further that this computer is a 32 bit system, i.e., each memory address is represented by an unsigned 32 bit integer and points to a byte (8 bits) in memory. The system therefore has <span class="math notranslate nohighlight">\(2^{32}\)</span> bytes of memory, or roughly 4GB of memory.</p>
-<p>Memory is a contiguous block of bits, but by convention we divide it as follows:</p>
-<img src="/img/cs61c_program_address_space.png" />
-<p>FFFF FFFF in hexadecimal is 32 1s in binary.</p>
-<p>The <strong>code</strong> and the <strong>static data</strong> sections are loaded when the program starts. The code section contains the instructions that comprise the program. The static data section contains global variables. We know how much memory is needed for these variables at compile time instead of run time, they do not shrink or grow, and they exist for the lifetime of the program.</p>
-<p>The <strong>stack</strong> has a rigid pattern of allocating and de-allocating memory. The “stack pointer” points to the end of the stack. We move the stack pointer down when we want to allocate more memory on the stack and we move it up when we want to de-allocate memory. A new block of memory allocated on the stack is called the “stack frame”. The stack is used whenever a function is called. When a function is called, we allocate a new frame on the stack, which includes the return address, i.e., the address of the instruction that called the function, the function arguments and primitive variables (e.g., ints, floats, arrays, etc.) declared inside the function.</p>
-<p>The <strong>heap</strong> does not follow the same rigid pattern of allocating and de-allocating memory as the stack. Instead, allocating memory in the heap and de-allocating is managed explicitly by the programmer.</p>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p>UC Berkeley, CS61C, Spring 2015</p>
-<ul>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=4orEBUAb8ps&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=4">Lecture 4</a></p></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="computer-architecture">
+<h1>Computer architecture<a class="headerlink" href="#computer-architecture" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -334,19 +304,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="assembly.html" title="previous page">
+        <a class="left-prev" href="intro.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Assembly</p>
+                <p class="prevnext-title">Intro</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="concurrency.html" title="next page">
+        <a class="right-next" href="assembly.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Concurrency</p>
+                <p class="prevnext-title">Assembly</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
