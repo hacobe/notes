@@ -21,6 +21,13 @@ chapters:
       - file: Dynamic programming
       - file: Heap
       - file: Trie
+  - file: machine_learning
+    sections:
+      - file: gradient_descent
+      - file: automatic_differentiation
+      - file: attention
+      - file: graph_neural_networks
+      - file: james_stein_estimation
   - file: miscellaneous
     sections:
       - file: broadcasting
