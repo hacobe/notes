@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Machine learning &#8212; Technical notes</title>
+    <title>Data parallelism &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Gradient descent" href="gradient_descent.html" />
-    <link rel="prev" title="Backtracking" href="backtracking.html" />
+    <link rel="next" title="T5-style model parallelism" href="t5_style_model_parallelism.html" />
+    <link rel="prev" title="James-Stein Estimation" href="james_stein_estimation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -199,7 +199,7 @@
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
-  <a class="current reference internal" href="#">
+  <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
@@ -207,7 +207,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -233,8 +233,8 @@
      James-Stein Estimation
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="data_parallelism.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Data parallelism
     </a>
    </li>
@@ -313,7 +313,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/machine_learning.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/data_parallelism.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -333,7 +333,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmachine_learning.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdata_parallelism.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -354,6 +354,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -362,9 +375,86 @@
         
               <div>
                 
-  <div class="section" id="machine-learning">
-<h1>Machine learning<a class="headerlink" href="#machine-learning" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="section" id="data-parallelism">
+<h1>Data parallelism<a class="headerlink" href="#data-parallelism" title="Permalink to this headline">¶</a></h1>
+<p>Shallue et al 2019 gives the following definition of data parallelism: “For our purposes, data parallelism refers to distributing training examples across multiple processors to compute gradient updates (or higher-order derivative information) and then aggregating these locally computed updates”.</p>
+<p>I focus on synchronous stochastic gradient descent (a particular example of data parallelism).<a class="footnote-reference brackets" href="#id4" id="id1">1</a> Synchronous SGD works as follows:</p>
+<ul class="simple">
+<li><p>It divides a batch of training examples across processors</p></li>
+<li><p>Computes the gradient for the partial batch on each processor</p></li>
+<li><p>Sums those gradients across processors to get the gradient for the entire batch</p></li>
+<li><p>Uses the gradient for the entire batch to update the weights on each processor</p></li>
+</ul>
+<p><strong>Data parallelism reduces training time by enabling larger batch sizes.</strong> How does this form of data parallelism change the cost required to achieve a given level of out-of-sample error? Section 1.1 of Shallue et al 2019 has a good discussion of how to think about this question, which I lean on here. A natural way to measure cost is in terms of training time. We can decompose training time into the product of the number of training steps and the average time per step. If the time it takes to communicate gradients between processors is negligible (e.g., in a TPU), then we can increase the batch size (the number of examples processed per training step) by adding more processors while keeping the average time per step constant.<a class="footnote-reference brackets" href="#id5" id="id2">2</a> In this case, the batch size is determined by the number of processors and the differences in training time as we increase the batch size is determined only by differences in the number of steps. The key question then becomes: what is the relationship between batch size and the number of steps required to achieve a given level of out-of-sample error? This is not an obvious question. For example, smaller batch sizes may provide a regularizing effect that improves out-of-sample error (see pg. 276 of Goodfellow et al 2016 for a discussion of factors going into choice of batch size). With a wide range of experiments, Shallue et al 2019 shows empirically that “…for each workload (model, training algorithm, and data set), increasing the batch size initially decreases the required number of training steps proportionally, but eventually there are diminishing returns until finally increasing the batch size no longer changes the required number of training steps.” <a class="footnote-reference brackets" href="#id6" id="id3">3</a> Note that they retune the learning rate whenever they change the batch size.</p>
+<p>Here’s a simple implementation in JAX that can run in a colab connected to a TPU (note that I explicitly put data on different devices to highlight the transfer of data even though pmap handles this automatically).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import jax.tools.colab_tpu
+jax.tools.colab_tpu.setup_tpu()
+
+import jax
+import jax.numpy as jnp
+import numpy as np
+
+np.random.seed(0)
+p = 32
+w = np.random.random((p, 1))
+# Send a copy of the weights to each of the 8 TPU cores.
+# (we could also create the same weights on each device). 
+w = jax.device_put_replicated(w, devices=jax.devices())
+
+def loss(w, x, y):
+  yhat = jnp.dot(x, w)
+  return jnp.mean((yhat - y)**2)
+
+def update(w, x, y):
+  grads = jax.grad(loss)(w, x, y)
+  # This operation sums the grads on each device, stores the result on the host,
+  # and then broadcasts that result to all devices.
+  # The next command doesn&#39;t execute until each device has the new grads.
+  grads = jax.lax.psum(grads, axis_name=&#39;num_devices&#39;)
+  step_size = 0.1
+  return w - step_size * grads
+
+n_steps = 4
+batch_size_per_device = 16
+for _ in range(n_steps):
+  # Simulate reading in a batch for each device.
+  x_shards = []
+  y_shards = []
+  for _ in range(len(jax.devices())):
+  	x_shards.append(np.random.random((batch_size_per_device, p)))
+  	y_shards.append(np.random.random((batch_size_per_device, 1)))
+
+  # Send a different batch to each device.
+  x = jax.device_put_sharded(x_shards, devices=jax.devices())
+  y = jax.device_put_sharded(y_shards, devices=jax.devices())
+
+  # Run the update operation on each device in parallel.
+  # In particular, device i calls update(w[i], x[i], y[i])
+  w = jax.pmap(update, axis_name=&#39;num_devices&#39;, in_axes=0, out_axes=0)(w, x, y)
+</pre></div>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.jmlr.org/papers/volume20/18-789/18-789.pdf">Shallue et al 2019</a></p></li>
+<li><p><a class="reference external" href="https://leimao.github.io/blog/Data-Parallelism-vs-Model-Paralelism/">Mao 2019</a></p></li>
+<li><p><a class="reference external" href="https://www.deeplearningbook.org/contents/optimization.html">Goodfellow et al 2016</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2102.06356.pdf">Nado et al 2021</a></p></li>
+<li><p><a class="reference external" href="https://github.com/google/jax/blob/main/examples/spmd_mnist_classifier_fromscratch.py">https://github.com/google/jax/blob/main/examples/spmd_mnist_classifier_fromscratch.py</a></p></li>
+<li><p><a class="reference external" href="https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html">https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html</a></p></li>
+</ul>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>I follow Shallue et al 2019 in this: “We restrict our attention to synchronous SGD because of its popularity and advantages over asynchronous SGD (Chen et al., 2016).”</p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Alternatively, we can keep the number of steps constant by fixing the batch size and using the additional processors to decrease the average time per step. However, then we may divide the batch so finely that we don’t fully use each processor. Also, average time per step depends on hardware where number of steps does not.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p>A more recent paper (Nado et al 2021) by some of the same authors maintains the same conclusion: “See Shallue et al. 2019 for a survey of the effects of data parallelism on neural network training. Once these effects are taken into account, there is no strong evidence that increasing the batch size degrades the maximum achievable performance on any workload.”</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -398,19 +488,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="backtracking.html" title="previous page">
+        <a class="left-prev" href="james_stein_estimation.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Backtracking</p>
+                <p class="prevnext-title">James-Stein Estimation</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="gradient_descent.html" title="next page">
+        <a class="right-next" href="t5_style_model_parallelism.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Gradient descent</p>
+                <p class="prevnext-title">T5-style model parallelism</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
