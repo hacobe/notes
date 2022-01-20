@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro &#8212; Technical notes</title>
+    <title>Binary addition &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,7 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Computer architecture" href="computer_architecture.html" />
+    <link rel="next" title="Overflow" href="overflow.html" />
+    <link rel="prev" title="Computer architecture" href="computer_architecture.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -81,25 +84,25 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
    Intro
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="binary_addition.html">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Binary addition
     </a>
    </li>
@@ -250,7 +253,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/binary_addition.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -270,7 +273,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbinary_addition.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -291,6 +294,29 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fluidic-half-adder">
+   Fluidic half adder
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fluidic-adder">
+   Fluidic adder
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -299,9 +325,46 @@
         
               <div>
                 
-  <div class="section" id="intro">
-<h1>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="section" id="binary-addition">
+<h1>Binary addition<a class="headerlink" href="#binary-addition" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fluidic-half-adder">
+<h2>Fluidic half adder<a class="headerlink" href="#fluidic-half-adder" title="Permalink to this headline">¶</a></h2>
+<p>Let’s design a very simple computer. It will take two inputs and add them.</p>
+<p>Here’s the computer (<a class="reference external" href="https://en.wikipedia.org/wiki/Fluidics">source</a>):</p>
+<img src="/img/220px-Fluidic_AND_XOR.svg.png" />
+<p>The inputs are the two tubes at the the top of the tank.</p>
+<p>The computer can only add 2 numbers and those numbers can be 0 or 1. If you want to add 0 and 0, then you do nothing. If you want to add 0 and 1 or 1 and 0, then you pour a bucket of water into one of the tubes at the top. If you want to add 1 and 1, then you pour a bucket of water into one of the tubes and you get a friend to pour a bucket of water into the other tube at the same time.</p>
+<p>How do you read the output? Imagine that there’s a bucket catching water that flows out of the “XOR” outlet at the bottom of the tank. You look to see if the “AND” bucket in the middle of the tank has water and you look at the “XOR” bucket. If the “AND” bucket has water, then the answer for the computation is 2. If the “XOR” bucket has water then the answer is 1. If neither of the buckets have water, then the answer is 0. Remember to dump out the water from the buckets every time you want to do a new calculation.</p>
+<p>(Note that you have to make the “AND” bucket big enough so that it doesn’t overflow. There should be water in the “AND” bucket or in the “XOR” bucket or in neither, but not in both. “XOR” stands for exclusive or).</p>
+<p>For example, if we add 0 and 0, you do nothing. Then you look at the buckets. They have no water in them, so 0 + 0 = 0.</p>
+<p>If we add 0 and 1, you pour a bucket of water into one of the tubes. Suppose the input tubes are very long, so once the water enters the tank it’s like a jet stream going pretty fast (you have to climb a very tall ladder to get to the top where you can pour in the water). The water goes into the tank on one side and hits the opposite side missing the “AND” bucket and flows into the “XOR” bucket that we’re imagining is catching the water at the bottom. Then, you look at the buckets. The “AND” bucket will be empty and the “XOR” bucket will be full, so 0 + 1 = 1.</p>
+<p>If we add 1 and 1, then the two streams of water entering the tank will deflect each other and fill the “AND” bucket and none of the water will get to the bottom of the tank. We see that the “AND” bucket is full, so 1 + 1 = 2.</p>
+</div>
+<div class="section" id="fluidic-adder">
+<h2>Fluidic adder<a class="headerlink" href="#fluidic-adder" title="Permalink to this headline">¶</a></h2>
+<p>We’ve constructed a computer out of water tubes and buckets that can add 2 numbers if those numbers happen to be 0 or 1 (this is called a half adder circuit). But what if you wanted to add say 1 and 2? What now?</p>
+<p>First, we have to pick how many input tubes we’re going to have. This determines how big the inputs can be. Let’s say 4 input tubes, so that each of the 2 numbers we add can have 2 binary digits. (If we had say 30 input tubes, each of the two numbers that we add could have 30 / 2 = 15 binary digits).</p>
+<p>With that setup, we can choose from 0 = 00, 1 = 01, 2 = 10, or 3 = 11 for each our inputs. And at most the sum could be 3 + 3 = 6 = <span class="math notranslate nohighlight">\(2^2 + 2^1 + 2^0\)</span> = 111. So we need 3 buckets to represent the output.</p>
+<p>Another way to think about it is that our computer will represent all numbers (inputs and outputs) using 2 binary digits. The third bucket in the output is a boolean that tells us if there’s been an overflow error in our computation, i.e. the sum of the two numbers we tried to add is too big for the space that we’ve reserved to represent numbers.</p>
+<p>For example, in the case of adding 3 + 3, or 11 + 11 in binary:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  carry: 11
+          11
+         +11
+         ---
+         110
+</pre></div>
+</div>
+<p>We’d get an answer of 10 = 2 and the third bucket would be full, which would tell us not to trust the answer that we got.</p>
+<p>Let’s label the least significant digit of the first input A0, the least significant digit of the second input B0 and the least significant digit of the sum S0. Similarly, call the second most significant digit of the inputs and the sum A1, B1 and S1 respectively. For example, if we add 1 = 01 and 2 = 10, then A0 = 1, A1 = 0, B0 = 0, B1 = 1 and the sum should be 3 = 11, so S0 should be 1 and S1 should be 1. Let’s call the third bucket of the output the “E” for error bucket, which is full when the sum is too big to store in 2 binary digits.</p>
+<p>Here’s our computer:</p>
+<img src="/img/adder.png" />
+<p>If we wanted to add numbers with more binary digits, we could just imagine continuing the pattern by replacing the E bucket with a <span class="math notranslate nohighlight">\(C2\_{in}\)</span> bucket and having that go into another tank with tubes flowing out to a S2 bucket and a <span class="math notranslate nohighlight">\(C3\_{in}\)</span>, which feeds into another replica and so on. Note that an E bucket is just like a <span class="math notranslate nohighlight">\(Ci\_{in}\)</span> bucket with the difference that we’re at the end of our computation for the E bucket.</p>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Adder_(electronics)">https://en.wikipedia.org/wiki/Adder_(electronics)</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -334,11 +397,20 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="computer_architecture.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Computer architecture</p>
+            </div>
+        </a>
+    </div>
      <div id="next">
-        <a class="right-next" href="computer_architecture.html" title="next page">
+        <a class="right-next" href="overflow.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Computer architecture</p>
+                <p class="prevnext-title">Overflow</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

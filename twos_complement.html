@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro &#8212; Technical notes</title>
+    <title>Two’s complement &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,7 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Computer architecture" href="computer_architecture.html" />
+    <link rel="next" title="Assembly" href="assembly.html" />
+    <link rel="prev" title="Overflow" href="overflow.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -81,23 +84,23 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
    Intro
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="binary_addition.html">
      Binary addition
@@ -108,8 +111,8 @@
      Overflow
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="twos_complement.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Two’s complement
     </a>
    </li>
@@ -250,7 +253,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/twos_complement.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -270,7 +273,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftwos_complement.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -299,10 +302,79 @@
         
               <div>
                 
-  <div class="section" id="intro">
-<h1>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="section" id="two-s-complement">
+<h1>Two’s complement<a class="headerlink" href="#two-s-complement" title="Permalink to this headline">¶</a></h1>
+<p>In a <span class="xref myst">previous post</span>, we constructed a simple calculator using buckets, tubes and water. We can use this calculator to add any two positive numbers where the sum doesn’t exceed the maximum number we can store in the output. And we showed how this model predicts certain errors when adding unsigned 8 bit numbers in Python in this <span class="xref myst">post</span>.</p>
+<p>What if you want to subtract numbers?</p>
+<p>It turns out we can make use of our previous calculator if we represent negative numbers in binary using a representation called “2’s complement”. In 2’s complement, the leftmost, most significant bit in an <span class="math notranslate nohighlight">\(n\)</span>-bit binary number is worth <span class="math notranslate nohighlight">\(-2^{n-1}\)</span> instead of <span class="math notranslate nohighlight">\(2^{n-1}\)</span> and all the other bits are worth the same as in the normal binary representation. For example, 1000 in 2’s complement is equal to <span class="math notranslate nohighlight">\(-2^3 = -8\)</span> and 1100 is equal to <span class="math notranslate nohighlight">\(-2^3 + 2^2 = -4\)</span>.</p>
+<p>Here’s a quick way to find the 2’s complement representation of a negative number:</p>
+<ol class="simple">
+<li><p>Find the binary representation of the absolute value of the negative number you want to represent</p></li>
+<li><p>Flip each digit in the binary representation</p></li>
+<li><p>Add 1</p></li>
+</ol>
+<p>Suppose we have 2 buckets, i.e. 2 bits, to represent the output in our calculator. If we add only positive numbers, then we have:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>00 (0)
+01 (1)
+10 (2)
+11 (3)
+</pre></div>
 </div>
+<p>If we want to add positive and negative numbers, then we have:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>00 (0)
+01 (1)
+10 (-2)
+11 (-1)
+</pre></div>
+</div>
+<p>The “E” bucket (error / overflow bit) we had in the case of adding positive numbers no longer has the same meaning when we add signed numbers.</p>
+<p>The error bucket is the last carry out bucket. For positive numbers, it signals an overflow:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> 11  (carry)
+  11 (3)
+ +01 (1)
+ ---
+  00 (0)
+</pre></div>
+</div>
+<p>In the case above, the error bit is on and rightly so, because the sum is telling us that 3 + 1 = 0.</p>
+<p>But if we’re using signed numbers, the same addition is valid:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> 11  (carry)
+  11 (-1)
+ +01 (1)
+ ---
+  00 (0)
+</pre></div>
+</div>
+<p>Still, we can have errors when adding signed numbers:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>10  (carry)
+ 10 (-2)
++11 (-1)
+--- 
+ 01 (1)
+</pre></div>
+</div>
+<p>The calculation above is telling us that -2 + (-1) = 1. For signed numbers, an error is detected if the last carry in does not equal the last carry out, i.e., if the XOR of the last two carry bits is true. The last two bits in the carry in the example above are 1 and 0, which are different, so we know there’s an error. In the example before that, the last two bits in the carry are 1 and 1, which are the same, so we’re good.</p>
+<p>As with unsigned integer overflow, we can see the weird mistakes in Python:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import numpy as np
+
+x = np.array([2**7 - 1, 2**7-1], dtype=&#39;int8&#39;)
+
+x
+array([127, 127], dtype=int8)
+
+np.sum(x, dtype=&#39;int8&#39;)
+-2
+</pre></div>
+</div>
+<p>We see how we would get this answer:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>01111111  (carry)
+ 01111111 (127)
++01111111 (127)
+---------
+ 11111110
+</pre></div>
+</div>
+<p>11111110 = <span class="math notranslate nohighlight">\(-2^7 + 2^6 + 2^5 + 2^4 + 2^3 + 2^2 + 2^1\)</span> = -2</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -334,11 +406,20 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="overflow.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Overflow</p>
+            </div>
+        </a>
+    </div>
      <div id="next">
-        <a class="right-next" href="computer_architecture.html" title="next page">
+        <a class="right-next" href="assembly.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Computer architecture</p>
+                <p class="prevnext-title">Assembly</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

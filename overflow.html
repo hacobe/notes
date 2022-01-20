@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro &#8212; Technical notes</title>
+    <title>Overflow &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,7 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Computer architecture" href="computer_architecture.html" />
+    <link rel="next" title="Two’s complement" href="twos_complement.html" />
+    <link rel="prev" title="Binary addition" href="binary_addition.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -81,30 +84,30 @@
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
    Intro
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="binary_addition.html">
      Binary addition
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="overflow.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Overflow
     </a>
    </li>
@@ -250,7 +253,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/overflow.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -270,7 +273,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Foverflow.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -299,10 +302,33 @@
         
               <div>
                 
-  <div class="section" id="intro">
-<h1>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="section" id="overflow">
+<h1>Overflow<a class="headerlink" href="#overflow" title="Permalink to this headline">¶</a></h1>
+<p>When we type two numbers into a calculator and ask for the sum, we don’t think too hard about how the calculator arrives at the answer. Implicitly, we might have a mental model of the calculator as doing what we do when we add 2 numbers, but much faster and more carefully. That’s not a very good model. In particular, that model doesn’t predict the errors we get with calculators in certain scenarios.</p>
+<p>A better model is the one described in my post on binary addition. The practical takeaway of the model is that a computer represents numbers in binary with some fixed, finite number of digits. We can also use the model to predict the errors we get when the sum that we’ve asked for exceeds the limit.</p>
+<p>For example, suppose the computer we have only stores numbers that can be represented with 8 binary digits, i.e. we have 16 input tubes in our fluidic computer.</p>
+<p>The maximum number we can store is 11111111, which is <span class="math notranslate nohighlight">\(\sum_{i=1}^8 2^{i-1} = 2^7 = 255\)</span>. What happens when we add 255 to 255?</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>carry 11111111
+       11111111
+      +11111111
+      ----------
+      111111110
+</pre></div>
 </div>
+<p>We can’t store the last 1 in the answer (it’s the <span class="math notranslate nohighlight">\(C_{out}\)</span> bucket in our fluidic computer), so it leaves us with 11111110, or 254.</p>
+<p>We can observe this behavior in Python:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import numpy as np
+
+x = np.array([2**8 - 1, 2**8-1], dtype=&#39;uint8&#39;)
+
+x
+array([255, 255], dtype=uint8)
+
+np.sum(x, dtype=&#39;uint8&#39;)
+254
+</pre></div>
+</div>
+<p>There’s some <a class="reference external" href="https://web.archive.org/web/20180901001354/http://mortada.net/can-integer-operations-overflow-in-python.html">nuance</a> to this, but most of the time we don’t notice it, because the dtype for an integer numpy array is int64.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -334,11 +360,20 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="binary_addition.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Binary addition</p>
+            </div>
+        </a>
+    </div>
      <div id="next">
-        <a class="right-next" href="computer_architecture.html" title="next page">
+        <a class="right-next" href="twos_complement.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Computer architecture</p>
+                <p class="prevnext-title">Two’s complement</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
