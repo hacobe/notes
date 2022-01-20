@@ -8,6 +8,4 @@ A computer chip is any kind of [integrated circuit](https://en.wikipedia.org/wik
 	* [Lecture 19](https://www.youtube.com/watch?v=2jltTEyiffc&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=20), CS61C
 * https://stackoverflow.com/questions/19225859/difference-between-core-and-processor
 
-# Footnotes
-
 [^1]: With hyperthreading, a core can also contain multiple virtual cores, so that multiple hardware threads can be executed simultaneously, but I don’t discuss hyperthreading here.
