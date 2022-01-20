@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Concurrency &#8212; Technical notes</title>
+    <title>Broadcasting &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Computer chip" href="computer_chip.html" />
-    <link rel="prev" title="C memory management" href="c_memory_management.html" />
+    <link rel="prev" title="Miscellaneous" href="miscellaneous.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -89,16 +88,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="assembly.html">
      Assembly
@@ -109,8 +108,8 @@
      C memory management
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
      Concurrency
     </a>
    </li>
@@ -178,18 +177,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="broadcasting.html">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Broadcasting
     </a>
    </li>
@@ -236,7 +235,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/concurrency.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/broadcasting.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -256,7 +255,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fconcurrency.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbroadcasting.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -298,14 +297,25 @@
         
               <div>
                 
-  <div class="section" id="concurrency">
-<h1>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h1>
-<p>A computer program is a sequence of instructions. We can execute 2 computer programs <strong>sequentially</strong> by first executing the instructions of one of the programs and then executing the instructions of the other program. Alternatively, we could execute the 2 computer programs <strong>concurrently</strong> by executing their instructions during overlapping time periods. For example, we could alternate executing instructions from each program so that the programs are executed over roughly the same time period. If we had 2 or more processing units capable of executing instructions, then we could also execute the 2 computer programs in <strong>parallel</strong> by executing the instructions of 1 program on 1 processing unit and the other program on another processing unit. If we execute the 2 programs in parallel, then the 2 programs would be executed during overlapping time periods, which makes parallel computing a special case of concurrent computing.</p>
+  <div class="section" id="broadcasting">
+<h1>Broadcasting<a class="headerlink" href="#broadcasting" title="Permalink to this headline">¶</a></h1>
+<p>Broadcasting is a way of making an elementwise operation that takes 2 arrays as input work when those arrays have different shapes. It is an algorithm that attempts to create 2 arrays with the same shape based on the 2 original input arrays so that the elementwise operation can be applied. The algorithm goes as follows:</p>
+<ul class="simple">
+<li><p>Make the rank of A and B the same by prepending dims of size 1</p></li>
+<li><p>Create the output dims by iterating through the new shape. Take the greater size for each dim as long as the other one has size 1 (if not then the shapes are incompatible for broadcasting).</p></li>
+</ul>
+<p>For both A and B:</p>
+<ul class="simple">
+<li><p>Initialize output to zeros in the shape given by output dims</p></li>
+<li><p>Iterate through all possible output indices and set the output at certain indices to the input at those indices (if output index is greater than the size of the input in that dimension then set the input index to 0 because the size of the input in that dimension must be 1)</p></li>
+<li><p>Now the output A and B have the same shape and we can perform an elementwise operation</p></li>
+</ul>
+<p>For vectors and matrices, we can explain it visually as follows:</p>
+<img src="https://i.stack.imgur.com/JcKv1.png" />
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Concurrent_computing">https://en.wikipedia.org/wiki/Concurrent_computing</a></p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Process_(computing)">https://en.wikipedia.org/wiki/Process_(computing)</a></p></li>
+<li><p><a class="reference external" href="https://mathematica.stackexchange.com/questions/99171/how-to-implement-the-general-array-broadcasting-method-from-numpy">https://mathematica.stackexchange.com/questions/99171/how-to-implement-the-general-array-broadcasting-method-from-numpy</a></p></li>
 </ul>
 </div>
 </div>
@@ -340,23 +350,14 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="c_memory_management.html" title="previous page">
+        <a class="left-prev" href="miscellaneous.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">C memory management</p>
+                <p class="prevnext-title">Miscellaneous</p>
             </div>
         </a>
     </div>
-     <div id="next">
-        <a class="right-next" href="computer_chip.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Computer chip</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
 
 </div>
         

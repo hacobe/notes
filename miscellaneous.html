@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Concurrency &#8212; Technical notes</title>
+    <title>Miscellaneous &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Computer chip" href="computer_chip.html" />
-    <link rel="prev" title="C memory management" href="c_memory_management.html" />
+    <link rel="next" title="Broadcasting" href="broadcasting.html" />
+    <link rel="prev" title="Trie" href="Trie.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -89,16 +89,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="assembly.html">
      Assembly
@@ -109,8 +109,8 @@
      C memory management
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
      Concurrency
     </a>
    </li>
@@ -178,11 +178,11 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="miscellaneous.html">
+ <li class="toctree-l1 current active has-children">
+  <a class="current reference internal" href="#">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
@@ -236,7 +236,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/concurrency.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/miscellaneous.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -256,7 +256,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fconcurrency.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmiscellaneous.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -277,19 +277,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -298,15 +285,9 @@
         
               <div>
                 
-  <div class="section" id="concurrency">
-<h1>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h1>
-<p>A computer program is a sequence of instructions. We can execute 2 computer programs <strong>sequentially</strong> by first executing the instructions of one of the programs and then executing the instructions of the other program. Alternatively, we could execute the 2 computer programs <strong>concurrently</strong> by executing their instructions during overlapping time periods. For example, we could alternate executing instructions from each program so that the programs are executed over roughly the same time period. If we had 2 or more processing units capable of executing instructions, then we could also execute the 2 computer programs in <strong>parallel</strong> by executing the instructions of 1 program on 1 processing unit and the other program on another processing unit. If we execute the 2 programs in parallel, then the 2 programs would be executed during overlapping time periods, which makes parallel computing a special case of concurrent computing.</p>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Concurrent_computing">https://en.wikipedia.org/wiki/Concurrent_computing</a></p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Process_(computing)">https://en.wikipedia.org/wiki/Process_(computing)</a></p></li>
-</ul>
+  <div class="section" id="miscellaneous">
+<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -340,19 +321,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="c_memory_management.html" title="previous page">
+        <a class="left-prev" href="Trie.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">C memory management</p>
+                <p class="prevnext-title">Trie</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="computer_chip.html" title="next page">
+        <a class="right-next" href="broadcasting.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Computer chip</p>
+                <p class="prevnext-title">Broadcasting</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
