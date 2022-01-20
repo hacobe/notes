@@ -6,6 +6,11 @@ Solution is based on:
 https://leetcode.com/problems/lru-cache/discuss/45926/Python-Dict-%2B-Double-LinkedList
 
 A simpler solution uses an OrderedDict
+
+Notes:
+* Removing a node is easy, because of the prev and next pointers
+* The dictionary goes from key to node, not from key to value
+* The linked list node stores the key and the value for entry in the dictionary
 """
 
 class Node:
