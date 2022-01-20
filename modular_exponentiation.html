@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention &#8212; Technical notes</title>
+    <title>Modular exponentiation &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph neural networks" href="graph_neural_networks.html" />
-    <link rel="prev" title="Automatic differentiation" href="automatic_differentiation.html" />
+    <link rel="prev" title="How to solve it" href="how_to_solve_it.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -215,16 +214,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -235,8 +234,8 @@
      Automatic differentiation
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
      Attention
     </a>
    </li>
@@ -282,16 +281,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="broadcasting.html">
      Broadcasting
@@ -302,8 +301,8 @@
      How to solve it
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="modular_exponentiation.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Modular exponentiation
     </a>
    </li>
@@ -350,7 +349,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/attention.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/modular_exponentiation.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -370,7 +369,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fattention.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmodular_exponentiation.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -412,17 +411,28 @@
         
               <div>
                 
-  <div class="section" id="attention">
-<h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
-<p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
+  <div class="section" id="modular-exponentiation">
+<h1>Modular exponentiation<a class="headerlink" href="#modular-exponentiation" title="Permalink to this headline">¶</a></h1>
+<p>Suppose you want to calculate <span class="math notranslate nohighlight">\(5^7 \mod 3\)</span> and you have to work with unsigned 8 bit integers.</p>
+<p>The largest integer we can use is 255 (<span class="math notranslate nohighlight">\(= 2^7 + 2^6 + \cdots + 2^1 + 2^0 = 2^8 - 1\)</span>).</p>
+<p><span class="math notranslate nohighlight">\(5^7 = 78125\)</span>, but our calculator will tell us it equals 45, because of overflow.</p>
+<p><span class="math notranslate nohighlight">\(78125 \mod 3 = 2\)</span>, while <span class="math notranslate nohighlight">\(45 \mod 3 = 0\)</span>, so we won’t get the right answer.</p>
+<p>But we can break down the problem as follows:</p>
+<p><span class="math notranslate nohighlight">\(5^7 \mod 3 = 5 \cdot (5^6 \mod 3) \mod 3\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^6 \mod 3 = (5^3 \mod 3)^2 \mod 3\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^3 \mod 3 = 5 \cdot (5^2 \mod 3 ) \mod 3\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^2 \mod 3 = (5^1 \mod 3)^2 \mod 3\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^1 \mod 3 = 5 \cdot (5^0 \mod 3) \mod 3\)</span></p>
+<p>And then solve each subproblem without ever needing to store an integer larger than 255:</p>
+<p><span class="math notranslate nohighlight">\(5^1 \mod 3 = 5 \cdot (5^0 \mod 3) \mod 3 = 2\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^2 \mod 3 = 2^2 \mod 3 = 1\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^3 \mod 3 = 5 \cdot 1 \mod 3 = 2\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^6 \mod 3 = 2^2 \mod 3 = 1\)</span></p>
+<p><span class="math notranslate nohighlight">\(5^7 \mod 3 = 5 \cdot 1 \mod 3 = 2\)</span></p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">https://classic.d2l.ai/chapter_attention-mechanism/attention.html</a></p></li>
-<li><p><a class="reference external" href="https://keras.io/api/layers/attention_layers/attention/">https://keras.io/api/layers/attention_layers/attention/</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention">https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention</a></p></li>
+<li><p><a class="reference external" href="https://web.archive.org/web/20191224022818/https://superuser.com/questions/452498/how-can-computers-calculate-exponential-math-without-overflow-errors">https://web.archive.org/web/20191224022818/https://superuser.com/questions/452498/how-can-computers-calculate-exponential-math-without-overflow-errors</a></p></li>
 </ul>
 </div>
 </div>
@@ -457,23 +467,14 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="automatic_differentiation.html" title="previous page">
+        <a class="left-prev" href="how_to_solve_it.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Automatic differentiation</p>
+                <p class="prevnext-title">How to solve it</p>
             </div>
         </a>
     </div>
-     <div id="next">
-        <a class="right-next" href="graph_neural_networks.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Graph neural networks</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
 
 </div>
         

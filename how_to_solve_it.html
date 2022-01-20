@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention &#8212; Technical notes</title>
+    <title>How to solve it &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph neural networks" href="graph_neural_networks.html" />
-    <link rel="prev" title="Automatic differentiation" href="automatic_differentiation.html" />
+    <link rel="next" title="Modular exponentiation" href="modular_exponentiation.html" />
+    <link rel="prev" title="Broadcasting" href="broadcasting.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -215,16 +213,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -235,8 +233,8 @@
      Automatic differentiation
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
      Attention
     </a>
    </li>
@@ -282,23 +280,23 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="broadcasting.html">
      Broadcasting
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="how_to_solve_it.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      How to solve it
     </a>
    </li>
@@ -350,7 +348,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/attention.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/how_to_solve_it.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -370,7 +368,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fattention.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fhow_to_solve_it.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -397,8 +395,28 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#understanding-the-problem">
+   Understanding the problem
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#devising-a-plan">
+   Devising a plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#carrying-out-the-plan">
+   Carrying out the plan
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#looking-back">
+   Looking back
   </a>
  </li>
 </ul>
@@ -412,17 +430,94 @@
         
               <div>
                 
-  <div class="section" id="attention">
-<h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
-<p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="how-to-solve-it">
+<h1>How to solve it<a class="headerlink" href="#how-to-solve-it" title="Permalink to this headline">¶</a></h1>
+<p>Notes on George Polya’s How to Solve It.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>There are 4 steps to solving a problem:</p>
+<ol class="simple">
+<li><p>Understand the problem</p></li>
+<li><p>Devise a plan</p></li>
+<li><p>Carry out the plan</p></li>
+<li><p>Look back at the solution</p></li>
+</ol>
+</div>
+<div class="section" id="understanding-the-problem">
+<h2>Understanding the problem<a class="headerlink" href="#understanding-the-problem" title="Permalink to this headline">¶</a></h2>
+<p>Start with the problem statement and visualize the problem as a whole without worrying too much about the details. Then, work for a better understanding.</p>
+<p>Take the problem statement and isolate the 3 principal parts:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">https://classic.d2l.ai/chapter_attention-mechanism/attention.html</a></p></li>
-<li><p><a class="reference external" href="https://keras.io/api/layers/attention_layers/attention/">https://keras.io/api/layers/attention_layers/attention/</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention">https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention</a></p></li>
+<li><p>What is the unknown?</p></li>
+<li><p>What is the data? What is given?</p></li>
+<li><p>What is the condition? The condition is the part of the problem that links the data to the unknown.</p></li>
+</ul>
+<p>We have to come back to these questions again and again from different angles.</p>
+<p>Separate the condition itself into parts and go through each one. Relate each one to the others and to the whole.</p>
+<ul class="simple">
+<li><p>State the problem in your own words</p></li>
+<li><p>Draw a figure and point out the data and the unknowns.</p></li>
+<li><p>Introduce suitable notation.</p></li>
+</ul>
+<p>Test your understanding:</p>
+<ul class="simple">
+<li><p>Keep only a part of the condition, drop the other part. Is the unknown determined from that? How can it vary?</p></li>
+<li><p>Can you use other data to determine the unknown? Could you change the unknown, the data or both and satisfy the condition?</p></li>
+<li><p>Is it possible to satisfy the condition?</p></li>
+<li><p>Is the data sufficient to determine the unknown?</p></li>
+<li><p>Is the condition redundant? i.e. does it contain superfluous parts?</p></li>
+<li><p>Is the condition contradicatory? i.e. do parts contradict each other</p></li>
+</ul>
+</div>
+<div class="section" id="devising-a-plan">
+<h2>Devising a plan<a class="headerlink" href="#devising-a-plan" title="Permalink to this headline">¶</a></h2>
+<p>In order to solve a problem, we draw on our mathematical knowledge and formerly solved problems.</p>
+<p>Do you know a related problem with a similar unknown? If so, can you use its result or its method? Can you use introduce an auxiliary element (new unknown, new lines, etc.) in order to make its use possible?</p>
+<p>We can find related problems by asking:</p>
+<ul class="simple">
+<li><p>Is there a simpler analogous problem?</p></li>
+<li><p>Is there a more general version of the problem?</p></li>
+<li><p>Is there a special case of the problem that you could solve?</p></li>
+<li><p>Is there a subproblem that you could solve?</p></li>
+</ul>
+<p>We can also change the problem to generate related problems:</p>
+<ul class="simple">
+<li><p>Keep only a part of the condition. How far is the unknown then determined? How much can it vary?</p></li>
+<li><p>Is there other data where you could derive the unknown?</p></li>
+<li><p>Can you derive something useful from the data?</p></li>
+<li><p>Could you change the unknown, the data or both so that the new unknown and new data are nearer to each other?</p></li>
+</ul>
+<p>In varying the problem, you may stray from the original. Come back to the original problem. Ask:</p>
+<ul class="simple">
+<li><p>Did you use all the data?</p></li>
+<li><p>Did you use the whole condition?</p></li>
+<li><p>Have you taken into account all essential notions?</p></li>
+</ul>
+<p>A list of some techniques:</p>
+<ul class="simple">
+<li><p>Working backwards: Start with the goal and work backwards to something you know.</p></li>
+<li><p>Reductio ad absurdum: Show that the assumption imples a contradiction.</p></li>
+<li><p>Indirect proof: Show that the opposite assumption is wrong.</p></li>
+<li><p>Induction: Can you solve your problem by deriving a generalization from some examples?</p></li>
+<li><p>Guess and check</p></li>
+<li><p>Test by dimension</p></li>
+<li><p>Look for a pattern</p></li>
+</ul>
+</div>
+<div class="section" id="carrying-out-the-plan">
+<h2>Carrying out the plan<a class="headerlink" href="#carrying-out-the-plan" title="Permalink to this headline">¶</a></h2>
+<p>Patiently carry out the plan and check each step. You check each step by intuition and/or by formal methods.</p>
+</div>
+<div class="section" id="looking-back">
+<h2>Looking back<a class="headerlink" href="#looking-back" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Can you check the result?</p></li>
+<li><p>Can you check the argument?</p></li>
+<li><p>Can you derive the result differently? Can you see it at a glance?</p></li>
+<li><p>Can you use the result or the method for some other problem?</p></li>
+<li><p>Did you use all the data?</p></li>
+<li><p>Plug in extreme values</p></li>
+<li><p>Pick out the “touchy points” of the argument and re-examine them.</p></li>
 </ul>
 </div>
 </div>
@@ -457,19 +552,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="automatic_differentiation.html" title="previous page">
+        <a class="left-prev" href="broadcasting.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Automatic differentiation</p>
+                <p class="prevnext-title">Broadcasting</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="graph_neural_networks.html" title="next page">
+        <a class="right-next" href="modular_exponentiation.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Graph neural networks</p>
+                <p class="prevnext-title">Modular exponentiation</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

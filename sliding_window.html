@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention &#8212; Technical notes</title>
+    <title>Sliding window &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph neural networks" href="graph_neural_networks.html" />
-    <link rel="prev" title="Automatic differentiation" href="automatic_differentiation.html" />
+    <link rel="next" title="Machine learning" href="machine_learning.html" />
+    <link rel="prev" title="Backtracking" href="backtracking.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -158,16 +156,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="data_structures_and_algorithms.html">
    Data structures and algorithms
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="Basic%20comparison%20sorting.html">
      Basic comparison sorting
@@ -208,23 +206,23 @@
      Backtracking
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="sliding_window.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Sliding window
     </a>
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -235,8 +233,8 @@
      Automatic differentiation
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
      Attention
     </a>
    </li>
@@ -350,7 +348,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/attention.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/sliding_window.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -370,7 +368,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fattention.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsliding_window.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -397,6 +395,16 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example">
+   Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-2">
+   Example (2)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -412,17 +420,120 @@
         
               <div>
                 
-  <div class="section" id="attention">
-<h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
-<p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
+  <div class="section" id="sliding-window">
+<h1>Sliding window<a class="headerlink" href="#sliding-window" title="Permalink to this headline">¶</a></h1>
+<p>Pseudocode for the sliding window algorithm:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+	<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+	<span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">while</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+		<span class="c1"># update state of the current window</span>
+
+		<span class="c1"># contract window until we have a valid one</span>
+		<span class="k">while</span> <span class="n">current</span> <span class="n">window</span> <span class="ow">is</span> <span class="n">invalid</span><span class="p">:</span>
+			<span class="c1"># update state of the current window</span>
+			<span class="n">l</span> <span class="o">+=</span> <span class="mi">1</span>
+
+		<span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+		<span class="c1"># expand the window</span>
+		<span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+	<span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Given a binary array nums and an integer k, return the maximum number of consecutive 1’s in the array if you can flip at most k 0’s (<a class="reference external" href="https://leetcode.com/problems/max-consecutive-ones-iii">https://leetcode.com/problems/max-consecutive-ones-iii</a>).</p>
+<p>A key insight here is that we can translate this question into returning the longest window that has &lt;= k 0’s, because then we can flip all the 0’s to be 1’s (this is a similar trick to <a class="reference external" href="https://leetcode.com/problems/max-consecutive-ones-ii/">https://leetcode.com/problems/max-consecutive-ones-ii/</a>).</p>
+<p>First, we solve it with brute force:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+	<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+	<span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+			<span class="n">nz</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+				<span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="n">nz</span> <span class="o">+=</span> <span class="mi">1</span>
+
+			<span class="k">if</span> <span class="n">nz</span> <span class="o">&lt;=</span> <span class="n">k</span><span class="p">:</span>
+				<span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+</div>
+<p>The time complexity is O(n^3) (it’s very similar to <a class="reference external" href="https://leetcode.com/problems/maximum-subarray/">https://leetcode.com/problems/maximum-subarray/</a>).</p>
+<p>Now we apply the sliding window template:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nz</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+		<span class="c1"># update state of the current window</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">nz</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># contract window until we have a valid one</span>
+        <span class="k">while</span> <span class="n">nz</span> <span class="o">==</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># update state of the current window</span>
+            <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nz</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">l</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># expand the window</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-2">
+<h2>Example (2)<a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://leetcode.com/problems/maximize-the-confusion-of-an-exam/">https://leetcode.com/problems/maximize-the-confusion-of-an-exam/</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n_true</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n_false</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="c1"># update state of the current window</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">:</span>
+            <span class="n">n_true</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_false</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="c1"># contract window until we have a valid one</span>
+        <span class="k">while</span> <span class="n">n_true</span> <span class="o">&gt;</span> <span class="n">k</span> <span class="ow">and</span> <span class="n">n_false</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">:</span>
+            <span class="c1"># update state of the current window</span>
+            <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">:</span>
+                <span class="n">n_true</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n_false</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">l</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+        <span class="n">ans</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ans</span><span class="p">,</span> <span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># expand the window</span>
+        <span class="n">r</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+    <span class="k">return</span> <span class="n">ans</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">https://classic.d2l.ai/chapter_attention-mechanism/attention.html</a></p></li>
-<li><p><a class="reference external" href="https://keras.io/api/layers/attention_layers/attention/">https://keras.io/api/layers/attention_layers/attention/</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention">https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/tag/sliding-window/">https://leetcode.com/tag/sliding-window/</a></p></li>
+<li><p><a class="reference external" href="https://leetcode.com/discuss/study-guide/657507/Sliding-Window-for-Beginners-Problems-or-Template-or-Sample-Solutions">https://leetcode.com/discuss/study-guide/657507/Sliding-Window-for-Beginners-Problems-or-Template-or-Sample-Solutions</a> (most upvoted guide containing the term “sliding window” on leetcode)</p></li>
+<li><p><a class="reference external" href="https://medium.com/leetcode-patterns/leetcode-pattern-2-sliding-windows-for-strings-e19af105316b">https://medium.com/leetcode-patterns/leetcode-pattern-2-sliding-windows-for-strings-e19af105316b</a></p></li>
 </ul>
 </div>
 </div>
@@ -457,19 +568,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="automatic_differentiation.html" title="previous page">
+        <a class="left-prev" href="backtracking.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Automatic differentiation</p>
+                <p class="prevnext-title">Backtracking</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="graph_neural_networks.html" title="next page">
+        <a class="right-next" href="machine_learning.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Graph neural networks</p>
+                <p class="prevnext-title">Machine learning</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

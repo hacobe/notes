@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention &#8212; Technical notes</title>
+    <title>Multithreading &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph neural networks" href="graph_neural_networks.html" />
-    <link rel="prev" title="Automatic differentiation" href="automatic_differentiation.html" />
+    <link rel="next" title="Data structures and algorithms" href="data_structures_and_algorithms.html" />
+    <link rel="prev" title="Concurrency" href="concurrency.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -91,16 +89,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_a_computer.html">
      What is a computer?
@@ -151,8 +149,8 @@
      Concurrency
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="multithreading.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Multithreading
     </a>
    </li>
@@ -215,16 +213,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -235,8 +233,8 @@
      Automatic differentiation
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
      Attention
     </a>
    </li>
@@ -350,7 +348,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/attention.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/multithreading.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -370,7 +368,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fattention.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmultithreading.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -397,8 +395,13 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
+  <a class="reference internal nav-link" href="#what-is-a-thread">
+   What is a thread?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-use-multithreading">
+   Why use multithreading?
   </a>
  </li>
 </ul>
@@ -412,18 +415,17 @@
         
               <div>
                 
-  <div class="section" id="attention">
-<h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
-<p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">https://classic.d2l.ai/chapter_attention-mechanism/attention.html</a></p></li>
-<li><p><a class="reference external" href="https://keras.io/api/layers/attention_layers/attention/">https://keras.io/api/layers/attention_layers/attention/</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention">https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention</a></p></li>
-</ul>
+  <div class="section" id="multithreading">
+<h1>Multithreading<a class="headerlink" href="#multithreading" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-a-thread">
+<h2>What is a thread?<a class="headerlink" href="#what-is-a-thread" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>process</strong> is an instance of a computer program (a sequence of instructions) that is being executed by the operating system. It has its own memory space. A <strong>thread</strong> is a component of a process. A process can execute multiple threads concurrently and have them share memory space.</p>
+</div>
+<div class="section" id="why-use-multithreading">
+<h2>Why use multithreading?<a class="headerlink" href="#why-use-multithreading" title="Permalink to this headline">¶</a></h2>
+<p>On a computer with multiple cores, multiple threads can run on different cores at the same time. On a computer with a single core, you can still run multiple threads, but they cannot run at the same time. Instead, the operating system will simulate them running at the same time by rapidly switching back and forth between the different threads.</p>
+<p>If your program is CPU bound (meaning that the bottleneck for the program’s execution time is the speed of the processor), then you can speed up the program by using multiple threads on multiple cores. However, if you only have 1 core, then multiple threads will not speed up the program.</p>
+<p>If your program is I/O bound (meaning that the bottleneck for the program’s execution time is the speed of input/output operations like downloading a file from a website or reading a file from disk), then you can speed up the program by using multiple threads on multiple cores or by using multiple threads on a single core. You don’t necessarily need multiple cores, because even on a single core the operating system can switch to a thread ready to compute while another thread sits idle waiting for an I/O operation to finish.</p>
 </div>
 </div>
 
@@ -457,19 +459,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="automatic_differentiation.html" title="previous page">
+        <a class="left-prev" href="concurrency.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Automatic differentiation</p>
+                <p class="prevnext-title">Concurrency</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="graph_neural_networks.html" title="next page">
+        <a class="right-next" href="data_structures_and_algorithms.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Graph neural networks</p>
+                <p class="prevnext-title">Data structures and algorithms</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

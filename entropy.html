@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention &#8212; Technical notes</title>
+    <title>Entropy &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Graph neural networks" href="graph_neural_networks.html" />
-    <link rel="prev" title="Automatic differentiation" href="automatic_differentiation.html" />
+    <link rel="next" title="Data parallelism" href="data_parallelism.html" />
+    <link rel="prev" title="James-Stein Estimation" href="james_stein_estimation.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -235,8 +235,8 @@
      Automatic differentiation
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
      Attention
     </a>
    </li>
@@ -250,8 +250,8 @@
      James-Stein Estimation
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="entropy.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Entropy
     </a>
    </li>
@@ -350,7 +350,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/attention.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/entropy.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -370,7 +370,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fattention.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fentropy.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -412,17 +412,22 @@
         
               <div>
                 
-  <div class="section" id="attention">
-<h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
-<p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
+  <div class="section" id="entropy">
+<h1>Entropy<a class="headerlink" href="#entropy" title="Permalink to this headline">¶</a></h1>
+<p>Entropy is a function that maps a discrete probability distribution to a real number.</p>
+<p>A discrete probability distribution is a set of probabilities <span class="math notranslate nohighlight">\(p_1, \dots, p_K\)</span> where <span class="math notranslate nohighlight">\(p_i\)</span> is the probability of observing event <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>We define the entropy of the distribution <span class="math notranslate nohighlight">\(H(p_1, \dots, p_K) = - \sum_{i = 1}^K p_i log_2 (p_i)\)</span>.</p>
+<p>In the case of <span class="math notranslate nohighlight">\(K = 1\)</span>, the plot of entropy against <span class="math notranslate nohighlight">\(p_1\)</span> looks like an inverted U with a minimum at 0 and a maximum at 1 when <span class="math notranslate nohighlight">\(p_1 = 0.5\)</span>.</p>
+<p>In general, entropy attains a maximum at <span class="math notranslate nohighlight">\(\log_2(K)\)</span> when we set all <span class="math notranslate nohighlight">\(p_i = \frac{1}{K}\)</span>.</p>
+<p>The closer entropy is to 0, the closer the probability distribution is to putting all the probabilility mass at one of the events. The closer entropy is to <span class="math notranslate nohighlight">\(log_2(K)\)</span>, the closer the distribution is to a uniform distribution over events, or a “flat prior”.</p>
+<p>Suppose we have just two events: A and B, i.e. <span class="math notranslate nohighlight">\(K = 2\)</span>, and we sample a sequence of <span class="math notranslate nohighlight">\(N\)</span> events where at each step in the sequence we have <span class="math notranslate nohighlight">\(p\)</span> probability of seeing A and <span class="math notranslate nohighlight">\(1 - p\)</span> probability of seeing B.</p>
+<p>There are <span class="math notranslate nohighlight">\(2^N\)</span> possible sequences we could observe. However, many of these sequences are rare. In particular, for very large <span class="math notranslate nohighlight">\(N\)</span>, the event A will occur about <span class="math notranslate nohighlight">\(N \cdot p\)</span> times in a sequence. The number of sequences where the event A occurs <span class="math notranslate nohighlight">\(N \cdot p\)</span> times is just the number of ways to choose <span class="math notranslate nohighlight">\(N \cdot p\)</span> positions out of the <span class="math notranslate nohighlight">\(N\)</span> total positions in a sequence, which using Stirling’s formula, is about <span class="math notranslate nohighlight">\(2^{N \cdot H(p, 1 - p)}\)</span>. In other words, entropy determines the size of the subset of “typical” sequences for a probability distribution. If entropy is 0, there’s just 1 typical sequence, because the same event happens over and over again. If entropy is 1, then the number of typical sequences is equal to the total number of possible sequences.</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">https://classic.d2l.ai/chapter_attention-mechanism/attention.html</a></p></li>
-<li><p><a class="reference external" href="https://keras.io/api/layers/attention_layers/attention/">https://keras.io/api/layers/attention_layers/attention/</a></p></li>
-<li><p><a class="reference external" href="https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention">https://www.tensorflow.org/tutorials/text/transformer#scaled_dot_product_attention</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Huffman_coding">Huffman coding</a></p></li>
+<li><p><a class="reference external" href="https://web.archive.org/web/20180825205721/http://mat.hjg.com.ar/tic/img/Shannon%20Source%20Coding%20Theorem.pdf">Shannon’s Source Coding Theorem</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1805.11965.pdf">A Mini-Introduction To Information Theory</a></p></li>
 </ul>
 </div>
 </div>
@@ -457,19 +462,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="automatic_differentiation.html" title="previous page">
+        <a class="left-prev" href="james_stein_estimation.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Automatic differentiation</p>
+                <p class="prevnext-title">James-Stein Estimation</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="graph_neural_networks.html" title="next page">
+        <a class="right-next" href="data_parallelism.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Graph neural networks</p>
+                <p class="prevnext-title">Data parallelism</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
