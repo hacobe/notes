@@ -1,0 +1,20 @@
+format: jb-book
+root: intro
+chapters:
+  - file: computer_architecture
+    sections:
+      - file: assembly
+      - file: c_memory_management
+      - file: concurrency
+      - file: computer_chip
+      - file: floating_point
+      - file: flynns_taxonomy
+  - file: data_structures_and_algorithms
+    sections:
+      - file: Basic comparison sorting
+      - file: Non-comparison sorting
+      - file: Merge sort
+      - file: Quicksort
+      - file: Dynamic programming
+      - file: Heap
+      - file: Trie
