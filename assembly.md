@@ -188,4 +188,4 @@ mult: ...
 
 * UC Berkeley, CS61C, Spring 2015
 	* [Lecture 5](https://www.youtube.com/watch?v=VwmY6K4O2yw&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=5)
-	* [Lecture 5](https://www.youtube.com/watch?v=VwmY6K4O2yw&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=6)
+	* [Lecture 6](https://www.youtube.com/watch?v=VwmY6K4O2yw&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=6)
