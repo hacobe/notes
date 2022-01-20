@@ -205,12 +205,27 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
-     Gradient desecent
+     Gradient descent
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="automatic_differentiation.html">
      Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein Estimation
     </a>
    </li>
   </ul>
@@ -366,27 +381,27 @@
 <div class="section" id="sisd">
 <h2>SISD<a class="headerlink" href="#sisd" title="Permalink to this headline">¶</a></h2>
 <p>For the purposes of classification, we abstract a computer architecture into a data pool, an instruction pool and processing units. In SISD, at each step, we fetch an instruction from the instruction pool and a unit of data from the data pool and send the instruction and the unit of data to the processing unit for execution:</p>
-<img src="/img/sisd.png" />
+<p><img alt="sisd" src="_images/sisd.png" /></p>
 <p>You can think of the instruction as a function and the unit of data as the inputs to the function. In the hardware, we fetch the instruction pointed to by the program counter, we load data into registers, and the processor executes the instruction on the registers.</p>
 </div>
 <div class="section" id="simd">
 <h2>SIMD<a class="headerlink" href="#simd" title="Permalink to this headline">¶</a></h2>
 <p>In SIMD, at each step, we fetch an instruction from the instruction pool and multiple units of data from the data pool and send the instruction and each unit of data to a processing unit for execution:</p>
-<img src="/img/simd.png" />
+<p><img alt="simd" src="_images/simd.png" /></p>
 <p>In the hardware, we fetch the instruction pointed to by the program counter, we load multiple data into wide registers (a single wide register can contain multiple integers or multiple floats) and the processor executes the instruction on the registers in parallel.</p>
 <p>Note that the processing unit do not have to be separate cores. SIMD can work within a single core, because an instruction can be applied to multiple data units in parallel within a single core.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
 <p>Take the example of computing the element-wise sum of two vectors: <code class="docutils literal notranslate"><span class="pre">C</span> <span class="pre">=</span> <span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code>. For SISD, at each step, we fetch a pair of elements (one element from <code class="docutils literal notranslate"><span class="pre">A</span></code> and one from <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction. See the image from this <a class="reference external" href="http://web.archive.org/web/20220108195313/http://ftp.cvut.cz/kernel/people/geoff/cell/ps3-linux-docs/CellProgrammingTutorial/BasicsOfSIMDProgramming.html">article</a> below, which shows multiple steps of computation:</p>
-<img src="/img/sisd_a_plus_b.png" />
+<p><img alt="sisd_a_plus_b" src="_images/sisd_a_plus_b.png" /></p>
 <p>For SIMD, at each step, we fetch multiple pairs of elements (the elements from <code class="docutils literal notranslate"><span class="pre">A</span></code> and the elements of <code class="docutils literal notranslate"><span class="pre">B</span></code>) and apply the add instruction to each pair of elements in parallel. See the image below, which shows one step of computation:</p>
-<img src="/img/simd_a_plus_b.png" />
+<p><img alt="simd_a_plus_b" src="_images/simd_a_plus_b.png" /></p>
 </div>
 <div class="section" id="mimd">
 <h2>MIMD<a class="headerlink" href="#mimd" title="Permalink to this headline">¶</a></h2>
 <p>For MIMD, in each step, we fetch multiple data units from the data pool and multiple instructions from the instruction pool and send each data unit and instruction to separate processing units for execution in parallel:</p>
-<img src="/img/mimd.png" />
+<p><img alt="mimd" src="_images/mimd.png" /></p>
 <p>In the hardware, each core in a multi-core processor fetches data and an instruction and independently executes the instruction on the data in parallel.</p>
 </div>
 <div class="section" id="usage">

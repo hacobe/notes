@@ -215,6 +215,21 @@
      Automatic differentiation
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein Estimation
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -353,7 +368,7 @@
 <h2>Fluidic half adder<a class="headerlink" href="#fluidic-half-adder" title="Permalink to this headline">¶</a></h2>
 <p>Let’s design a very simple computer. It will take two inputs and add them.</p>
 <p>Here’s the computer (<a class="reference external" href="https://en.wikipedia.org/wiki/Fluidics">source</a>):</p>
-<img src="/img/220px-Fluidic_AND_XOR.svg.png" />
+<p><img alt="fluidic_and_xor" src="_images/220px-Fluidic_AND_XOR.svg.png" /></p>
 <p>The inputs are the two tubes at the the top of the tank.</p>
 <p>The computer can only add 2 numbers and those numbers can be 0 or 1. If you want to add 0 and 0, then you do nothing. If you want to add 0 and 1 or 1 and 0, then you pour a bucket of water into one of the tubes at the top. If you want to add 1 and 1, then you pour a bucket of water into one of the tubes and you get a friend to pour a bucket of water into the other tube at the same time.</p>
 <p>How do you read the output? Imagine that there’s a bucket catching water that flows out of the “XOR” outlet at the bottom of the tank. You look to see if the “AND” bucket in the middle of the tank has water and you look at the “XOR” bucket. If the “AND” bucket has water, then the answer for the computation is 2. If the “XOR” bucket has water then the answer is 1. If neither of the buckets have water, then the answer is 0. Remember to dump out the water from the buckets every time you want to do a new calculation.</p>
@@ -379,7 +394,7 @@
 <p>We’d get an answer of 10 = 2 and the third bucket would be full, which would tell us not to trust the answer that we got.</p>
 <p>Let’s label the least significant digit of the first input A0, the least significant digit of the second input B0 and the least significant digit of the sum S0. Similarly, call the second most significant digit of the inputs and the sum A1, B1 and S1 respectively. For example, if we add 1 = 01 and 2 = 10, then A0 = 1, A1 = 0, B0 = 0, B1 = 1 and the sum should be 3 = 11, so S0 should be 1 and S1 should be 1. Let’s call the third bucket of the output the “E” for error bucket, which is full when the sum is too big to store in 2 binary digits.</p>
 <p>Here’s our computer:</p>
-<img src="/img/adder.png" />
+<p><img alt="adder" src="_images/adder.png" /></p>
 <p>If we wanted to add numbers with more binary digits, we could just imagine continuing the pattern by replacing the E bucket with a <span class="math notranslate nohighlight">\(C2\_{in}\)</span> bucket and having that go into another tank with tubes flowing out to a S2 bucket and a <span class="math notranslate nohighlight">\(C3\_{in}\)</span>, which feeds into another replica and so on. Note that an E bucket is just like a <span class="math notranslate nohighlight">\(Ci\_{in}\)</span> bucket with the difference that we’re at the end of our computation for the E bucket.</p>
 </div>
 <div class="section" id="sources">

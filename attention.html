@@ -207,7 +207,7 @@
   <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
-     Gradient desecent
+     Gradient descent
     </a>
    </li>
    <li class="toctree-l2">
@@ -223,6 +223,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="graph_neural_networks.html">
      Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein Estimation
     </a>
    </li>
   </ul>
@@ -350,8 +355,8 @@
   <div class="section" id="attention">
 <h1>Attention<a class="headerlink" href="#attention" title="Permalink to this headline">¶</a></h1>
 <p>What is attention in the context of deep learning? We use attention as a layer in a neural network in the same way that we use convolution or matrix multiplication. The attention operation takes as input a query and a dictionary (a collection of key-value pairs) and returns the value in the dictionary with the key with most similar to the query. Another variant is to return an average of the values in the dictionary weighted by the similarity (“soft” attention) instead of returning one value (“hard” attention). Soft attention is probably more common, because it makes the attention operation differentiable and easier to optimize.</p>
-<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
-<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
+<p>More concretely, consider a query vector <span class="math notranslate nohighlight">\(\textbf{q} \in \mathbb{R}^{d_q}\)</span> and <span class="math notranslate nohighlight">\(n\)</span> key-value pairs <span class="math notranslate nohighlight">\((\textbf{k}_1, \textbf{v}_1), \dots, (\textbf{k}_n, \textbf{v}_n)\)</span> with <span class="math notranslate nohighlight">\(\textbf{k}_i \in \mathbb{R}^{d_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{v}_i \in \mathbb{R}^{d_v}\)</span> (borrowing the notation from <a class="reference external" href="https://classic.d2l.ai/chapter_attention-mechanism/attention.html">here</a>). The output <span class="math notranslate nohighlight">\(\textbf{o} \in \mathbb{R}^{d_v}\)</span> has the same dimension as the value vectors and is computed for soft attention as follows: <span class="math notranslate nohighlight">\(\textbf{o} = \sum_{i=1}^n b_i \textbf{v}_i\)</span>, where <span class="math notranslate nohighlight">\(b_1, \dots, b_n = \mathrm{softmax}(a_1, \dots, a_n)\)</span> and <span class="math notranslate nohighlight">\(a_i = f(\textbf{q}, \textbf{k}_i)\)</span> for some similarity function <span class="math notranslate nohighlight">\(f\)</span>. We use the softmax function in order to force the scores sum to 1.</p>
+<p>One common similarity function used is the dot product. In this case, we can write the attention operation for multiple queries succinctly as <span class="math notranslate nohighlight">\(\mathrm{softmax}(\textbf{Q} \textbf{K}^T) \textbf{V}\)</span> where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is a <span class="math notranslate nohighlight">\(n_q \times d_{qk}\)</span> matrix of queries, <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_{qk}\)</span> matrix of the keys and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> is a <span class="math notranslate nohighlight">\(n_{kv} \times d_v\)</span> matrix of the values. A variant of this dot product attention is used for the <a class="reference external" href="https://arxiv.org/pdf/1706.03762.pdf">Transformer</a> architecture.</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">

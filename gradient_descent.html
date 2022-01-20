@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gradient desecent &#8212; Technical notes</title>
+    <title>Gradient descent &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -207,12 +207,27 @@
   <ul class="current">
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     Gradient desecent
+     Gradient descent
     </a>
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="automatic_differentiation.html">
      Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein Estimation
     </a>
    </li>
   </ul>
@@ -337,8 +352,8 @@
         
               <div>
                 
-  <div class="section" id="gradient-desecent">
-<h1>Gradient desecent<a class="headerlink" href="#gradient-desecent" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="gradient-descent">
+<h1>Gradient descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">¶</a></h1>
 <p><strong>Gradient descent</strong> is an algorithm for finding a minimum of a function.</p>
 <p>It works as follows. Given a function <span class="math notranslate nohighlight">\(f: \mathbb{R}^p \mapsto \mathbb{R}\)</span> and a <strong>learning rate</strong> <span class="math notranslate nohighlight">\(\lambda \in \mathbb{R}^{+}\)</span>, choose a random starting point <span class="math notranslate nohighlight">\(\textbf{w}^{(0)} \in \mathbb{R}^p\)</span> and apply the following update iteratively: <span class="math notranslate nohighlight">\(\textbf{w}^{(t)} = \textbf{w}^{(t-1)} - \lambda \nabla f(\textbf{w}^{(t-1)})\)</span> for <span class="math notranslate nohighlight">\(t = 1, 2, 3, \dots\)</span> Stop when <span class="math notranslate nohighlight">\(\textbf{w}^{(t)} \approx \textbf{w}^{(t-1)}\)</span> or when <span class="math notranslate nohighlight">\(f(\textbf{w}^{(t)})\)</span> is less than some threshold or using some other heuristic. Take the last <span class="math notranslate nohighlight">\(\textbf{w}^{(t)}\)</span> as a minimizer of the function.</p>
 <p><span class="math notranslate nohighlight">\(\nabla f(\textbf{w}^{(t-1)})\)</span> is the <strong>gradient</strong> of <span class="math notranslate nohighlight">\(f\)</span> evaluated at <span class="math notranslate nohighlight">\(\textbf{w}^{(t-1)}\)</span>. In general, <span class="math notranslate nohighlight">\(\nabla f(\textbf{w}) = \begin{bmatrix} \frac{\partial f}{w\_1} (\textbf{w}) \\ \cdots \\ \frac{\partial f}{\partial w_p}(\textbf{w}) \end{bmatrix}^T\)</span>. The <span class="math notranslate nohighlight">\(i\)</span>-th component tells us how much the function changes when we move <span class="math notranslate nohighlight">\(w_i\)</span> a little bit while keeping the other components fixed. Computing <span class="math notranslate nohighlight">\(\nabla f(\textbf{w}) \cdot \textbf{u}\)</span> tells us how much the function changes when we move <span class="math notranslate nohighlight">\(\textbf{w}\)</span> a little bit in the direction of some vector <span class="math notranslate nohighlight">\(\textbf{u}\)</span>. Which direction will most decrease the function? The dot product is minimized when the two vectors point in the opposite directions, i.e., when <span class="math notranslate nohighlight">\(\textbf{u} = - \nabla f(\textbf{w})\)</span>. Therefore, gradient descent is a greedy algorithm that at each point takes a step in the direction (the negative of the gradient) that most decreases the function near the point.</p>
