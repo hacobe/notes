@@ -1,6 +1,6 @@
-# James-Stein Estimation
+# James-Stein estimation
 
-## What is James-Stein Estimation?
+## What is James-Stein estimation?
 
 Suppose we observe $\textbf{x} \in \mathbb{R}^p$, where $x_i = \theta_i + \epsilon_i$ for some unobserved $\theta \in \mathbb{R}^p$ and $\epsilon_i \sim N(0, 1)$, and our goal is to find a function $f(\textbf{x}) = \hat \theta$ that minimizes $E\left[\lVert \theta - \hat \theta \rVert^2\right]$.
 

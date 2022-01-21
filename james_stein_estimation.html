@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>James-Stein Estimation &#8212; Technical notes</title>
+    <title>James-Stein estimation &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -232,7 +232,7 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="bias_variance_tradeoff.html">
-     Bias-Variance Trade-off
+     Bias-Variance trade-off
     </a>
    </li>
    <li class="toctree-l2">
@@ -346,7 +346,7 @@
    </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
-     James-Stein Estimation
+     James-Stein estimation
     </a>
    </li>
    <li class="toctree-l2">
@@ -445,7 +445,7 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-is-james-stein-estimation">
-   What is James-Stein Estimation?
+   What is James-Stein estimation?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -475,9 +475,9 @@
               <div>
                 
   <div class="section" id="james-stein-estimation">
-<h1>James-Stein Estimation<a class="headerlink" href="#james-stein-estimation" title="Permalink to this headline">¶</a></h1>
+<h1>James-Stein estimation<a class="headerlink" href="#james-stein-estimation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="what-is-james-stein-estimation">
-<h2>What is James-Stein Estimation?<a class="headerlink" href="#what-is-james-stein-estimation" title="Permalink to this headline">¶</a></h2>
+<h2>What is James-Stein estimation?<a class="headerlink" href="#what-is-james-stein-estimation" title="Permalink to this headline">¶</a></h2>
 <p>Suppose we observe <span class="math notranslate nohighlight">\(\textbf{x} \in \mathbb{R}^p\)</span>, where <span class="math notranslate nohighlight">\(x_i = \theta_i + \epsilon_i\)</span> for some unobserved <span class="math notranslate nohighlight">\(\theta \in \mathbb{R}^p\)</span> and <span class="math notranslate nohighlight">\(\epsilon_i \sim N(0, 1)\)</span>, and our goal is to find a function <span class="math notranslate nohighlight">\(f(\textbf{x}) = \hat \theta\)</span> that minimizes <span class="math notranslate nohighlight">\(E\left[\lVert \theta - \hat \theta \rVert^2\right]\)</span>.</p>
 <p>Because the distributions that generate each <span class="math notranslate nohighlight">\(x_i\)</span> are independent, it seems like all we can do is use each <span class="math notranslate nohighlight">\(x_i\)</span> as our estimate of <span class="math notranslate nohighlight">\(\theta_i\)</span> by choosing <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{x}\)</span>. Also, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is the Maximum Likelihood estimate of <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
 <p>The James-Stein estimate instead chooses <span class="math notranslate nohighlight">\(f(\textbf{x}) = (1 - \frac{p - 2}{\rVert \textbf{x} \lVert^2}) \textbf{x}\)</span>.<a class="footnote-reference brackets" href="#id5" id="id1">1</a> The surprising result is that this estimate does better (according to our evaluation criteria) than the Maximum Likelihood estimate for any <span class="math notranslate nohighlight">\(\theta\)</span> when <span class="math notranslate nohighlight">\(p \ge 2\)</span>.</p>
