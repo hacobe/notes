@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZeRO-Offload &#8212; Technical notes</title>
+    <title>Deep learning &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Mixture of Experts" href="mixture_of_experts.html" />
-    <link rel="prev" title="Pipeline parallelism" href="pipeline_parallelism.html" />
+    <link rel="next" title="Gradient descent" href="gradient_descent.html" />
+    <link rel="prev" title="Kernel trick" href="kernel_trick.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -261,7 +261,7 @@
   </ul>
  </li>
  <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="deep_learning.html">
+  <a class="current reference internal" href="#">
    Deep learning
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
@@ -269,7 +269,7 @@
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -305,8 +305,8 @@
      Pipeline parallelism
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
      ZeRO-Offload
     </a>
    </li>
@@ -395,7 +395,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/zero_offload.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/deep_learning.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -415,7 +415,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fzero_offload.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdeep_learning.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -436,19 +436,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sources">
-   Sources
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -457,32 +444,9 @@
         
               <div>
                 
-  <div class="section" id="zero-offload">
-<h1>ZeRO-Offload<a class="headerlink" href="#zero-offload" title="Permalink to this headline">¶</a></h1>
-<p>ZeRO-Offload is a strategy for training large language models on a single GPU (up to around 13 billion parameters on a single NVIDIA V100). It can get near linear speedups with multiple GPUs (up to 128 GPUs) and with some additional model parallelism can train larger models as well (up to 70 billion parameters on 16 V100s).</p>
-<p>I first describe how it works on a single GPU (see “4.1 Single GPU Schedule” and Figure 5 in Ren et al 2021)</p>
-<p>The main problem we have training a large model on a single GPU is that we run out of memory.<a class="footnote-reference brackets" href="#id2" id="id1">1</a> For each parameter in our model, we need to store its weight and its gradient. If we’re training with ADAM, we also need to store a momentum scalar and variance scalar for each parameter. If we use float32 precision, then we need 4 * 4 bytes = 16 bytes for each parameter. For a 10 billion parameter model, we need 160GB of memory, which far exceeds the 80GB available on e.g. a NVIDIA A100 GPU.</p>
-<p>We have enough memory for a 10 billion parameter model if we train on CPU, but CPU is a lot slower than GPU. The idea of ZeRO-Offload is to store the weights, momentums and variances on the CPU and a copy of the weights on the CPU and then each training step to:</p>
-<ul class="simple">
-<li><p>Execute the forward and backward pass on the GPU to get the gradients (the most expensive part of the computation)</p></li>
-<li><p>Copy those gradients to the CPU and delete them from the GPU to free up memory</p></li>
-<li><p>Perform the ADAM update on the CPU</p></li>
-<li><p>Replace the old weights on the GPU with the new ones from the CPU</p></li>
-</ul>
-<p>Before deleting the gradients, we need 2 * 4 bytes = 8 bytes for each parameter on the GPU. A 10 billion parameter model is right at the memory capacity for a single GPU. We can use mixed precision training and instead use float16 for the weights and gradients on the GPU, which cuts the memory in half.</p>
-<p>See the “ZeRO-Offload colab” for a simple implementation in JAX. This implementation does include the additional optimizations the authors include for speeding up CPU execution time: “First, we implement a fast CPU Adam optimizer using high performance computing techniques offering significant speedup over state-of-art Pytorch implementation. Second, we develop a one-step delayed parameter update schedule that overlaps the CPU parameter update computation with the forward and backward computation on the GPU, hiding the CPU execution time when enabled.”</p>
-<div class="section" id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://colab.research.google.com/drive/178-XgMkUShVn0MYoCde-IyPl1S3MDqqV#scrollTo=ZOMhIyPi4zDy">ZeRO-Offload colab</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/pdf/2101.06840.pdf">Ren et al 2021</a></p></li>
-</ul>
-<hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>“We consider the memory consumption due to model states for large transformer models such as Megatron-LM (8 billion) [28], T5 (11 billion) [20], and Turing-NLG [25] (17.2 billion). They are trained with float-16 mixed precision training [16] and Adam optimizer [13]. Mixed precision training often keeps two copies of the parameters, one in float-16 (fp16) and the other in float-32 (fp32). The gradients are stored in fp16. In addition to the parameters and gradients, the Adam optimizer keeps track of the momentum and variance of the gradients. These optimizer states are stored in fp32. Therefore, training a model in mixed precision with the Adam optimizer requires at least 2 bytes of memory for each fp16 parameter and gradient, and 4 byte of memory for each fp32 parameter, and the moementum and variance of each gradient. In total, a model with M parameters requires 16 x M bytes of memory. Therefore, the model states for Megatron-LM, T5 and Turing-NLG require 128 GB, 176 GB and 284 GB, respectively, which are clearly beyond the memory capacity of even the current flagship NVIDIA A100 GPU with 80 GB of memory.”</p>
-</dd>
-</dl>
+  <div class="section" id="deep-learning">
+<h1>Deep learning<a class="headerlink" href="#deep-learning" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
 </div>
 </div>
 
@@ -516,19 +480,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="pipeline_parallelism.html" title="previous page">
+        <a class="left-prev" href="kernel_trick.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Pipeline parallelism</p>
+                <p class="prevnext-title">Kernel trick</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="mixture_of_experts.html" title="next page">
+        <a class="right-next" href="gradient_descent.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Mixture of Experts</p>
+                <p class="prevnext-title">Gradient descent</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

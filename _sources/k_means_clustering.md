@@ -32,7 +32,7 @@ We often want to run it 100s of times with different initializations. The runnin
 
 ## Sources
 
-* K-Means Algorithm, Andrew Ng, Machine Learning
+* Unsupervised Learning, Machine Learning, Andrew Ng
 * https://en.wikipedia.org/wiki/K-means_clustering
 * https://stackoverflow.com/questions/18634149/what-is-the-time-complexity-of-k-means
 * https://en.wikipedia.org/wiki/Lloyd%27s_algorithm
