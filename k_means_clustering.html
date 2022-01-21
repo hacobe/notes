@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Merge sort &#8212; Technical notes</title>
+    <title>K-means clustering &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quicksort" href="Quicksort.html" />
-    <link rel="prev" title="Non-comparison sorting" href="Non-comparison%20sorting.html" />
+    <link rel="next" title="Gradient descent" href="gradient_descent.html" />
+    <link rel="prev" title="Bias-Variance Trade-off" href="bias_variance_tradeoff.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -156,16 +158,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="data_structures_and_algorithms.html">
    Data structures and algorithms
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
   <label for="toctree-checkbox-2">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="Basic%20comparison%20sorting.html">
      Basic comparison sorting
@@ -176,8 +178,8 @@
      Non-comparison sorting
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
      Merge sort
     </a>
    </li>
@@ -213,16 +215,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_machine_learning.html">
      What is machine learning?
@@ -233,8 +235,8 @@
      Bias-Variance Trade-off
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="k_means_clustering.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      K-means clustering
     </a>
    </li>
@@ -363,9 +365,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/Merge sort.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/k_means_clustering.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -383,7 +385,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FMerge sort.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fk_means_clustering.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -399,23 +401,6 @@
 
             <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/Merge sort.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
         </div>
 
         <!-- Table of contents -->
@@ -427,18 +412,18 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuition">
-   Intuition
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#merge">
-   Merge
+  <a class="reference internal nav-link" href="#questions">
+   Questions
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recursion">
-   Recursion
+  <a class="reference internal nav-link" href="#sources">
+   Sources
   </a>
  </li>
 </ul>
@@ -452,79 +437,47 @@
         
               <div>
                 
-  <div class="section" id="merge-sort">
-<h1>Merge sort<a class="headerlink" href="#merge-sort" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="intuition">
-<h2>Intuition<a class="headerlink" href="#intuition" title="Permalink to this headline">¶</a></h2>
-<p>If you wonder how you might use recursion to sort an array, merge sort is a natural answer. In other words, if you wonder how you might enlist your friends to help you sort in a divide and conquer fashion, merge sort is a natural answer.</p>
+  <div class="section" id="k-means-clustering">
+<h1>K-means clustering<a class="headerlink" href="#k-means-clustering" title="Permalink to this headline">¶</a></h1>
+<p>K-means is an unsupervised clustering algorithm.</p>
+<p>It takes as input a number of clusters <span class="math notranslate nohighlight">\(k\)</span> and a design matrix <span class="math notranslate nohighlight">\(\textbf{X} \in \mathbb{R}^{n, p}\)</span> and returns a vector <span class="math notranslate nohighlight">\(\textbf{c} \in \{1, 2, \dots, k\}^n\)</span> where <span class="math notranslate nohighlight">\(\textbf{c}^{(i)} \in \{1, 2, \dots, k\}\)</span> gives the cluster assignment for each <span class="math notranslate nohighlight">\(\textbf{x}^{(i)} \in \mathbb{R}^p\)</span> in the input.</p>
+<p>It does this by finding <span class="math notranslate nohighlight">\(k\)</span> means (hence the name) that minimize the sum of the squared distances between each data point and the mean closest to it. In particular, it has this optimization objective:</p>
+<p><span class="math notranslate nohighlight">\(\min_{\mu_1, \dots, \mu_k, \textbf{c}^{(1)}, \dots, \textbf{c}^{(n)}} \frac{1}{n} \sum_{i=1}^n \lVert \textbf{x}^{(i)} - \mu_{\textbf{c}^{(i)}} \rVert^2\)</span></p>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>Lloyd’s algorithm for k-means clustering proceeds as follows:</p>
+<ol class="simple">
+<li><p>Init to k random points</p></li>
+<li><p>Cluster assignment based on closest means</p></li>
+<li><p>Estimate mean based on new clusters</p></li>
+<li><p>Break when means don’t change or go back to 2</p></li>
+</ol>
+<p>We often want to run it 100s of times with different initializations. The running time for one initialization is <span class="math notranslate nohighlight">\(O(n k p t)\)</span> where <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(k\)</span>, and <span class="math notranslate nohighlight">\(p\)</span> are defined above and <span class="math notranslate nohighlight">\(t\)</span> is the number of iterations needed for converence.</p>
 </div>
-<div class="section" id="merge">
-<h2>Merge<a class="headerlink" href="#merge" title="Permalink to this headline">¶</a></h2>
-<p>Suppose you want to sort a deck of cards, but you’re lazy, so you split the deck in half and give one half to one friend and another half to the another friend and get each friend to sort their half and then give the cards back to you.</p>
-<p>You can then merge the two sorted halves as follows. Put the two halves next to each other.</p>
-<p>Turn over the top card for each half and take whichever card is lower and start a new pile that will be for the sorted deck.</p>
-<p>Do that again with the next top card on the half that had the lower card and the same top card on the half that had the higher card and take the card that is lower between those two cards and add it to the pile that you created.</p>
-<p>Keep doing that until one of the halves runs out.</p>
-<p>Add the cards from the remaining half to the pile for the sorted deck.</p>
+<div class="section" id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>How do you pick the number of clusters?</strong></p>
+<ul>
+<li><p>Visualize the data and pick it manually</p></li>
+<li><p>Use domain knowledge</p></li>
+<li><p>Try several different clusters and evaluate the performance against a downstream metric</p></li>
+<li><p>Try several different clusters and evaluate the cost (though often ambiguous)</p></li>
+</ul>
+</li>
+<li><p><strong>When does K-means work well and not so well?</strong> “A key limitation of k-means is its cluster model. The concept is based on spherical clusters that are separable so that the mean converges towards the cluster center. The clusters are expected to be of similar size, so that the assignment to the nearest cluster center is the correct assignment.”</p></li>
+<li><p><strong>Hows does K-means relate to EM?</strong> Assigning the data points to clusters can be thought of as the E step and computing the centroids that minimize the squared distances can be thought of the M step, but the clusters are hard assignments (no probabilities).</p></li>
+<li><p><strong>How does K-means relate to GMMs?</strong> It’s a special case of Gaussian mixture models taking all covariances as diagonal, equal and small.</p></li>
+</ul>
 </div>
-<div class="section" id="recursion">
-<h2>Recursion<a class="headerlink" href="#recursion" title="Permalink to this headline">¶</a></h2>
-<p>We’ve described how you can get one sorted deck if given two sorted halves.</p>
-<p>But this same logic applies to your two friends. Each of your friends could be lazy and find 2 other friends and split their deck in half and get their friends to sort half of their halves.</p>
-<p>And the same logic applies to the friends of friends. Here’s a picture of that process (F = Friend, FoF = friend of friend):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>		          <span class="n">You</span>
-		   <span class="o">/</span>                 \  
-    	  <span class="n">F1</span>             	 <span class="n">F2</span>
-      <span class="o">/</span>       \		    <span class="o">/</span>        \
-    <span class="n">FoF1</span><span class="mf">.1</span>   <span class="n">FoF1</span><span class="mf">.1</span>   <span class="n">FoF2</span><span class="mf">.1</span>    <span class="n">FoF1</span><span class="mf">.1</span>
-</pre></div>
-</div>
-<p>This tree keeps growing until your friend of friend of friends… each only have 2 cards and they hand their friend of friend of friend of friends… 1 card each and that friend doesn’t even have to do anything, because their half is already sorted (it’s only 1 card). So the friend of friend of friends… immediately take back their 2 sorted halves of 1 card and follow the merging procedure to get a sorted deck of 2 cards and then the friend of friends take back their 2 sorted halves of 2 cards and follow the merging procedure to get a sorted deck of 4 cards and so on until your 2 friends hand you back their halves sorted.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span>
-
-    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
-
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
-
-    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c1"># Remember this is testing the bounds of left and right not arr</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
-            <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-        
-<span class="k">def</span> <span class="nf">test_merge_sort</span><span class="p">():</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
-    
-<span class="n">test_merge_sort</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>K-Means Algorithm, Andrew Ng, Machine Learning</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/K-means_clustering">https://en.wikipedia.org/wiki/K-means_clustering</a></p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/18634149/what-is-the-time-complexity-of-k-means">https://stackoverflow.com/questions/18634149/what-is-the-time-complexity-of-k-means</a></p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Lloyd%27s_algorithm">https://en.wikipedia.org/wiki/Lloyd’s_algorithm</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -558,19 +511,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="Non-comparison%20sorting.html" title="previous page">
+        <a class="left-prev" href="bias_variance_tradeoff.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Non-comparison sorting</p>
+                <p class="prevnext-title">Bias-Variance Trade-off</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="Quicksort.html" title="next page">
+        <a class="right-next" href="gradient_descent.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Quicksort</p>
+                <p class="prevnext-title">Gradient descent</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
