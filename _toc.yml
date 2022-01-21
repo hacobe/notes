@@ -29,13 +29,17 @@ chapters:
     sections:
       - file: what_is_machine_learning
       - file: bias_variance_tradeoff
+      - file: naive_bayes
       - file: k_means_clustering
+      - file: pca
+      - file: support_vector_machines
+      - file: kernel_trick
+  - file: deep_learning
+    sections:
       - file: gradient_descent
       - file: automatic_differentiation
       - file: attention
       - file: graph_neural_networks
-      - file: james_stein_estimation
-      - file: entropy
       - file: data_parallelism
       - file: t5_style_model_parallelism
       - file: pipeline_parallelism
@@ -46,3 +50,5 @@ chapters:
       - file: broadcasting
       - file: how_to_solve_it
       - file: modular_exponentiation
+      - file: james_stein_estimation
+      - file: entropy
