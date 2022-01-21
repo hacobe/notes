@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search &#8212; Technical notes</title>
+    <title>Flip-flops &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -33,7 +33,6 @@
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
@@ -43,16 +42,22 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="_static/searchtools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" />
-  <script src="searchindex.js" defer></script>
-  
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Assembly" href="assembly.html" />
+    <link rel="prev" title="Transistors" href="transistors.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
-
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
@@ -73,7 +78,7 @@
       <h1 class="site-logo" id="site-title">Technical notes</h1>
       
     </a>
-</div><form class="bd-search d-flex align-items-center" action="#" method="get">
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -85,17 +90,17 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1 has-children">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_a_computer.html">
      What is a computer?
@@ -121,8 +126,8 @@
      Transistors
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="flip_flops.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Flip-flops
     </a>
    </li>
@@ -394,6 +399,23 @@
             </button>
             
             
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/flip_flops.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
             <!-- Source interaction buttons -->
 
 <div class="dropdown-buttons-trigger">
@@ -405,7 +427,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fsearch.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fflip_flops.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -426,6 +448,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -434,27 +469,69 @@
         
               <div>
                 
-  <h1 id="search-documentation">Search</h1>
-  <div id="fallback" class="admonition warning">
-  <script>$('#fallback').hide();</script>
-  <p>
-    Please activate JavaScript to enable the search
-    functionality.
-  </p>
-  </div>
-  <p>
-    Searching for multiple words only shows matches that contain
-    all words.
-  </p>
-  <form action="" method="get">
-    <input type="text" name="q" aria-labelledby="search-documentation" value="" />
-    <input type="submit" value="search" />
-    <span id="search-progress" style="padding-left: 10px"></span>
-  </form>
-  
-  <div id="search-results">
-  
-  </div>
+  <div class="section" id="flip-flops">
+<h1>Flip-flops<a class="headerlink" href="#flip-flops" title="Permalink to this headline">¶</a></h1>
+<p>A flip-flop, or a latch, is a circuit that can store a bit of information. An n-bit register is comprised of n flip-flops.</p>
+<p><img alt="flip_flops" src="_images/flip_flops.png" /></p>
+<p>Each individual flip-flop on the right looks like the register on the left. It has a data input D, a data output Q and a clock input CLK.</p>
+<p>The flip-flop is an example of a sequential logic circuit, which is defined by the output depending “not only on the present value of its input signals but on the sequence of past inputs, the input history as well” (<a class="reference external" href="https://en.wikipedia.org/wiki/Sequential_logic">https://en.wikipedia.org/wiki/Sequential_logic</a>).</p>
+<p>Ben Eater does a great job of explaining how a D-type flip-flop works (see the “Sources” section). My exposition is based heavily on his.</p>
+<p>Start with an OR gate, but add a wire that feeds the output of the gate back into one of the two inputs of the gate.</p>
+<p><img alt="or_gate_with_feedback" src="_images/or_gate_with_feedback.png" /></p>
+<p>Call the value of the two inputs <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(b_t\)</span> at time <span class="math notranslate nohighlight">\(t\)</span> and call the output <span class="math notranslate nohighlight">\(c_t\)</span>. With <span class="math notranslate nohighlight">\(a_t\)</span> defined by an external user of the circuit, the following equations describe the logic of the circuit:</p>
+<p><span class="math notranslate nohighlight">\(b_0 = 0\)</span></p>
+<p><span class="math notranslate nohighlight">\(b_t = c_{t-1}\)</span> for <span class="math notranslate nohighlight">\(t \gt 0\)</span></p>
+<p><span class="math notranslate nohighlight">\(c_t = a_t + b_t\)</span> (the + denotes the OR operation)</p>
+<p>Suppose we have <span class="math notranslate nohighlight">\(a_0 = 0, a_1 = 0, a_2 = 0, a_3 = 1, a_4 = 0, a_5 = 0, a_6 = 1, \dots\)</span>. <span class="math notranslate nohighlight">\(c_t = 0\)</span> for <span class="math notranslate nohighlight">\(t \le 2\)</span> and <span class="math notranslate nohighlight">\(c_t = 1\)</span> for <span class="math notranslate nohighlight">\(t \ge 3\)</span>. In others, the output of the circuit is 0 until the user controlled input is set to 1 and then the output of the circuit is 1 for all time steps after that. The circuit “latches” on to that first 1 and never lets go.</p>
+<p>It’d be nice if we could change the output of the circuit after the first 1. The SR latch circuit accomplishes that. Here’s the circuit:</p>
+<p><img alt="sr_latch" src="_images/sr_latch.png" /></p>
+<p>It has a Set input (<span class="math notranslate nohighlight">\(S\)</span>), a Reset input (<span class="math notranslate nohighlight">\(R\)</span>), an output (<span class="math notranslate nohighlight">\(Q\)</span>) and the complement of that output (<span class="math notranslate nohighlight">\(\bar{Q}\)</span>). If <span class="math notranslate nohighlight">\(S\)</span> is set to 1, then the output <span class="math notranslate nohighlight">\(Q\)</span> holds 1 no matter the value of <span class="math notranslate nohighlight">\(S\)</span> afterwards as long as <span class="math notranslate nohighlight">\(R\)</span> is not set. If <span class="math notranslate nohighlight">\(R\)</span> is set to 1, then the output <span class="math notranslate nohighlight">\(Q\)</span> holds 0 no matter the value of <span class="math notranslate nohighlight">\(R\)</span> afterwards as long as <span class="math notranslate nohighlight">\(S\)</span> is not set. Setting both <span class="math notranslate nohighlight">\(S\)</span> and <span class="math notranslate nohighlight">\(R\)</span> at the same time is considered invalid input.</p>
+<p>The D latch is like an SR latch, but instead of having a Set input and a Reset input, it has one input (<span class="math notranslate nohighlight">\(D\)</span>) where a 0 for that input gives the Set operation and a 1 for that input gives the Reset operation. It also has an Enable input (<span class="math notranslate nohighlight">\(EN\)</span>). The output only changes when the Enable input is set.</p>
+<p><img alt="d_latch" src="_images/d_latch.png" /></p>
+<p>The D flip-flop adds a small circuit before the Enable input that takes as input a Clock and outputs a pulse on the rising edge of the clock’s waveform.</p>
+<p><img alt="d_flip_flop" src="_images/d_flip_flop.png" /></p>
+<p>Ben draws the waveforms of the Clock, Enable, D and Q for the D flip-flop in this frame (<span class="math notranslate nohighlight">\(\bar{Q}\)</span> is ignored):</p>
+<p><img alt="d_flip_flop_waveforms" src="_images/d_flip_flop_waveforms.png" /></p>
+<p>The flip-flop stores the input value until the next clock tick. It ignore changes in between the clock ticks.</p>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Ben Eater</p>
+<ul>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=KM0DdEaY5sY">SR latch</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=peCh_859q7Q">D latch</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=YW-_GkUguMM">D flip</a></p></li>
+</ul>
+</li>
+<li><p>UC Berkeley, CS61C, Spring 2015</p>
+<ul>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=zpGzXfWRk70&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=9">Lecture 9</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=zpGzXfWRk70&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=10">Lecture 10</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -465,6 +542,24 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="transistors.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Transistors</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="assembly.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Assembly</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         
