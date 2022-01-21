@@ -1,4 +1,4 @@
-# Bias-Variance Trade-off
+# Bias-Variance trade-off
 
 The bias-variance trade-off is the trade-off between overfitting and underfitting.
 
