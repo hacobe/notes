@@ -32,6 +32,7 @@ chapters:
       - file: what_is_machine_learning
       - file: bias_variance_tradeoff
       - file: naive_bayes
+      - file: linear_discriminant_analysis
       - file: k_means_clustering
       - file: pca
       - file: support_vector_machines
