@@ -32,3 +32,8 @@ Then `s` only gets updated at the clock tick.
 The combinational logic separated by registers is the basic model for a synchronous system:
 
 ![synchronous_system](/img/synchronous_system.png)
+
+## Sources
+
+* UC Berkeley, CS61C, Spring 2015
+	* [Lecture 10](https://www.youtube.com/watch?v=GCWcJ-Ng9EA&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=10)

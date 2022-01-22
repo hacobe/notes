@@ -52,4 +52,4 @@ The flip-flop stores the input value until the next clock tick. It ignore change
 	* [D flip](https://www.youtube.com/watch?v=YW-_GkUguMM)
 * UC Berkeley, CS61C, Spring 2015
 	* [Lecture 9](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=9)
-	* [Lecture 10](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=10)
+	* [Lecture 10](https://www.youtube.com/watch?v=GCWcJ-Ng9EA&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=10)
