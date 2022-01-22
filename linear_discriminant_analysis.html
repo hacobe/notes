@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Graph neural networks &#8212; Technical notes</title>
+    <title>Linear discriminant analysis &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data parallelism" href="data_parallelism.html" />
-    <link rel="prev" title="Attention" href="attention.html" />
+    <link rel="next" title="K-means clustering" href="k_means_clustering.html" />
+    <link rel="prev" title="Naive bayes" href="naive_bayes.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -225,16 +225,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
   <label for="toctree-checkbox-3">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_machine_learning.html">
      What is machine learning?
@@ -250,8 +250,8 @@
      Naive bayes
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="linear_discriminant_analysis.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Linear discriminant analysis
     </a>
    </li>
@@ -277,16 +277,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="deep_learning.html">
    Deep learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="gradient_descent.html">
      Gradient descent
@@ -302,8 +302,8 @@
      Attention
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
      Graph neural networks
     </a>
    </li>
@@ -412,7 +412,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/graph_neural_networks.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/linear_discriminant_analysis.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -432,7 +432,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgraph_neural_networks.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flinear_discriminant_analysis.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -453,6 +453,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -461,18 +474,40 @@
         
               <div>
                 
-  <div class="section" id="graph-neural-networks">
-<h1>Graph neural networks<a class="headerlink" href="#graph-neural-networks" title="Permalink to this headline">¶</a></h1>
-<p>Suppose we’re interested in the <a class="reference external" href="https://ogb.stanford.edu/docs/graphprop/">ogbg-molhiv dataset</a>, which consists of roughly 40,000 molecules each with a binary label that indicates whether the molecule inhibits HIV virus replication. We’ll follow this jraph library <a class="reference external" href="https://github.com/deepmind/jraph/blob/master/jraph/ogb_examples/train.py">example</a> in predicting that label using a Graph Neural Network (GNN). In particular, we’ll focus on describing the forward pass of the model (see this <a class="reference external" href="https://colab.research.google.com/drive/1Ve_cr2GnrsNUsJ4FnCHkEewfDPVDR5E9?usp=sharing">colab</a>).</p>
-<p>We start by representing each molecule in the dataset as a graph where each vertex in the graph corresponds to an atom in the molecule and each edge corresponds to a bond between atoms. The dataset includes both vertex and edge features. For a single training example, the vertex feature matrix <span class="math notranslate nohighlight">\(\textbf{V}\)</span> has a row for each vertex in the graph (<span class="math notranslate nohighlight">\(N^v\)</span> vertices) and 9 columns (one for each vertex feature). The edge feature matrix <span class="math notranslate nohighlight">\(\textbf{E}\)</span> has a row for each edge in the graph (<span class="math notranslate nohighlight">\(N^e\)</span> edges) and 3 columns (one for each edge feature). Let <span class="math notranslate nohighlight">\(\textbf{v}_k\)</span> denote the <span class="math notranslate nohighlight">\(k\)</span>th column of <span class="math notranslate nohighlight">\(\textbf{V}\)</span> and <span class="math notranslate nohighlight">\(\textbf{e}_k\)</span> denote the <span class="math notranslate nohighlight">\(k\)</span>th column of <span class="math notranslate nohighlight">\(\textbf{E}\)</span>. Each edge connects a sender vertex to a receiver vertex. A training example also includes vectors <span class="math notranslate nohighlight">\(\textbf{s}\)</span> and <span class="math notranslate nohighlight">\(\textbf{r}\)</span> where <span class="math notranslate nohighlight">\(s_k\)</span> denotes the index of the row in <span class="math notranslate nohighlight">\(\textbf{V}\)</span> associated with the sender vertex for the <span class="math notranslate nohighlight">\(k\)</span>th edge and <span class="math notranslate nohighlight">\(r_k\)</span> denotes the index of the row in <span class="math notranslate nohighlight">\(\textbf{V}\)</span> associated with the receiver vertex for the <span class="math notranslate nohighlight">\(k\)</span>th edge. An important property of this model is that it’s permutation invariant, i.e., it will give the same output for any ordering one chooses for the vertices and the edges to construct the input data.</p>
-<p>The model proceeds in these steps (with notation inspired by Algorithm 1 in <a class="reference external" href="https://arxiv.org/pdf/1806.01261.pdf">Battaglia et al 2018</a>):</p>
-<ol class="simple">
-<li><p><strong>Embed the features:</strong> The first step is a linear layer to embed <span class="math notranslate nohighlight">\(\textbf{E}\)</span> and a linear layer to embed <span class="math notranslate nohighlight">\(\textbf{V}\)</span> in a space of dimension <span class="math notranslate nohighlight">\(d\)</span>. We use <span class="math notranslate nohighlight">\(\textbf{E}\)</span> and <span class="math notranslate nohighlight">\(\textbf{V}\)</span> to refer to the embedded matrices from here on out.</p></li>
-<li><p><strong>Update the edge features:</strong> The next step is to compute an “updated” edge matrix. We form the matrices <span class="math notranslate nohighlight">\(\textbf{S}^{v}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{v} \in \mathbb{R}^{N^e \times d}\)</span> so that <span class="math notranslate nohighlight">\(\textbf{S}^{v}_{k, :} = \textbf{v}_{s_k}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{v}_{k, :} = \textbf{v}_{r_k}\)</span>. The edge update function <span class="math notranslate nohighlight">\(\phi^{e}\)</span> then takes <span class="math notranslate nohighlight">\(\textbf{E}\)</span>, <span class="math notranslate nohighlight">\(\textbf{S}^{v}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{v}\)</span> as input, concatenates them on the last dimension, and feeds the resulting matrix of shape <span class="math notranslate nohighlight">\([N^e, 3 \dot d]\)</span> through a neural network to get the updated edge matrix <span class="math notranslate nohighlight">\(\textbf{E}^{\prime}\)</span> of shape <span class="math notranslate nohighlight">\([N^e, d^{\prime}]\)</span>.</p></li>
-<li><p><strong>Update the vertex features:</strong> In a similar vein, we also compute an updated vertex matrix. We form the matrices <span class="math notranslate nohighlight">\(\textbf{S}^{e}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{e} \in \mathbb{R}^{N^v \times d}\)</span> so that <span class="math notranslate nohighlight">\(\textbf{S}^{e}_{k, :} = \sum_{j : s_j = k} \textbf{e}_{j}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{e}_{k, :} = \sum_{j : r_j = k} \textbf{e}_{j}\)</span>. Instead of taking the sum, we could take the mean or use any other permutation invariant aggregation function <span class="math notranslate nohighlight">\(\rho^{e \to v}\)</span>. The vertex update function <span class="math notranslate nohighlight">\(\phi^{v}\)</span> then takes <span class="math notranslate nohighlight">\(\textbf{V}\)</span>, <span class="math notranslate nohighlight">\(\textbf{S}^{e}\)</span> and <span class="math notranslate nohighlight">\(\textbf{R}^{e}\)</span> as input, concatenates them on the last dimension and feeds the resulting matrix of shape <span class="math notranslate nohighlight">\([N^v, 3 \dot d]\)</span> through a neural network to get the updated vertex matrix <span class="math notranslate nohighlight">\(\textbf{V}^{\prime}\)</span> of shape <span class="math notranslate nohighlight">\([N^v, d^{\prime}]\)</span>.</p></li>
-<li><p><strong>Read out the aggregated vertex and edge features:</strong> We then aggregate the rows of <span class="math notranslate nohighlight">\(\textbf{V}^{\prime}\)</span> with the function <span class="math notranslate nohighlight">\(\rho^{v \to u}\)</span> to a get a vector <span class="math notranslate nohighlight">\(\textbf{v}^{u} \in \mathbb{R}^{d^{\prime}}\)</span> that summarizes the vertices of the graph and aggregate the rows of <span class="math notranslate nohighlight">\(\textbf{E}^{\prime}\)</span> with the function <span class="math notranslate nohighlight">\(\rho^{e \to u}\)</span> to get a vector <span class="math notranslate nohighlight">\(\textbf{e}^{u} \in \mathbb{R}^{d^{\prime}}\)</span> that summarizes the edges of the graph. The global update function <span class="math notranslate nohighlight">\(\phi^{u}\)</span> then takes <span class="math notranslate nohighlight">\(\textbf{v}^{u}\)</span> and <span class="math notranslate nohighlight">\(\textbf{e}^{u}\)</span> as input, concatenates them and uses the resulting vector as features in a logistic regression layer.</p></li>
-</ol>
-<p>We can operate on a batch of graphs by embedding each of the graphs into a larger graph that contains them and using the same model described above with care taken to aggregate vertex and edge features only within subgraphs (the jraph <a class="reference external" href="https://github.com/deepmind/jraph/blob/master/jraph/ogb_examples/train.py">implementation</a> achieves this by using jax.ops.segment_sum for the aggregation functions).</p>
+  <div class="section" id="linear-discriminant-analysis">
+<h1>Linear discriminant analysis<a class="headerlink" href="#linear-discriminant-analysis" title="Permalink to this headline">¶</a></h1>
+<p>Linear discriminant analysis (LDA) is a linear classification method. Logistic regression directly models <span class="math notranslate nohighlight">\(P(y \mid x)\)</span>. From Bayes’ Rule, we get <span class="math notranslate nohighlight">\(P(y \mid x) = \frac{P(x \mid y) P(y)}{P(x)}\)</span>. Instead of modeling <span class="math notranslate nohighlight">\(P(y \mid x)\)</span> directly, LDA models <span class="math notranslate nohighlight">\(P(x, y) = P(x \mid y)P(y)\)</span> (<span class="math notranslate nohighlight">\(P(x)\)</span> doesn’t depend on the class). In particular, it assumes that the conditional distribution of <span class="math notranslate nohighlight">\(x\)</span> given <span class="math notranslate nohighlight">\(y\)</span> is a multivariate Gaussian. With a training dataset, we can estimate the mean and the covariance of the Gaussian for <span class="math notranslate nohighlight">\(y = 1\)</span> and the mean and the covariance for <span class="math notranslate nohighlight">\(y = 0\)</span>. We set the densities equal to find the decision boundary that separates the classes. Different assumptions about the covariance matrices lead to different methods:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p><em>Covariance matrices</em></p></th>
+<th class="head"><p>Different across classes</p></th>
+<th class="head"><p>Same across classes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Full</strong></p></td>
+<td><p>QDA</p></td>
+<td><p>Diagonal QDA</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Diagonal</strong></p></td>
+<td><p>Naive Bayes</p></td>
+<td><p>Diagonal LDA</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Spherical</strong></p></td>
+<td><p>Spherical QDA</p></td>
+<td><p>Nearest centroid</p></td>
+</tr>
+</tbody>
+</table>
+<p>Note that LDA makes a distribution assumption about the features, while logistic regression makes no such assumption.</p>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=C0u_v7vEDBY">Lecture 6</a>, Introduction to Machine Learning, Dmitry Kobak, Winter Term 2020/21 at the University of Tübingen</p></li>
+<li><p><a class="reference external" href="https://www.quora.com/Does-logistic-regression-require-independent-variables-to-be-normal-distributed">https://www.quora.com/Does-logistic-regression-require-independent-variables-to-be-normal-distributed</a></p></li>
+<li><p><a class="reference external" href="https://online.stat.psu.edu/stat508/lesson/9/9.2/9.2.9">https://online.stat.psu.edu/stat508/lesson/9/9.2/9.2.9</a></p></li>
+</ul>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -505,19 +540,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="attention.html" title="previous page">
+        <a class="left-prev" href="naive_bayes.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Attention</p>
+                <p class="prevnext-title">Naive bayes</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="data_parallelism.html" title="next page">
+        <a class="right-next" href="k_means_clustering.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Data parallelism</p>
+                <p class="prevnext-title">K-means clustering</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
