@@ -9,6 +9,7 @@ chapters:
       - file: twos_complement
       - file: transistors
       - file: flip_flops
+      - file: synchronous_systems
       - file: assembly
       - file: c_memory_management
       - file: computer_chip
