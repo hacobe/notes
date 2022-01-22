@@ -22,7 +22,7 @@ $b_t = c_{t-1}$ for $t \gt 0$
 
 $c_t = a_t + b_t$ (the + denotes the OR operation)
 
-Suppose we have $a_0 = 0, a_1 = 0, a_2 = 0, a_3 = 1, a_4 = 0, a_5 = 0, a_6 = 1, \dots$. $c_t = 0$ for $t \le 2$ and $c_t = 1$ for $t \ge 3$. In others, the output of the circuit is 0 until the user controlled input is set to 1 and then the output of the circuit is 1 for all time steps after that. The circuit "latches" on to that first 1 and never lets go.
+Suppose we have $a_0 = 0, a_1 = 0, a_2 = 0, a_3 = 1, a_4 = 0, a_5 = 0, a_6 = 1, \dots$. $c_t = 0$ for $t \le 2$ and $c_t = 1$ for $t \ge 3$. In other words, the output of the circuit is 0 until the user controlled input is set to 1 and then the output of the circuit is 1 for all time steps after that. The circuit "latches" on to that first 1 and never lets go.
 
 It'd be nice if we could change the output of the circuit after the first 1. The SR latch circuit accomplishes that. Here's the circuit:
 
