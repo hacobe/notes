@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Concurrency &#8212; Technical notes</title>
+    <title>Introduction to operating systems &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -51,8 +51,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Multithreading" href="multithreading.html" />
-    <link rel="prev" title="Flynn’s taxonomy" href="flynns_taxonomy.html" />
+    <link rel="prev" title="Entropy" href="entropy.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -89,16 +88,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_a_computer.html">
      What is a computer?
@@ -164,8 +163,8 @@
      Flynn’s taxonomy
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
      Concurrency
     </a>
    </li>
@@ -342,16 +341,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
   <label for="toctree-checkbox-5">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="broadcasting.html">
      Broadcasting
@@ -377,8 +376,8 @@
      Entropy
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="introduction_to_operating_systems.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Introduction to operating systems
     </a>
    </li>
@@ -425,7 +424,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/concurrency.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/introduction_to_operating_systems.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -445,7 +444,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fconcurrency.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintroduction_to_operating_systems.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -472,6 +471,11 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process">
+   Process
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -487,14 +491,49 @@
         
               <div>
                 
-  <div class="section" id="concurrency">
-<h1>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h1>
-<p>A computer program is a sequence of instructions. We can execute 2 computer programs <strong>sequentially</strong> by first executing the instructions of one of the programs and then executing the instructions of the other program. Alternatively, we could execute the 2 computer programs <strong>concurrently</strong> by executing their instructions during overlapping time periods. For example, we could alternate executing instructions from each program so that the programs are executed over roughly the same time period. If we had 2 or more processing units capable of executing instructions, then we could also execute the 2 computer programs in <strong>parallel</strong> by executing the instructions of 1 program on 1 processing unit and the other program on another processing unit. If we execute the 2 programs in parallel, then the 2 programs would be executed during overlapping time periods, which makes parallel computing a special case of concurrent computing.</p>
+  <div class="section" id="introduction-to-operating-systems">
+<h1>Introduction to operating systems<a class="headerlink" href="#introduction-to-operating-systems" title="Permalink to this headline">¶</a></h1>
+<p>An operating system (OS) is “system software that manages computer hardware, software resources, and provides common services for computer programs.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Operating_system">https://en.wikipedia.org/wiki/Operating_system</a>)</p>
+<p>At a high-level, the main goal of an operating system is to make it easy to run software on a computer.</p>
+<p>There are a 3 different ways to view an operating system:</p>
+<ul class="simple">
+<li><p>An operating system is a virtual machine</p></li>
+<li><p>An operating system provides a standard library to applications</p></li>
+<li><p>An operating system is a resource manager</p></li>
+</ul>
+<p>There are 3 conceptual pieces fundamental to operating systems:</p>
+<ul class="simple">
+<li><p><strong>Virtualization</strong> is when the operating system “takes a physical resource (such as the processor, or memory, or a disk) and transforms it into a more general, powerful, and easy-to-use virtual form of itself”.</p></li>
+<li><p><strong>Concurrency</strong> refers to “host of problems that arise, and must be addressed, when working on many things at once (i.e., concurrently) in the same program”</p></li>
+<li><p><strong>Persistence</strong> “refers to the characteristic of state of a system that outlives (persists more than) the process that created it.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Persistence_(computer_science)">https://en.wikipedia.org/wiki/Persistence_(computer_science)</a>)</p></li>
+</ul>
+<p>The OS virtualizes the CPU and virtualizes memory. <strong>Virtualizing the CPU</strong> is “turning a single CPU (or a small set of them) into a seemingly infinite number of CPUs and thus allowing many programs to seemingly run at once”. <strong>Virtualizing memory</strong> gives “Each process accesses its own private virtual address space (sometimes just called its address space), which the OS somehow maps onto the physical memory of the machine.”</p>
+<p>DRAM stores data in a volatile manner, so it can be easily lost if power goes away or the system crashes. A hard drive or a solid-state drive can store data persistently. The <strong>file system</strong> is the software in the operating system that manages the disk. A program can make <strong>system calls</strong>, which get routed to the file system. The file system issues I/O requests to the underlying storage device and particularly to a <strong>device driver</strong>, which is “some code in the operating system that knows how to deal with a specific device.” The file system implements a protocol (e.g., journaling or copy-on-write) that carefully orders “writes to disk to ensure that if a failure occurs during the write sequence, the system can recover to reasonable state afterwards”.</p>
+<p>Here are some of the basic design goals when building an operating system:</p>
+<ul class="simple">
+<li><p>Convenience and ease-of-use (e.g., by developing good abstractions)</p></li>
+<li><p>High performance, i.e., minimize the overhead of the OS</p></li>
+<li><p>Protection between the OS and applications (e.g., by isolating processes from one another)</p></li>
+<li><p>Reliability</p></li>
+<li><p>Ohter goals, e.g., energy efficiency, security, mobility (i.e., able to run on small devices)</p></li>
+</ul>
+<p>Here are some of the different epochs in the history of operating systems:</p>
+<ul class="simple">
+<li><p><strong>Just a library:</strong> Early operating systems were basically just a library of common function calls. The mainframe systems that ran programs had a human operator and the human operator played the role of the operating system by, for example, scheduling jobs to run that were submitted to the mainframe.</p></li>
+<li><p><strong>Differentiating OS from other code:</strong> One realization was that “code run on behalf of the OS was special; it had control of devices and thus should be treated differently than normal application code.” This led to the idea of adding “a special pair of hardware instructions and hardware state to make the transition into the OS a more formal, controlled process”. What distinguishes a system call and a procedure call is that a procedure call runs in <strong>user mode</strong>, while a system call runs in <strong>kernel mode</strong> and is given “full access to the hardware of the system and thus can do things like initiate an I/O request or make more memory available to a program”.</p></li>
+<li><p><strong>Multiprogramming:</strong> It became common for the OS to “load a number of jobs into memory and switch rapidly between them, thus improving CPU utilization.” In this era, <strong>memory protection</strong> became important, because “we wouldn’t want one program to be able to access the memory of another program.”</p></li>
+<li><p><strong>Modern era:</strong> The first operating systems for the PC actually were worse than some of the operating systems developed earlier, but eventually the earlier lessons were incorporated: “Even today’s cell phones run operating systems (such as Linux) that are much more like what a minicomputer ran in the 1970s than what a PC ran in the 1980s (thank goodness); it is good to see that the good ideas developed in the heyday of OS development have found their way into the modern world.”</p></li>
+</ul>
+<div class="section" id="process">
+<h2>Process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>[60 min] Read and extract questions from OSTEP and write the summary</p></li>
+</ul>
+</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Concurrent_computing">https://en.wikipedia.org/wiki/Concurrent_computing</a></p></li>
-<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Process_(computing)">https://en.wikipedia.org/wiki/Process_(computing)</a></p></li>
+<li><p>Operating Systems: Three Easy Pieces, <a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf">https://pages.cs.wisc.edu/~remzi/OSTEP/intro.pdf</a> accessed on 1/22/2022, Pgs. 1-19</p></li>
 </ul>
 </div>
 </div>
@@ -529,23 +568,14 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="flynns_taxonomy.html" title="previous page">
+        <a class="left-prev" href="entropy.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Flynn’s taxonomy</p>
+                <p class="prevnext-title">Entropy</p>
             </div>
         </a>
     </div>
-     <div id="next">
-        <a class="right-next" href="multithreading.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Multithreading</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
 
 </div>
         
