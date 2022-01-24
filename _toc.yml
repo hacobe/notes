@@ -7,6 +7,7 @@ chapters:
       - file: binary_addition
       - file: overflow
       - file: twos_complement
+      - file: a_tour_of_computer_systems
       - file: transistors
       - file: flip_flops
       - file: synchronous_systems
