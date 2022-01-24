@@ -1,3 +1,5 @@
 .DS_Store
 _drafts/
 _build/
+.ipynb_checkpoints/
+scratch.ipynb
