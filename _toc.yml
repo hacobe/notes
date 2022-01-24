@@ -53,6 +53,25 @@ chapters:
       - file: pipeline_parallelism
       - file: zero_offload
       - file: mixture_of_experts
+  - file: reinforcement_learning
+    sections:
+      - file: problems_with_imitation_learning
+      - file: reinforcement_learning_framework
+      - file: reinforcement_learning_glossary
+      - file: imitation_learning
+      - file: reinforcement_learning_objective
+      - file: anatomy_of_rl_algorithm
+      - file: policy_gradients_implementation
+      - file: policy_gradients_in_practice
+      - file: policy_gradients_vs_imitation_learning
+      - file: policy_gradients
+      - file: actor_critic_methods
+      - file: actor_critic_algorithms
+      - file: advantage_from_value
+      - file: value_function_training
+      - file: actor_critic_in_practice
+      - file: reinforcement_learning_typology
+      - file: actor_critic_implementation
   - file: miscellaneous
     sections:
       - file: broadcasting
