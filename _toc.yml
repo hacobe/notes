@@ -16,8 +16,11 @@ chapters:
       - file: computer_chip
       - file: floating_point
       - file: flynns_taxonomy
-      - file: concurrency
-      - file: multithreading
+  - file: operating_systems
+    sections:
+        - file: introduction_to_operating_systems
+        - file: concurrency
+        - file: multithreading
   - file: data_structures_and_algorithms
     sections:
       - file: Basic comparison sorting
@@ -57,4 +60,3 @@ chapters:
       - file: modular_exponentiation
       - file: james_stein_estimation
       - file: entropy
-      - file: introduction_to_operating_systems
