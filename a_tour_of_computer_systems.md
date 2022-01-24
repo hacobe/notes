@@ -135,7 +135,7 @@ The organization of a multicore processors looks like:
 
 * [80 minutes] Read and extract flash cards
 * [85 minutes] Summarize based on flash cards
-* [15 minutes] Review write-up
+* [20 minutes] Review write-up
 
 ## Sources
 
