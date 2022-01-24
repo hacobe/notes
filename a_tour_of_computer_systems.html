@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Floating point &#8212; Technical notes</title>
+    <title>A Tour of Computer Systems &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,8 +42,6 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -53,8 +51,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Flynn’s taxonomy" href="flynns_taxonomy.html" />
-    <link rel="prev" title="Computer chip" href="computer_chip.html" />
+    <link rel="next" title="Transistors" href="transistors.html" />
+    <link rel="prev" title="Two’s complement" href="twos_complement.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -121,8 +119,8 @@
      Two’s complement
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="a_tour_of_computer_systems.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      A Tour of Computer Systems
     </a>
    </li>
@@ -156,8 +154,8 @@
      Computer chip
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
      Floating point
     </a>
    </li>
@@ -422,7 +420,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/floating_point.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/a_tour_of_computer_systems.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -442,7 +440,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ffloating_point.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fa_tour_of_computer_systems.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -469,8 +467,43 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compilation">
+   Compilation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hardware">
+   Hardware
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#operating-system">
+   Operating system
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#concurrency">
+   Concurrency
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process">
+   Process
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tags">
+   Tags
   </a>
  </li>
 </ul>
@@ -484,21 +517,143 @@
         
               <div>
                 
-  <div class="section" id="floating-point">
-<h1>Floating point<a class="headerlink" href="#floating-point" title="Permalink to this headline">¶</a></h1>
-<p>The bits to represent a floating point number are broken up into:</p>
+  <div class="section" id="a-tour-of-computer-systems">
+<h1>A Tour of Computer Systems<a class="headerlink" href="#a-tour-of-computer-systems" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The first chapter in “Computer Systems: A Programmer’s Perspective” is called “A Tour of Computer Systems”. It starts by defining a <strong>computer system</strong> as “hardware and systems software that work together to run application programs.”</p>
+<p>The authors motivate the study of computer systems by describing the following <strong>practical applications</strong>:</p>
 <ul class="simple">
-<li><p>sign bit: 0 for positive and 1 for negative</p></li>
-<li><p>an 8 bit exponent: “Exponents can be positive or negative, but instead of reserving another sign bit, they’re encoded such that 10000000 represents 0, so 00000000 represents -128 and 11111111 represents 127.”</p></li>
-<li><p>remaining bits for the significand (also called mantissa). Represented like this: <span class="math notranslate nohighlight">\(01101 = 0 \cdot 2^{-1} + 1 \cdot 2^{-2} + 1 \cdot 2^{-3} + 0 \cdot 2^{-4} + 1 \cdot 2^{-5}\)</span></p></li>
+<li><p>optimize C code by exploiting the design of modern processors and memory systems</p></li>
+<li><p>avoid buffer overflow vulnerabilities <a class="footnote-reference brackets" href="#id2" id="id1">1</a> from understanding how a compiler implements procedure calls</p></li>
+<li><p>debug linking errors</p></li>
+<li><p>write concurrent programs</p></li>
 </ul>
-<p>The floating point number is called as follows:</p>
-<p>sign bit * significand * 2^{exponent}.</p>
+</div>
+<div class="section" id="compilation">
+<h2>Compilation<a class="headerlink" href="#compilation" title="Permalink to this headline">¶</a></h2>
+<p>A computer program is written in a programming language like C and converted to an executable object file by a compilation system following these steps:</p>
+<p><img alt="csapp_Figure1.3_compilation_system" src="_images/csapp_Figure1.3_compilation_system.png" /></p>
+<p>The executable object file contains the binary code for the instructions for the hardware. In a computer, <strong>all information is represented as sequence of bits and how those bits are interpreted depends on the context</strong>.</p>
+<p>Here are some questions related to compiler optimization that are discussed in Chapters 3, 5, and 6 of the book:</p>
+<ul class="simple">
+<li><p>“Is a switch statement always more efficient than a sequence of if-else statements?”</p></li>
+<li><p>“How much overhead is incurred by a function call?”</p></li>
+<li><p>“Is a while loop more efficient than a for loop?”</p></li>
+<li><p>“Are pointer references more efficient than array indexes?”</p></li>
+<li><p>“Why does our loop run so much faster if we sum into a local variable instead of an argument that is passed by reference?”</p></li>
+<li><p>“How can a function run faster when we simply rearrange the parentheses in an arithmetic expression?”</p></li>
+</ul>
+<p>Here are some questions related to the linker that are discussed in Chapter 7 of the book:</p>
+<ul class="simple">
+<li><p>“What does it mean when the linker reports that it cannot resolve a reference?”</p></li>
+<li><p>“What is the difference between a static variable and a global variable?”</p></li>
+<li><p>“What happens if you define two global variables in different C files with the same name?”</p></li>
+<li><p>“What is the difference between a static library and a dynamic library?”</p></li>
+<li><p>“Why does it matter what order we list libraries on the command line?”</p></li>
+<li><p>“Why do some linker-related errors not appear until run time?”</p></li>
+</ul>
+</div>
+<div class="section" id="hardware">
+<h2>Hardware<a class="headerlink" href="#hardware" title="Permalink to this headline">¶</a></h2>
+<p>Here is the basic organization of the hardware in a computer:</p>
+<p><img alt="csapp_Figure1.4_hardware_organization" src="_images/csapp_Figure1.4_hardware_organization.png" /></p>
+<p>The <strong>bus</strong> is a “collection of electrical conduits that carry bytes of information back and forth between the components.”</p>
+<p>Each <strong>I/O device</strong> is connected to the I/O bus by either a controller or an adapter. <strong>Controllers</strong> are “chip sets in the device itself or on the system’s main printed circuit board.” An <strong>adapter</strong> is a “card that plugs into a slot on the motherboard whose purpose is transfer information back and forth between the I/O bus and an I/O device”</p>
+<p><strong>Main memory</strong> is a physically “a collection of dynamic random access memory (DRAM) chips” and logically organized as “a linear array of bytes, each with its own unique address (array index) starting at zero”. On an x86-64 machine running Linux, here are the sizes of different data types:</p>
+<ul class="simple">
+<li><p>short: 2 bytes</p></li>
+<li><p>int: 4 bytes</p></li>
+<li><p>float: 4 bytes</p></li>
+<li><p>long: 8 bytes</p></li>
+<li><p>double: 8 bytes</p></li>
+</ul>
+<p>The <strong>CPU</strong>, i.e., the processor, is “the engine that interprets (or executes) instructions stored in main memory.”</p>
+<p>The <strong>register file</strong> is a “small storage device that consists of a collection of word-size registers, each with its own unique name”. The <strong>program counter</strong> is a register that “points at (contains the address of) some machine-language instruction in main memory.”</p>
+<p>A <strong>word</strong> is “the natural unit of data used by a particular processor design. A word is a fixed-sized piece of data handled as a unit by the instruction set or the hardware of the processor” (<a class="reference external" href="https://en.wikipedia.org/wiki/Word_(computer_architecture)">https://en.wikipedia.org/wiki/Word_(computer_architecture)</a>). <strong>Word size</strong> is the number of bytes in a word and a “fundamental system parameter that varies across systems”. Most modern computers have “word sizes of either 4 bytes (32 bits) or 8 bytes (64 bits)”.</p>
+<p>The instruction execution model is that instructions execute in sequence and executing a single instruction involves performing these steps:</p>
+<ul class="simple">
+<li><p>“Reads the instruction from memory pointed at by the program counter (PC)”</p></li>
+<li><p>“Interprets the bits in the instruction”</p></li>
+<li><p>“Performs some simple operation dictated by the instruction”</p></li>
+<li><p>“Updates the PC to point to the next instruction”</p></li>
+</ul>
+<p>Here are some general categories of instructions that a CPU might carry out:</p>
+<ul class="simple">
+<li><p>“Load: Copy a byte or a word from main memory into a register, overwriting the previous contents of the register.”</p></li>
+<li><p>“Store: Copy a byte or a word from a register to a location in main memory, overwriting the previous contents of that location.”</p></li>
+<li><p>“Operate: Copy the contents of two registers to the ALU, perform an arithmetic operation on the two words, and store the result in a register, overwriting the previous contents of that register.”</p></li>
+<li><p>“Jump: Extract a word from the instruction itself and copy that word into the program counter (PC), overwriting the previous value of the PC.”</p></li>
+</ul>
+<p>Data gets copied around a lot and it’s faster to read from a register than from say the disk, so the memory is organized into a hierarchy as follows:</p>
+<p><img alt="csapp_Figure1.9_memory_hierarchy" src="_images/csapp_Figure1.9_memory_hierarchy.png" /></p>
+</div>
+<div class="section" id="operating-system">
+<h2>Operating system<a class="headerlink" href="#operating-system" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>operating system</strong> is a layer in between the hardware and the application. It has 2 primary purposes: “(1) to protect the hardware from misuse by runaway applications and (2) to provide applications with simple and uniform mechanisms for manipulating complicated and often wildly different low-level hardware devices”.</p>
+<p>The <strong>kernel</strong> is “the portion of the operating system code that is always resident in memory.” A <strong>system call</strong> is “the programmatic way in which a computer program requests a service from the kernel of the operating system on which it is executed” (<a class="reference external" href="https://en.wikipedia.org/wiki/System_call">https://en.wikipedia.org/wiki/System_call</a>).</p>
+<p>The operating system provides 3 fundamental abstractions:</p>
+<ol class="simple">
+<li><p>“Files are abstractions for I/O devices”</p></li>
+<li><p>“Virtual memory is an abstraction for both main memory and disks”</p></li>
+<li><p>“Processes are abstractions for the processor, main memory, and I/O devices.”</p></li>
+</ol>
+<p>A <strong>file</strong> is just a sequence of bytes. Every I/O device “including disks, keyboards, displays, and even networks, is modeled as a file”. The <strong>Unix I/O</strong> is a small set of system calls performs all input and output in the system by reading and writing files.</p>
+<p><strong>Virtual memory</strong> is an abstraction that provides each process with the illusion that it has exclusive use of the main memory.</p>
+<p>A <strong>virtual address space</strong> (VAS) is “the set of ranges of virtual addresses that an operating system makes available to a process” (<a class="reference external" href="https://en.wikipedia.org/wiki/Virtual_address_space">https://en.wikipedia.org/wiki/Virtual_address_space</a>). The virtual address space consists of:</p>
+<ul class="simple">
+<li><p>Program code and data</p></li>
+<li><p>Heap</p></li>
+<li><p>Shared libraries</p></li>
+<li><p>Stack</p></li>
+<li><p>Kernel virtual memory</p></li>
+</ul>
+<p>A <strong>virtual machine</strong> is “An abstraction of the entire computer, including the operating system, the processor, and the programs, to enable, for example, a computer to run programs designed for multiple operating system”.</p>
+<p>A <strong>process</strong> is “the operating system’s abstraction for a running program”.</p>
+<p>A <strong>thread</strong> is an execution unit of a process, which runs in the context of a process and shares the same code and global data: “Although we normally think of a process as having a single control flow, in modern systems a process can actually consist of multiple execution units, called threads, each running in the context of the process and sharing the same code and global data”.</p>
+<p><strong>Context switching</strong> is the interleaving of processes by the operating system to make it appear to execute multiple processes concurrently.</p>
+</div>
+<div class="section" id="concurrency">
+<h2>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h2>
+<p>Here are 3 examples at different levels where concurrency is used:</p>
+<ul class="simple">
+<li><p>Thread-level concurrency</p></li>
+<li><p>Instruction-level parallelism</p></li>
+<li><p>SIMD</p></li>
+</ul>
+<p>I first discuss <strong>thread-level concurrency</strong>. You can run multiple threads concurrently, but not in parallel using one core. You can run multiple threads in parallel using multiple cores or by using <strong>hyperthreading</strong>. In hyperthreading, “For each processor core that is physically present, the operating system addresses two virtual (logical) cores and shares the workload between them when possible. The main function of hyper-threading is to increase the number of independent instructions in the pipeline; it takes advantage of superscalar architecture, in which multiple instructions operate on separate data in parallel” (<a class="reference external" href="https://en.wikipedia.org/wiki/Hyper-threading">https://en.wikipedia.org/wiki/Hyper-threading</a>).</p>
+<p>The organization of a multicore processors looks like:</p>
+<p><img alt="csapp_Figure1.17_multicore_processor" src="_images/csapp_Figure1.17_multicore_processor.png" /></p>
+<p><strong>Instruction-level parallelism</strong> is a processor that executes multiple instructions at one time. One of the techniques is to use <strong>instruction pipelining</strong>: “In computer science, instruction pipelining is a technique for implementing instruction-level parallelism within a single processor. Pipelining attempts to keep every part of the processor busy with some instruction by dividing incoming instructions into a series of sequential steps (the eponymous “pipeline”) performed by different processor units with different parts of instructions processed in parallel” (<a class="reference external" href="https://en.wikipedia.org/wiki/Instruction_pipelining">https://en.wikipedia.org/wiki/Instruction_pipelining</a>).</p>
+<p><strong>SIMD</strong> is Single Instruction Multiple Data. It requires “special hardware that allows a single instruction to cause multiple operations to be performed in parallel”. And it is used “mostly to speed up applications that process image, sound, and video data”.</p>
+<p><strong>Amdahl’s law</strong> is the idea that “that when we speed up one part of a system, the effect on the overall system performance depends on both how significant this part was and how much it sped up”. In particular, this <a class="reference external" href="https://en.wikipedia.org/wiki/Amdahl%27s_law">page</a> gives the formula:</p>
+<p><img alt="amdahls_law" src="_images/amdahls_law.png" /></p>
+</div>
+<div class="section" id="process">
+<h2>Process<a class="headerlink" href="#process" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>[80 minutes] Read and extract flash cards</p></li>
+<li><p>[85 minutes] Summarize based on flash cards</p></li>
+<li><p>[20 minutes] Review write-up</p></li>
+</ul>
+</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://softwareengineering.stackexchange.com/questions/215065/can-anyone-explain-representation-of-float-in-memory">https://softwareengineering.stackexchange.com/questions/215065/can-anyone-explain-representation-of-float-in-memory</a></p></li>
+<li><p>CSAPP. “A Tour of Computer Systems”, Chapter 1, Computer Systems: A Programmer’s Perspective, 3rd Edition, Pgs, 37-63</p></li>
 </ul>
+</div>
+<div class="section" id="tags">
+<h2>Tags<a class="headerlink" href="#tags" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">csapp1</span></code>
+<code class="docutils literal notranslate"><span class="pre">csapp</span></code>
+<code class="docutils literal notranslate"><span class="pre">computer_architecture</span></code></p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>A buffer is “a region of a physical memory storage used to temporarily store data while it is being moved from one place to another.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Data_buffer">https://en.wikipedia.org/wiki/Data_buffer</a>). A a buffer overflow is “an anomaly where a program, while writing data to a buffer, overruns the buffer’s boundary and overwrites adjacent memory locations.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Buffer_overflow">https://en.wikipedia.org/wiki/Buffer_overflow</a>)</p>
+</dd>
+</dl>
 </div>
 </div>
 
@@ -532,19 +687,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="computer_chip.html" title="previous page">
+        <a class="left-prev" href="twos_complement.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Computer chip</p>
+                <p class="prevnext-title">Two’s complement</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="flynns_taxonomy.html" title="next page">
+        <a class="right-next" href="transistors.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Flynn’s taxonomy</p>
+                <p class="prevnext-title">Transistors</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
