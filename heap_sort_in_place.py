@@ -5,25 +5,32 @@ Sources:
 * https://www.geeksforgeeks.org/python-program-for-heap-sort/
 """
 
+def _max_child(arr, n, i):
+	l = 2 * i + 1
+  
+	if l >= n:
+		return -1
+
+	r = l + 1
+
+	if r >= n:
+		return l
+
+	if arr[l] > arr[r]:
+		return l
+
+	return r
+
+
 def _heapify(arr, n, i):
 	# Heapify subtree with root at index `i`
 	# This function assumes that the children
 	# of the root have already been heapified.
-	l = 2 * i + 1
-  
-	if l >= n:
+	max_child = _max_child(arr, n, i)
+	if max_child == -1:
 		return
-
-	r = l + 1
-
-	if r >= n or arr[l] > arr[r]:
-		max_child = l
-	else:
-		max_child = r
-
 	if arr[i] > arr[max_child]:
 		return
-
 	arr[i], arr[max_child] = arr[max_child], arr[i]
 	_heapify(arr, n, max_child)
 
@@ -31,6 +38,9 @@ def _heapify(arr, n, i):
 def heap_sort_in_place(arr):
 	n = len(arr)
 	# Apply _heapify bottom-up.
+	# This is slightly different than the Heap implementation,
+	# because I don't have the [0] prefix at the start
+	# of the array.
 	for i in range(n // 2 - 1, -1, -1):
 		_heapify(arr, n, i)
 	
