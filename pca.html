@@ -583,11 +583,6 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   Implementation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -611,17 +606,6 @@
 <p><img alt="pca_projection" src="_images/pca_projection.png" /></p>
 <p><strong>Side note:</strong> The line we get from minimizing the projection error is different from the line we get from least squares regression, because least squares regression tries to minimize the error in <span class="math notranslate nohighlight">\(y\)</span>, while the projection error cares about error in <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> equally.</p>
 <p>In 2D, we project the data onto a line. In 3D, we project the data onto a plane (<span class="math notranslate nohighlight">\(k = 2\)</span>) or a line (<span class="math notranslate nohighlight">\(k = 1)\)</span>. In general, we project the data onto a “linear subspace”. What this means is that we try to find a linear transformation <span class="math notranslate nohighlight">\(\textbf{A}\)</span> such that <span class="math notranslate nohighlight">\(\textbf{A} \textbf{x} = \textbf{c}\)</span> where <span class="math notranslate nohighlight">\(\textbf{x} \in \mathbb{R}^p\)</span>, <span class="math notranslate nohighlight">\(\textbf{A} \in \mathbb{R}^{k,p}\)</span> and <span class="math notranslate nohighlight">\(\textbf{c} \in \mathbb{R}^k\)</span> and where the projection error between <span class="math notranslate nohighlight">\(\textbf{x}\)</span> and <span class="math notranslate nohighlight">\(\textbf{c}\)</span> is minimized. Using <span class="math notranslate nohighlight">\(\textbf{A}\)</span> in this way, we compress <span class="math notranslate nohighlight">\(\textbf{x}\)</span> to <span class="math notranslate nohighlight">\(\textbf{c}\)</span>. We could imagine more complicated geometry to project data onto, but we make the assumption of linear subspaces to keep things simple.</p>
-<div class="section" id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
-<p>We take the singular value decomposition (SVD) of the covariance matrix of <span class="math notranslate nohighlight">\(\textbf{X}\)</span> to get the compressed matrix <span class="math notranslate nohighlight">\(\textbf{C}\)</span>. In particular, <span class="math notranslate nohighlight">\(\textbf{X}^T \textbf{X} = \textbf{U} \textbf{S} \textbf{V}^T\)</span> and we set <span class="math notranslate nohighlight">\(\textbf{C}\)</span> to the first <span class="math notranslate nohighlight">\(k\)</span> eigenvectors of the covariance matrix (<span class="math notranslate nohighlight">\(\textbf{C} = \textbf{U}_{:,:k}\)</span>).</p>
-<p>This procedure is based on the following assumptions:</p>
-<ul class="simple">
-<li><p>Linear subspaces</p></li>
-<li><p>Orthogonal columns</p></li>
-<li><p>Unit norm of each column</p></li>
-<li><p>Each column tries to minimize the projection error subject to the other columns chosen before.</p></li>
-</ul>
-</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
