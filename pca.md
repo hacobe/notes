@@ -12,17 +12,6 @@ Take $p = 2$ and $k = 1$. A natural way to compress points in a plane is to proj
 
 In 2D, we project the data onto a line. In 3D, we project the data onto a plane ($k = 2$) or a line ($k = 1)$. In general, we project the data onto a "linear subspace". What this means is that we try to find a linear transformation $\textbf{A}$ such that $\textbf{A} \textbf{x} = \textbf{c}$ where $\textbf{x} \in \mathbb{R}^p$, $\textbf{A} \in \mathbb{R}^{k,p}$ and $\textbf{c} \in \mathbb{R}^k$ and where the projection error between $\textbf{x}$ and $\textbf{c}$ is minimized. Using $\textbf{A}$ in this way, we compress $\textbf{x}$ to $\textbf{c}$. We could imagine more complicated geometry to project data onto, but we make the assumption of linear subspaces to keep things simple.
 
-## Implementation
-
-We take the singular value decomposition (SVD) of the covariance matrix of $\textbf{X}$ to get the compressed matrix $\textbf{C}$. In particular, $\textbf{X}^T \textbf{X} = \textbf{U} \textbf{S} \textbf{V}^T$ and we set $\textbf{C}$ to the first $k$ eigenvectors of the covariance matrix ($\textbf{C} = \textbf{U}_{:,:k}$).
-
-This procedure is based on the following assumptions:
-
-* Linear subspaces
-* Orthogonal columns
-* Unit norm of each column
-* Each column tries to minimize the projection error subject to the other columns chosen before.
-
 ## Sources
 
 * Dimensionality Reduction, Machine Learning, 
