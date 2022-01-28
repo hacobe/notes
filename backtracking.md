@@ -17,7 +17,7 @@ Pseudocode for the backtracking algorithm is as follows:
 				S_k = S_k - a_k
 				Backtrack(a, k)
 
-For example, suppose with want to print all permutations of the list [1, 2, 3]. We call Backtrack([], 0). [] is not a solution, so we set k = 1. We compute S_1 = {1, 2, 3}. In the first iteration of the loop, we set a_1 = 1 and S_1 = {2, 3} and call Backtrack([1], 1). In the second iteration, we set a_1 = 2, S_1 = {1, 3} and call Backtrack([2], 1). In the last iteration, we set a_1 = 3, S_1 = {1, 2} and call Backtrack([3], 1). In general, the argument $a$ develops recursively like this [image](https://medium.com/algorithms-and-leetcode/backtracking-e001561b9f28):
+For example, suppose we want to print all permutations of the list [1, 2, 3]. We call Backtrack([], 0). [] is not a solution, so we set k = 1. We compute S_1 = {1, 2, 3}. In the first iteration of the loop, we set a_1 = 1 and S_1 = {2, 3} and call Backtrack([1], 1). In the second iteration, we set a_1 = 2, S_1 = {1, 3} and call Backtrack([2], 1). In the last iteration, we set a_1 = 3, S_1 = {1, 2} and call Backtrack([3], 1). In general, the argument $a$ develops recursively like this [image](https://medium.com/algorithms-and-leetcode/backtracking-e001561b9f28):
 
 ![backtracking](/img/backtracking.png)
 
