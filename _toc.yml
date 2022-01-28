@@ -56,8 +56,10 @@ chapters:
       - file: mixture_of_experts
   - file: linear_algebra
     sections:
-      - file: eigendecomposition
       - file: linear_algebra_3blue1brown
+      - file: eigendecomposition
+      - file: singular_value_decomposition
+      - file: moore_penrose_pseudoinverse
   - file: miscellaneous
     sections:
       - file: broadcasting
