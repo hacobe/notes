@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reinforcement learning objective &#8212; Technical notes</title>
+    <title>Eigendecomposition &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,6 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3Blue1Brown’s Linear Algebra series" href="linear_algebra_3blue1brown.html" />
+    <link rel="prev" title="Linear algebra" href="linear_algebra.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -88,7 +90,7 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
@@ -359,18 +361,18 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="linear_algebra.html">
    Linear algebra
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="eigendecomposition.html">
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Eigendecomposition
     </a>
    </li>
@@ -459,7 +461,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/reinforcement_learning_objective.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/eigendecomposition.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -479,7 +481,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Freinforcement_learning_objective.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Feigendecomposition.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -521,33 +523,21 @@
         
               <div>
                 
-  <div class="section" id="reinforcement-learning-objective">
-<h1>Reinforcement learning objective<a class="headerlink" href="#reinforcement-learning-objective" title="Permalink to this headline">¶</a></h1>
-<p>Suppose we have some joint distribution <span class="math notranslate nohighlight">\(p_{\theta} \left(s_1, a_1, \dots, s_T, a_T \right)\)</span> over all states and actions up to the last time step <span class="math notranslate nohighlight">\(T\)</span> parameterized by <span class="math notranslate nohighlight">\(\theta\)</span>.</p>
-<p>We define the reinforcement learning objective as:</p>
-<p><span class="math notranslate nohighlight">\(arg \max_{\theta} \mathbb{E}_{\left( s_1, a_1, \dots, s_T, a_T \right) \sim p_{\theta} (s_1, a_1, \dots, s_T, a_T)} \left[ \sum_{t=1}^T R \left[s_t, a_t \right]  \right]\)</span></p>
-<p>where <span class="math notranslate nohighlight">\(R\)</span> is a reward function and the expectation is over the distribution of trajectories.</p>
-<p>We can approximate this expectation in the objective by sampling trajectories. If we sample <span class="math notranslate nohighlight">\(N\)</span> trajectories <span class="math notranslate nohighlight">\(\{ \{s_t, a_t\}_{t=1}^T \}_{i=1}^N\)</span>, then we have our approximation of the objective as:</p>
-<p><span class="math notranslate nohighlight">\(arg \max_{\theta} \frac{1}{N} \sum_{i=1}^N \sum_{t=1}^T R \left[s_t, a_t \right]\)</span></p>
-<p>Note that the dependency on <span class="math notranslate nohighlight">\(\theta\)</span> is still there, but hidden in the sampling procedure.</p>
-<p>How do we sample trajectories?</p>
-<p>We factorize the distribution over trajectories into a product of parts that depend on the initial state and the policy function <span class="math notranslate nohighlight">\(\pi\_{\theta}\)</span> and transition distribution at each time step:</p>
-<p><span class="math notranslate nohighlight">\(p_{\theta} \left( s_1, a_1, \dots, s_T, a_T \right) = p\left(s_1\right) \prod_{t=1}^T \left[ \pi_{\theta} \left(a_t \right | s_t) p\left(s_{t+1} | s_t, a_t \right) \right]\)</span></p>
-<p>This factorization implies that we can sample a trajectory <span class="math notranslate nohighlight">\(\{s_t, a_t\}_{t=1}^T\)</span> as follows:</p>
-<ul class="simple">
-<li><p>Draw <span class="math notranslate nohighlight">\(s_1 \sim p\left(s_1\right)\)</span> [Draw an initial state]</p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(a_1 \sim \pi_{\theta} \left(a_1 \right | s_1)\)</span> [Run the policy to get an action]</p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(s_2 \sim p\left(s_2 | s_1, a_1 \right)\)</span> [Take the action in the environment]</p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(a_2 \sim \pi_{\theta} \left(a_2 \right | s_2)\)</span></p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(s_3 \sim p\left(s_3 | s_2, a_2 \right)\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(\dots\)</span></p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(s_T \sim p\left(s_T | s_{T-1}, a_{T-1}\right)\)</span></p></li>
-<li><p>Draw <span class="math notranslate nohighlight">\(a_T \sim \pi_{\theta} \left(a_T \right | s_T)\)</span></p></li>
-</ul>
+  <div class="section" id="eigendecomposition">
+<h1>Eigendecomposition<a class="headerlink" href="#eigendecomposition" title="Permalink to this headline">¶</a></h1>
+<p>We call <span class="math notranslate nohighlight">\(\textbf{v}\)</span> an <strong>eigenvector</strong> of a square matrix <span class="math notranslate nohighlight">\(\textbf{A}\)</span> if <span class="math notranslate nohighlight">\(\textbf{v}\)</span> is nonzero and for some scalar <span class="math notranslate nohighlight">\(\lambda\)</span> we have:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{A} \textbf{v} = \lambda \textbf{v}\)</span></p>
+<p>We call <span class="math notranslate nohighlight">\(\lambda\)</span> the <strong>eigenvalue</strong> of <span class="math notranslate nohighlight">\(\textbf{A}\)</span>.</p>
+<p>A linear transformation acts on its eigenvectors like a scalar would. The eigenvalue is the factor by which the eigenvector is stretched (or squished or flipped) under the transformation.</p>
+<p>It turns out that every real, symmetric matrix <span class="math notranslate nohighlight">\(\textbf{A}\)</span> can be decomposed as follows:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{A} = \textbf{Q} \Lambda \textbf{Q}^T\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is an orthogonal matrix composed of the eigenvectors of <span class="math notranslate nohighlight">\(\textbf{A}\)</span> and <span class="math notranslate nohighlight">\(\Lambda\)</span> is a diagonal matrix where <span class="math notranslate nohighlight">\(\Lambda_{i,i}\)</span> is the eigenvalue associated with the eigenvector given by the <span class="math notranslate nohighlight">\(i\)</span>-th column of <span class="math notranslate nohighlight">\(\textbf{Q}\)</span>. This is called the <strong>eigendecomposition</strong> of <span class="math notranslate nohighlight">\(\textbf{A}\)</span>. We can then interpret the original transformation as scaling the space by <span class="math notranslate nohighlight">\(\Lambda_{i,i}\)</span> in the direction of the <span class="math notranslate nohighlight">\(i\)</span>-th column of <span class="math notranslate nohighlight">\(\textbf{Q}\)</span>.</p>
+<p>One application of the eigendecomposition is to compute <span class="math notranslate nohighlight">\(\textbf{A}^n\)</span> efficiently, because <span class="math notranslate nohighlight">\(\textbf{A}^n = \textbf{Q} \Lambda^n \textbf{Q}^T\)</span> and <span class="math notranslate nohighlight">\(\Lambda\)</span> is a diagonal matrix.</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="http://rll.berkeley.edu/deeprlcourse/f17docs/lecture_3_rl_intro.pdf">Introduction to Reinforcement learning, Lecture 3, Sergey Levine</a></p></li>
+<li><p>Goodfellow, Deep learning, Section 2.7</p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=PFDu9oVAE-g">Eigenvectors and eigenvalues</a>, 3Blue1Brown</p></li>
 </ul>
 </div>
 </div>
@@ -581,6 +571,24 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="linear_algebra.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Linear algebra</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="linear_algebra_3blue1brown.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">3Blue1Brown’s Linear Algebra series</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         

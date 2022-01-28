@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3Blue1Brown’s Linear Algebra series &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
+    <link rel="prev" title="Eigendecomposition" href="eigendecomposition.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_a_computer.html">
+     What is a computer?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="a_tour_of_computer_systems.html">
+     A Tour of Computer Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="transistors.html">
+     Transistors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
+     Flip-flops
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synchronous_systems.html">
+     Synchronous systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="operating_systems.html">
+   Operating systems
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction_to_operating_systems.html">
+     Introduction to operating systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multithreading.html">
+     Multithreading
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="backtracking.html">
+     Backtracking
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sliding_window.html">
+     Sliding window
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_machine_learning.html">
+     What is machine learning?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bias_variance_tradeoff.html">
+     Bias-Variance trade-off
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="naive_bayes.html">
+     Naive bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_discriminant_analysis.html">
+     Linear discriminant analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="k_means_clustering.html">
+     K-means clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machines.html">
+     Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kernel_trick.html">
+     Kernel trick
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="deep_learning.html">
+   Deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient descent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_parallelism.html">
+     Data parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="t5_style_model_parallelism.html">
+     T5-style model parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pipeline_parallelism.html">
+     Pipeline parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
+     ZeRO-Offload
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mixture_of_experts.html">
+     Mixture of Experts
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="linear_algebra.html">
+   Linear algebra
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="eigendecomposition.html">
+     Eigendecomposition
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     3Blue1Brown’s Linear Algebra series
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="how_to_solve_it.html">
+     How to solve it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="modular_exponentiation.html">
+     Modular exponentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein estimation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="entropy.html">
+     Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/linear_algebra_3blue1brown.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Flinear_algebra_3blue1brown.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vectors">
+   Vectors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-combinations-span-and-basis-vectors">
+   Linear combinations, span and basis vectors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-transformations-and-matrices">
+   Linear transformations and matrices
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-multiplication-as-composition">
+   Matrix multiplication as composition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-determinant">
+   The determinant
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inverse-matrices-column-space-and-null-space">
+   Inverse matrices, column space and null space
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dot-products-and-duality">
+   Dot products and duality
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-products">
+   Cross products
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#change-of-basis">
+   Change of basis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#eigenvectors-and-eigenvalues">
+   Eigenvectors and eigenvalues
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="blue1brown-s-linear-algebra-series">
+<h1>3Blue1Brown’s Linear Algebra series<a class="headerlink" href="#blue1brown-s-linear-algebra-series" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="vectors">
+<h2>Vectors<a class="headerlink" href="#vectors" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>scalar</strong> <span class="math notranslate nohighlight">\(x\)</span> is a single number.</p>
+<p>A <strong>vector</strong> is an array of numbers. You can think of it as an arrow with the tail rooted at the origin and the head at the point given by the coordinates of the array of numbers that define the vector. An arrow has a direction and a magnitude.</p>
+<p>There are 2 basic operations on vectors:</p>
+<ul class="simple">
+<li><p>Vector addition: To add a vector <span class="math notranslate nohighlight">\(\textbf{a}\)</span> and a vector <span class="math notranslate nohighlight">\(\textbf{b}\)</span>, root <span class="math notranslate nohighlight">\(\textbf{a}\)</span> at the origin and root <span class="math notranslate nohighlight">\(\textbf{b}\)</span> at the head of <span class="math notranslate nohighlight">\(\textbf{a}\)</span>. Then draw a vector rooted at the origin to the head of <span class="math notranslate nohighlight">\(\textbf{b}\)</span>. That vector is the sum.</p></li>
+<li><p>Scalar multiplication: Streching (multiplying by a positive number), squishing (multiplying by a fraction), reversing the direction (multiplying by a negative number) of a vector or collapsing the vector to the origin by multiplying by 0.</p></li>
+</ul>
+</div>
+<div class="section" id="linear-combinations-span-and-basis-vectors">
+<h2>Linear combinations, span and basis vectors<a class="headerlink" href="#linear-combinations-span-and-basis-vectors" title="Permalink to this headline">¶</a></h2>
+<p>Consider a vector in 2D.</p>
+<p>The x-coordinate of the vector is a scalar that scales <span class="math notranslate nohighlight">\(\hat{i}\)</span> (the unit vector in the x-direction) and the y-coordinate of the vector is a scalar that scales <span class="math notranslate nohighlight">\(\hat{j}\)</span> (the unit vector in the y-direction).</p>
+<p>The vector is a sum of 2 scaled vectors. <span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> are the “basis vectors” (we could choose other basis vectors).</p>
+<p>The sum of scaled vectors is called a <strong>linear combination</strong> of those vectors.</p>
+<p>The <strong>span</strong> of a set of vectors is the set of all their linear combinations. It answers: what are the all the possible places you can reach using only vector addition and scalar multiplication?</p>
+<p>If you think about a vector alone, think about the arrow. If you think about a set of vectors, think about them as points (or the geometrical object that those points make like a line or a plane).</p>
+<p>What does the span of 2 vectors that point in different directions in 3D space look like? It will be a plane that cuts through 3D space.</p>
+<p>A set of vectors is <strong>linearly independent</strong> if no vector in the set is a linear combination of the other vectors.</p>
+<p>The <strong>basis</strong> of a space is the set of linearly independent vectors that span that space.</p>
+</div>
+<div class="section" id="linear-transformations-and-matrices">
+<h2>Linear transformations and matrices<a class="headerlink" href="#linear-transformations-and-matrices" title="Permalink to this headline">¶</a></h2>
+<p>Transformation evokes movement. Think of taking an input vector and moving it to create some output vector. We can imagine each possible input vector moving to its corresponding output vector and how that transforms the space. Or we watch every point in space move to some other point. A way to visualize this is the grid in the plane getting streched or squeezed and rotated.</p>
+<p>A linear transformation is one in which all grid lines remain parallel and evenly spaced and the origin remains in the same place.</p>
+<p>Consider a 2D vector <span class="math notranslate nohighlight">\(\textbf{v}\)</span>. You can deduce where it goes under the transformation based on just where <span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> end up. The vector <span class="math notranslate nohighlight">\(\textbf{v}\)</span> starts as a linear combination of <span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> and after the transformation, it’s a linear combination of the transformed <span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> with the same coefficients. Therefore, a linear transformation is completely described by just 4 numbers (where <span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> end up).</p>
+<p>A 2x2 matrix gives a linear transformation where the first column gives the coordinates of where <span class="math notranslate nohighlight">\(\hat{i}\)</span> lands in the transformation and the second column gives the coordinates of where <span class="math notranslate nohighlight">\(\hat{j}\)</span> lands. To see where another vector ends up, take the x-coordinate of the vector and multiply by the first column and add it to the y-coordinate of the vector multiplied by the second column:</p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} a &amp; b \\ c &amp; d\end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} a \\ c \end{bmatrix} + y \begin{bmatrix} b \\ d \end{bmatrix}\)</span></p>
+<p>The right hand side of the equation is where all the intuition for a matrix is.</p>
+<p>Matrices gives us a way to compactly describe linear transformations. Every time you see a matrix you can think of it as a linear transformation. Matrix-vector multiplication is just way to compute what that transformation does to a given vector.</p>
+</div>
+<div class="section" id="matrix-multiplication-as-composition">
+<h2>Matrix multiplication as composition<a class="headerlink" href="#matrix-multiplication-as-composition" title="Permalink to this headline">¶</a></h2>
+<p>Matrix multiplication is the composition of linear transformations.</p>
+<p>Matrix on the right is applied first then the matrix on the left, which stems from function notation, e.g. for <span class="math notranslate nohighlight">\(f(g(x))\)</span>, we apply <span class="math notranslate nohighlight">\(g(x)\)</span> and then <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
+<p>For example:</p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; 2 \\ 1 &amp; 0 \end{bmatrix} \begin{bmatrix} 1 &amp; -2 \\ 1 &amp; 0 \end{bmatrix}\)</span></p>
+<p>Think of matrix multiplication using the column view:</p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; 2 \\ 1 &amp; 0\end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = 1 \begin{bmatrix} 0 \\ 1 \end{bmatrix} + 1 \begin{bmatrix} 2 \\ 0 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix} 0 &amp; 2 \\ 1 &amp; 0\end{bmatrix} \begin{bmatrix} -2 \\ 0 \end{bmatrix} = -2 \begin{bmatrix} 0 \\ 1 \end{bmatrix} + 0 \begin{bmatrix} 2 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \\ -2 \end{bmatrix} \)</span></p>
+<p>We see that order of matrix multiplication matters, because the order of transformations matters. Also, (AB)C = A(BC), which is trivial by thinking of matrices as transformations. This is an example how a deeper understanding can illuminate more than symbolic manipulations. Figuring out the “right” way to think about a problem or mathematical object.</p>
+</div>
+<div class="section" id="the-determinant">
+<h2>The determinant<a class="headerlink" href="#the-determinant" title="Permalink to this headline">¶</a></h2>
+<p>It’s helpful to know how much a linear transformation has scaled the space. Think of the unit rectangle stretching and shrinking. What’s the area of that rectangle after the transformation? It applies to any area in the space, because any area can be approximated by tiny rectangles.</p>
+<p>The scaling factor for any area in the space is the absolute value of the determinant. The sign of the determinant indicates flipping the area (inverting the orientation of space, i.e. flipping whether <span class="math notranslate nohighlight">\(\hat{i}\)</span> is to the left or to the right <span class="math notranslate nohighlight">\(\hat{j}\)</span>).</p>
+<p>In 3D, the absolute value of the determinant is the scaling factor any volume in the space. And the sign is again an inversion of orientation. If you use your index finger for <span class="math notranslate nohighlight">\(\hat{i}\)</span>, your middle finger for <span class="math notranslate nohighlight">\(\hat{j}\)</span> and your thumb for <span class="math notranslate nohighlight">\(\hat{k}\)</span> on your right hand to describe the orientation of the original space, can you still use your right hand to do it after the transformation or do you have to switch to using your left hand?</p>
+<p>If <span class="math notranslate nohighlight">\(det(\textbf{A}) = 0\)</span>, then the transformation squishes space into a lower dimension.</p>
+</div>
+<div class="section" id="inverse-matrices-column-space-and-null-space">
+<h2>Inverse matrices, column space and null space<a class="headerlink" href="#inverse-matrices-column-space-and-null-space" title="Permalink to this headline">¶</a></h2>
+<p><span class="math notranslate nohighlight">\(\textbf{A} \textbf{x} = \textbf{v}\)</span> means we’re looking for a vector <span class="math notranslate nohighlight">\(\textbf{x}\)</span>, which after the linear transformation <span class="math notranslate nohighlight">\(\textbf{A}\)</span> lands on the vector <span class="math notranslate nohighlight">\(\textbf{v}\)</span>.</p>
+<p>Suppose <span class="math notranslate nohighlight">\(det(\textbf{A}) \ne 0\)</span>, then space does not get squished into a lower dimension. In this case, there will always be one and only vector. Following the known transformation in reverse from <span class="math notranslate nohighlight">\(\textbf{v}\)</span> (the known quantity) gets you the vector <span class="math notranslate nohighlight">\(\textbf{x}\)</span> (the unknown). The transformation in reverse is <span class="math notranslate nohighlight">\(\textbf{A}^{-1}\)</span>. There still could be a solution even if <span class="math notranslate nohighlight">\(\textbf{A}^{-1}\)</span> doesn’t exist, but the solution has to live in the lower dimension.</p>
+<p>The <strong>rank</strong> is the number of dimensions in the output of a transformation, or more precisely in the column space. The rank helps distinguish a transformation that, for example, maps a 3D vector to a 2D one from a 3D vector to a 1D one even though in both cases the matrix associated with the transformation will have a determinant of 0. The matrix is <strong>full rank</strong> when the rank equals the number of columns in the matrix.</p>
+<p>The <strong>column space</strong> is the span of the columns of the matrix.</p>
+<p>The <strong>null space</strong> or the <strong>kernel</strong> is the set of all the vectors that get squished to the origin after a transformation. When <span class="math notranslate nohighlight">\(\textbf{v}\)</span> gets squished to the origin, the null space gives you the set of solutions to your equation.</p>
+</div>
+<div class="section" id="dot-products-and-duality">
+<h2>Dot products and duality<a class="headerlink" href="#dot-products-and-duality" title="Permalink to this headline">¶</a></h2>
+<p>The dot product of <span class="math notranslate nohighlight">\(\textbf{v} \cdot \textbf{w}\)</span> is the projection of <span class="math notranslate nohighlight">\(\textbf{w}\)</span> onto <span class="math notranslate nohighlight">\(\textbf{v}\)</span> scaled by the magnitude of <span class="math notranslate nohighlight">\(\textbf{v}\)</span>. When <span class="math notranslate nohighlight">\(\textbf{w}\)</span> is pointing in the opposite direction of <span class="math notranslate nohighlight">\(\textbf{v}\)</span>, then the dot product will be negative. When generally pointing in the same direction, their dot product is positive. When generally pointing in opposite directions, their dot product is negative. When perpendicular, the dot product is 0. Order doesn’t matter.</p>
+<p>There is a duality between 1x2 matrices (linear transformation that takes a vector to a number) and 2D vectors (the vectors themselves). A vector can be thought of as a conceptual shorthand for a certain type of linear transformation.</p>
+</div>
+<div class="section" id="cross-products">
+<h2>Cross products<a class="headerlink" href="#cross-products" title="Permalink to this headline">¶</a></h2>
+<p>The cross product <span class="math notranslate nohighlight">\(\textbf{v} \times \textbf{w}\)</span> takes two vectors in 3D space as input and returns a vector that is perpendicular to both of the input vectors.</p>
+<p>The magnitude of the output vector is the area of the parallelogram that the input vectors span out if <span class="math notranslate nohighlight">\(\textbf{v}\)</span> is on the right of <span class="math notranslate nohighlight">\(\textbf{w}\)</span> and the negative of that area otherwise. Notice that the order of the input vectors to the cross product matters. This area can be computed as the determinant of the matrix where the first column is <span class="math notranslate nohighlight">\(\textbf{v}\)</span> and the second column is <span class="math notranslate nohighlight">\(\textbf{w}\)</span>.</p>
+<p>The direction of the output vector is perpendicular to the parallelogram and follows the “right-hand rule”. The right-hand rule says to put the fore finger of your right hand in the direction of <span class="math notranslate nohighlight">\(\textbf{v}\)</span> and stick out your middle finger in the direction of <span class="math notranslate nohighlight">\(\textbf{w}\)</span>. The direction that your thumb is pointing is the direction of the output vector.</p>
+<p>The cross product is computed as the determinant of a matrix, where the second column is <span class="math notranslate nohighlight">\(\textbf{v}\)</span>, the third column is <span class="math notranslate nohighlight">\(\textbf{w}\)</span> and the first column (strangely) is a vector formed from the basis vectors <span class="math notranslate nohighlight">\(\hat{i}\)</span>, <span class="math notranslate nohighlight">\(\hat{j}\)</span> and <span class="math notranslate nohighlight">\(\hat{k}\)</span>. What does it mean to have an entry of a matrix be a vector? This is taught as a notational trick. In calculating the determinant, you’ll get a linear combination of those basis vectors with scalar coefficients that are a function of the entries of <span class="math notranslate nohighlight">\(\textbf{v}\)</span> and <span class="math notranslate nohighlight">\(\textbf{w}\)</span>.</p>
+</div>
+<div class="section" id="change-of-basis">
+<h2>Change of basis<a class="headerlink" href="#change-of-basis" title="Permalink to this headline">¶</a></h2>
+<p><span class="math notranslate nohighlight">\(\hat{i}\)</span> and <span class="math notranslate nohighlight">\(\hat{j}\)</span> encodes the implicit assumptions we make about a coordinate system: the positive direction along the x-axis, the positive direction along the y-axis and the units of distance. Any system to translate between vectors and sets of numbers is a <strong>coordinate system</strong>.</p>
+<p>How do you translate between coordinate systems? Use the matrix whose columns represent the alternate basis vectors to translate from the alternate vector to the vector in our coordinate system.</p>
+<p>Whenever you see <span class="math notranslate nohighlight">\(\textbf{A}^{-1} \textbf{M} \textbf{A}\)</span>, think (change of basis back to the alternate coordinate system) (our transformation) (change of basis to our coordinate system). The whole expression gives the <span class="math notranslate nohighlight">\(\textbf{M}\)</span> transformation but in the alternate coordinate system. It takes a vector in the alternate coordinate system, translate it to a vector in our coordinate system, applies a transformation expressed in our coordinate system and maps it back to a vector expressed in the alternate coordinate system.</p>
+</div>
+<div class="section" id="eigenvectors-and-eigenvalues">
+<h2>Eigenvectors and eigenvalues<a class="headerlink" href="#eigenvectors-and-eigenvalues" title="Permalink to this headline">¶</a></h2>
+<p>Consider a linear transformation and what happens to an arbitrary vector under that transformation. Most vectors will get knocked off of their span.</p>
+<p>The eigenvectors of a transformation are those vectors that stay in their original span after the transformation. In other words, the transformations acts on those vectors like a scalar would. The eigenvalue is the factor by which the eigenvector is stretched (or squished or flipped) under the transformation.</p>
+<p>For a rotation, the eigenvector gives the axis of rotation and the eigenvalue is 1 since rotations don’t stretch or shrink anything. Looking at the eigenvectors of a transformations gives you a simpler way to understand what the transformation does than figuring out what happens to the basis vectors under the transformation.</p>
+<p>Every real symmetric matrix (a real-valued matrix where the matrix is equal to its transpose) can be decomposed into <span class="math notranslate nohighlight">\(\textbf{Q}^{-1} \Lambda \textbf{Q}\)</span> where each column of <span class="math notranslate nohighlight">\(\textbf{Q}\)</span> is an eigenvector, the eigenvectors are orthogonal, and the diagonals of <span class="math notranslate nohighlight">\(\Lambda\)</span> are the corresponding eigenvalues. In this case, we can interpret the original transformation as scaling the space by <span class="math notranslate nohighlight">\(\Lambda_{i,i}\)</span> in the direction of the <span class="math notranslate nohighlight">\(i\)</span>th column of <span class="math notranslate nohighlight">\(\textbf{Q}\)</span>, which can be a more succint summary of the transformation then looking at the columns of the original transformation.</p>
+<p>Some transformations don’t have eigenvectors.</p>
+<p>A diagonal matrix means that all basis vectors are eigenvectors and the diagonal entries are the eigenvalues.</p>
+<p>What we can do is change to a basis where the basis vectors are eigenvectors and then our transformation in the new coordinate system will become a diagonal matrix which is easier to work with. E.g., compute the 100th power of a matrix by first changing to an eigenbasis, computing the 100th power in that coordinate system and then changing the basis back (but not all matrices have a eigenbasis).</p>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.3blue1brown.com/topics/linear-algebra">https://www.3blue1brown.com/topics/linear-algebra</a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="eigendecomposition.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Eigendecomposition</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="miscellaneous.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Miscellaneous</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
