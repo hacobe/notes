@@ -32,6 +32,7 @@ chapters:
       - file: Trie
       - file: backtracking
       - file: sliding_window
+      - file: 0-1 Knapsack
   - file: machine_learning
     sections:
       - file: what_is_machine_learning
