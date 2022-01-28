@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Merge sort &#8212; Technical notes</title>
+    <title>0-1 Knapsack &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -51,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Quicksort" href="Quicksort.html" />
-    <link rel="prev" title="Non-comparison sorting" href="Non-comparison%20sorting.html" />
+    <link rel="next" title="Machine learning" href="machine_learning.html" />
+    <link rel="prev" title="Sliding window" href="sliding_window.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -213,8 +215,8 @@
      Non-comparison sorting
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
      Merge sort
     </a>
    </li>
@@ -248,8 +250,8 @@
      Sliding window
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="0-1%20Knapsack.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      0-1 Knapsack
     </a>
    </li>
@@ -464,7 +466,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/Merge sort.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="_sources/0-1 Knapsack.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -484,7 +486,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FMerge sort.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F0-1 Knapsack.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -505,7 +507,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/Merge sort.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/0-1 Knapsack.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -528,18 +530,23 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#intuition">
-   Intuition
+  <a class="reference internal nav-link" href="#brute-force">
+   Brute force
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#merge">
-   Merge
+  <a class="reference internal nav-link" href="#memoization">
+   Memoization
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recursion">
-   Recursion
+  <a class="reference internal nav-link" href="#tabulation">
+   Tabulation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
   </a>
  </li>
 </ul>
@@ -553,79 +560,104 @@
         
               <div>
                 
-  <div class="section" id="merge-sort">
-<h1>Merge sort<a class="headerlink" href="#merge-sort" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="intuition">
-<h2>Intuition<a class="headerlink" href="#intuition" title="Permalink to this headline">¶</a></h2>
-<p>If you wonder how you might use recursion to sort an array, merge sort is a natural answer. In other words, if you wonder how you might enlist your friends to help you sort in a divide and conquer fashion, merge sort is a natural answer.</p>
-</div>
-<div class="section" id="merge">
-<h2>Merge<a class="headerlink" href="#merge" title="Permalink to this headline">¶</a></h2>
-<p>Suppose you want to sort a deck of cards, but you’re lazy, so you split the deck in half and give one half to one friend and another half to the another friend and get each friend to sort their half and then give the cards back to you.</p>
-<p>You can then merge the two sorted halves as follows. Put the two halves next to each other.</p>
-<p>Turn over the top card for each half and take whichever card is lower and start a new pile that will be for the sorted deck.</p>
-<p>Do that again with the next top card on the half that had the lower card and the same top card on the half that had the higher card and take the card that is lower between those two cards and add it to the pile that you created.</p>
-<p>Keep doing that until one of the halves runs out.</p>
-<p>Add the cards from the remaining half to the pile for the sorted deck.</p>
-</div>
-<div class="section" id="recursion">
-<h2>Recursion<a class="headerlink" href="#recursion" title="Permalink to this headline">¶</a></h2>
-<p>We’ve described how you can get one sorted deck if given two sorted halves.</p>
-<p>But this same logic applies to your two friends. Each of your friends could be lazy and find 2 other friends and split their deck in half and get their friends to sort half of their halves.</p>
-<p>And the same logic applies to the friends of friends. Here’s a picture of that process (F = Friend, FoF = friend of friend):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>		          <span class="n">You</span>
-		   <span class="o">/</span>                 \  
-    	  <span class="n">F1</span>             	 <span class="n">F2</span>
-      <span class="o">/</span>       \		    <span class="o">/</span>        \
-    <span class="n">FoF1</span><span class="mf">.1</span>   <span class="n">FoF1</span><span class="mf">.1</span>   <span class="n">FoF2</span><span class="mf">.1</span>    <span class="n">FoF1</span><span class="mf">.1</span>
-</pre></div>
-</div>
-<p>This tree keeps growing until your friend of friend of friends… each only have 2 cards and they hand their friend of friend of friend of friends… 1 card each and that friend doesn’t even have to do anything, because their half is already sorted (it’s only 1 card). So the friend of friend of friends… immediately take back their 2 sorted halves of 1 card and follow the merging procedure to get a sorted deck of 2 cards and then the friend of friends take back their 2 sorted halves of 2 cards and follow the merging procedure to get a sorted deck of 4 cards and so on until your 2 friends hand you back their halves sorted.</p>
+  <div class="section" id="knapsack">
+<h1>0-1 Knapsack<a class="headerlink" href="#knapsack" title="Permalink to this headline">¶</a></h1>
+<p>Suppose you have <span class="math notranslate nohighlight">\(n\)</span> items, where the weight of the <span class="math notranslate nohighlight">\(i\)</span>th item is given by the integer weights[i] and the value of the <span class="math notranslate nohighlight">\(i\)</span>th item is given by the integer values[i]. You also have a knapsack that can hold any number of items as long as their total weight is less than or equal to weight <span class="math notranslate nohighlight">\(W\)</span>. Write a function to return the maximum total value that can be attained for items placed in the knapsack.</p>
+<div class="section" id="brute-force">
+<h2>Brute force<a class="headerlink" href="#brute-force" title="Permalink to this headline">¶</a></h2>
+<p>You can either include the last item in the knapsack if its weight is below the knapsack’s capacity or you can not include it. In the worst case, you have 2 choices for each item, so the time complexity is <span class="math notranslate nohighlight">\(O(2^n)\)</span>. The space complexity is <span class="math notranslate nohighlight">\(O(1)\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span>
-
-    <span class="n">mid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="n">left</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:</span><span class="n">mid</span><span class="p">]</span>
-    <span class="n">right</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">:]</span>
-
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
-
-    <span class="n">i</span> <span class="o">=</span> <span class="n">j</span> <span class="o">=</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c1"># Remember this is testing the bounds of left and right not arr</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
-            <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
-        
-<span class="k">def</span> <span class="nf">test_merge_sort</span><span class="p">():</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">merge_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">arr</span> <span class="o">==</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">arr</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
     
-<span class="n">test_merge_sort</span><span class="p">()</span>
+    <span class="n">value_if_last_item_not_included</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">W</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value_if_last_item_not_included</span>
+    
+    <span class="n">value_if_last_item_included</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">val</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">knapSack</span><span class="p">(</span><span class="n">W</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">value_if_last_item_not_included</span><span class="p">,</span> <span class="n">value_if_last_item_included</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="memoization">
+<h2>Memoization<a class="headerlink" href="#memoization" title="Permalink to this headline">¶</a></h2>
+<p>In the worst case, each item has weight 1 and the time complexity is <span class="math notranslate nohighlight">\(O(nW)\)</span>. The space complexity is also <span class="math notranslate nohighlight">\(O(nW)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+        <span class="n">memo</span><span class="p">[(</span><span class="n">W</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span>
+    <span class="n">value_if_last_item_not_included</span> <span class="o">=</span> <span class="n">memo</span><span class="p">[(</span><span class="n">W</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    
+    <span class="k">if</span> <span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">W</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value_if_last_item_not_included</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">W</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
+        <span class="n">memo</span><span class="p">[(</span><span class="n">W</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">knapSack</span><span class="p">(</span><span class="n">W</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">memo</span><span class="p">)</span>
+    <span class="n">value_if_last_item_included</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">memo</span><span class="p">[(</span><span class="n">W</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">value_if_last_item_not_included</span><span class="p">,</span> <span class="n">value_if_last_item_included</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="tabulation">
+<h2>Tabulation<a class="headerlink" href="#tabulation" title="Permalink to this headline">¶</a></h2>
+<p>As with memoization, the time complexity is <span class="math notranslate nohighlight">\(O(nW)\)</span> and the space complexity is <span class="math notranslate nohighlight">\(O(nW)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">tab</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>    
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">W</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">wt</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">w</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">tab</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">w</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">w</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tab</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">w</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">return</span> <span class="n">tab</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="n">W</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can get down to <span class="math notranslate nohighlight">\(O(W)\)</span> space complexity, because we only need to keep track of the result for some <span class="math notranslate nohighlight">\(w\)</span> for <span class="math notranslate nohighlight">\(n-1\)</span> and not all <span class="math notranslate nohighlight">\(k &lt; n\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">knapSack</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">W</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">tab</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>    
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">wt</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">w</span><span class="p">:</span>
+                <span class="n">tab</span><span class="p">[</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tab</span><span class="p">[</span><span class="n">w</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">tab</span><span class="p">[</span><span class="n">w</span><span class="o">-</span><span class="n">wt</span><span class="p">[</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">return</span> <span class="n">tab</span><span class="p">[</span><span class="n">W</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/">https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -659,19 +691,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="Non-comparison%20sorting.html" title="previous page">
+        <a class="left-prev" href="sliding_window.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Non-comparison sorting</p>
+                <p class="prevnext-title">Sliding window</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="Quicksort.html" title="next page">
+        <a class="right-next" href="machine_learning.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Quicksort</p>
+                <p class="prevnext-title">Machine learning</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
