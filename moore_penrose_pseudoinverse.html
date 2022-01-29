@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flip-flops &#8212; Technical notes</title>
+    <title>Moore-Penrose pseudoinverse &#8212; Technical notes</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -53,8 +53,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Synchronous systems" href="synchronous_systems.html" />
-    <link rel="prev" title="Transistors" href="transistors.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
+    <link rel="prev" title="Singular value decomposition" href="singular_value_decomposition.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -91,16 +91,16 @@
  </li>
 </ul>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_a_computer.html">
      What is a computer?
@@ -131,8 +131,8 @@
      Transistors
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
      Flip-flops
     </a>
    </li>
@@ -366,16 +366,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="linear_algebra.html">
    Linear algebra
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="linear_algebra_3blue1brown.html">
      3Blue1Brown’s Linear Algebra series
@@ -391,8 +391,8 @@
      Singular value decomposition
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="moore_penrose_pseudoinverse.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Moore-Penrose pseudoinverse
     </a>
    </li>
@@ -476,7 +476,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/flip_flops.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/moore_penrose_pseudoinverse.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -496,7 +496,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fflip_flops.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmoore_penrose_pseudoinverse.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -538,46 +538,22 @@
         
               <div>
                 
-  <div class="section" id="flip-flops">
-<h1>Flip-flops<a class="headerlink" href="#flip-flops" title="Permalink to this headline">¶</a></h1>
-<p>A flip-flop, or a latch, is a circuit that can store a bit of information. An n-bit register is comprised of n flip-flops.</p>
-<p><img alt="flip_flops" src="_images/flip_flops.png" /></p>
-<p>Each individual flip-flop on the right looks like the register on the left. It has a data input D, a data output Q and a clock input CLK.</p>
-<p>The flip-flop is an example of a sequential logic circuit, which is defined by the output depending “not only on the present value of its input signals but on the sequence of past inputs, the input history as well” (<a class="reference external" href="https://en.wikipedia.org/wiki/Sequential_logic">https://en.wikipedia.org/wiki/Sequential_logic</a>).</p>
-<p>Ben Eater does a great job of explaining how a D-type flip-flop works (see the “Sources” section). My exposition is based heavily on his.</p>
-<p>Start with an OR gate, but add a wire that feeds the output of the gate back into one of the two inputs of the gate.</p>
-<p><img alt="or_gate_with_feedback" src="_images/or_gate_with_feedback.png" /></p>
-<p>Call the value of the two inputs <span class="math notranslate nohighlight">\(a_t\)</span> and <span class="math notranslate nohighlight">\(b_t\)</span> at time <span class="math notranslate nohighlight">\(t\)</span> and call the output <span class="math notranslate nohighlight">\(c_t\)</span>. With <span class="math notranslate nohighlight">\(a_t\)</span> defined by an external user of the circuit, the following equations describe the logic of the circuit:</p>
-<p><span class="math notranslate nohighlight">\(b_0 = 0\)</span></p>
-<p><span class="math notranslate nohighlight">\(b_t = c_{t-1}\)</span> for <span class="math notranslate nohighlight">\(t \gt 0\)</span></p>
-<p><span class="math notranslate nohighlight">\(c_t = a_t + b_t\)</span> (the + denotes the OR operation)</p>
-<p>Suppose we have <span class="math notranslate nohighlight">\(a_0 = 0, a_1 = 0, a_2 = 0, a_3 = 1, a_4 = 0, a_5 = 0, a_6 = 1, \dots\)</span>. <span class="math notranslate nohighlight">\(c_t = 0\)</span> for <span class="math notranslate nohighlight">\(t \le 2\)</span> and <span class="math notranslate nohighlight">\(c_t = 1\)</span> for <span class="math notranslate nohighlight">\(t \ge 3\)</span>. In other words, the output of the circuit is 0 until the user controlled input is set to 1 and then the output of the circuit is 1 for all time steps after that. The circuit “latches” on to that first 1 and never lets go.</p>
-<p>It’d be nice if we could change the output of the circuit after the first 1. The SR latch circuit accomplishes that. Here’s the circuit:</p>
-<p><img alt="sr_latch" src="_images/sr_latch.png" /></p>
-<p>It has a Set input (<span class="math notranslate nohighlight">\(S\)</span>), a Reset input (<span class="math notranslate nohighlight">\(R\)</span>), an output (<span class="math notranslate nohighlight">\(Q\)</span>) and the complement of that output (<span class="math notranslate nohighlight">\(\bar{Q}\)</span>). If <span class="math notranslate nohighlight">\(S\)</span> is set to 1, then the output <span class="math notranslate nohighlight">\(Q\)</span> holds 1 no matter the value of <span class="math notranslate nohighlight">\(S\)</span> afterwards as long as <span class="math notranslate nohighlight">\(R\)</span> is not set. If <span class="math notranslate nohighlight">\(R\)</span> is set to 1, then the output <span class="math notranslate nohighlight">\(Q\)</span> holds 0 no matter the value of <span class="math notranslate nohighlight">\(R\)</span> afterwards as long as <span class="math notranslate nohighlight">\(S\)</span> is not set. Setting both <span class="math notranslate nohighlight">\(S\)</span> and <span class="math notranslate nohighlight">\(R\)</span> at the same time is considered invalid input.</p>
-<p>The D latch is like an SR latch, but instead of having a Set input and a Reset input, it has one input (<span class="math notranslate nohighlight">\(D\)</span>) where a 0 for that input gives the Set operation and a 1 for that input gives the Reset operation. It also has an Enable input (<span class="math notranslate nohighlight">\(EN\)</span>). The output only changes when the Enable input is set.</p>
-<p><img alt="d_latch" src="_images/d_latch.png" /></p>
-<p>The D flip-flop adds a small circuit before the Enable input that takes as input a Clock and outputs a pulse on the rising edge of the clock’s waveform.</p>
-<p><img alt="d_flip_flop" src="_images/d_flip_flop.png" /></p>
-<p>Ben draws the waveforms of the Clock, Enable, D and Q for the D flip-flop in this frame (<span class="math notranslate nohighlight">\(\bar{Q}\)</span> is ignored):</p>
-<p><img alt="d_flip_flop_waveforms" src="_images/d_flip_flop_waveforms.png" /></p>
-<p>The flip-flop stores the input value until the next clock tick. It ignore changes in between the clock ticks.</p>
+  <div class="section" id="moore-penrose-pseudoinverse">
+<h1>Moore-Penrose pseudoinverse<a class="headerlink" href="#moore-penrose-pseudoinverse" title="Permalink to this headline">¶</a></h1>
+<p>Suppose we’re given <span class="math notranslate nohighlight">\(\textbf{A}\)</span> and <span class="math notranslate nohighlight">\(\textbf{y}\)</span> and we want to solve for <span class="math notranslate nohighlight">\(\textbf{x}\)</span> in the following system of linear equations:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{A} \textbf{x} = \textbf{y}\)</span></p>
+<p>If <span class="math notranslate nohighlight">\(\textbf{A}\)</span> is invertible, then we can do the following:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{A}^{-1} \textbf{A} \textbf{x} = \textbf{A}^{-1} \textbf{y}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\textbf{x} = \textbf{A}^{-1} \textbf{y}\)</span></p>
+<p>If <span class="math notranslate nohighlight">\(\textbf{A}\)</span> is not invertible, then we can use the Moore-Penrose pseudoinverse <span class="math notranslate nohighlight">\(\textbf{A}^+\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\textbf{A}\)</span> is not invertible, because it has more columns than rows, i.e., more unknowns than equations, then there are usually an infinite number of <span class="math notranslate nohighlight">\(\textbf{x}\)</span> that satisfy the equations. In this case, <span class="math notranslate nohighlight">\(\textbf{x} = \textbf{A}^+ \textbf{y}\)</span> gives the solution with minimal Euclidean norm among all possible solutions.</p>
+<p>If <span class="math notranslate nohighlight">\(\textbf{A}\)</span> is not invertible, because it has more rows than columns, i.e., more equations than unknowns, then there are usually no solutions. In this case, <span class="math notranslate nohighlight">\(\textbf{x} = \textbf{A}^+ \textbf{y}\)</span> gives the <span class="math notranslate nohighlight">\(\textbf{x}\)</span> that minimizes <span class="math notranslate nohighlight">\(\lVert \textbf{A} \textbf{x} - \textbf{y} \rVert_2\)</span>.</p>
+<p>We compute the Moore-Penrose pseudoinverse by first computing the SVD of <span class="math notranslate nohighlight">\(\textbf{A} = \textbf{U} \textbf{D} \textbf{V}^T\)</span> and then computing <span class="math notranslate nohighlight">\(\textbf{A}^+ = \textbf{V} \textbf{D}^+ \textbf{U}^T\)</span>, where “the pseudoinverse <span class="math notranslate nohighlight">\(\textbf{D}^+\)</span> of a diagonal matrix <span class="math notranslate nohighlight">\(\textbf{D}\)</span> is obtained by taking the reciprocal of its nonzero elements then taking the transpose of the resulting matrix” (Goodfellow).</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Ben Eater</p>
-<ul>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=KM0DdEaY5sY">SR latch</a></p></li>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=peCh_859q7Q">D latch</a></p></li>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=YW-_GkUguMM">D flip</a></p></li>
-</ul>
-</li>
-<li><p>UC Berkeley, CS61C, Spring 2015</p>
-<ul>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=zpGzXfWRk70&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=9">Lecture 9</a></p></li>
-<li><p><a class="reference external" href="https://www.youtube.com/watch?v=GCWcJ-Ng9EA&amp;list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&amp;index=10">Lecture 10</a></p></li>
-</ul>
-</li>
+<li><p>Goodfellow, Deep learning, Section 2.9</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Overdetermined_system">https://en.wikipedia.org/wiki/Overdetermined_system</a></p></li>
 </ul>
 </div>
 </div>
@@ -612,19 +588,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="transistors.html" title="previous page">
+        <a class="left-prev" href="singular_value_decomposition.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">Transistors</p>
+                <p class="prevnext-title">Singular value decomposition</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="synchronous_systems.html" title="next page">
+        <a class="right-next" href="miscellaneous.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Synchronous systems</p>
+                <p class="prevnext-title">Miscellaneous</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
