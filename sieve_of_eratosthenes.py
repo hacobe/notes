@@ -11,7 +11,7 @@ def gen_primes(n):
 
 	i = 2
 	while (i * i <= n):
-		if not is_prime[i]:
+		if is_prime[i] == False:
 			continue
 
 		j = i
