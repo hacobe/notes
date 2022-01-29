@@ -1,82 +1,63 @@
 """
 Sources:
-* https://www.educative.io/edpresso/how-to-create-a-doubly-linked-list-in-python
+* https://www.geeksforgeeks.org/linked-list-set-1-introduction/
+* https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
+* https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/
 """
 
 class Node:
 
 	def __init__(self, data):
 		self.data = data
-		self.prev = None
 		self.next = None
 
-class DoublyLinkedList:
+class LinkedList:
 
 	def __init__(self):
 		self.head = None
-		self.tail = None
 
 	def push_front(self, new_data):
 		new_node = Node(new_data)
 		new_node.next = self.head
-
-		if self.head:
-			self.head.prev = new_node
-			self.head = new_node
-		else:
-			self.head = new_node
-			self.tail = new_node
+		self.head = new_node
 
 	def push_back(self, new_data):
 		new_node = Node(new_data)
-		new_node.prev = self.tail
-
-		if self.tail:
-			self.tail.next = new_node
-			self.tail = new_node
-		else:
-			self.head = new_node 
-			self.tail = new_node
-
-	def pop_front(self):
 		if self.head is None:
-			raise ValueError("Empty list")
-    
-		temp = self.head
-		temp.next.prev = None
-		self.head = temp.next
-		temp.next = None
-		return temp.data
+			self.head = new_node
+			return
 
-	def pop_back(self):
-		if self.tail is None:
-			raise ValueError("Empty list")
-		temp = self.tail
-		temp.prev.next = None
-		self.tail = temp.prev
-		temp.prev = None
-		return temp.data
+		node = self.head
+		while node.next:
+			node = node.next
+
+		node.next =  new_node
+
+	def insert_after(self, prev_node, new_data):
+		assert prev_node
+		new_node = Node(new_data)
+		new_node.next = prev_node.next
+		prev_node.next = new_node
 
 	def remove(self, data):
-		node = self.head
-		while node:
-			if node.data == data:
-				prev_node = node.prev
-				next_node = node.next
+		temp = self.head 
+		if temp is not None: 
+			if temp.data == data: 
+				self.head = temp.next
+				temp = None
+				return
 
-				if prev_node:
-					prev_node.next = next_node
-				else:
-					self.head = next_node
-
-				if next_node:
-					next_node.prev = prev_node
-				else:
-					self.tail = prev_node
-
+		while temp is not None: 
+			if temp.data == data: 
 				break
+			prev = temp
+			temp = temp.next
 
-			node = node.next
+		if temp is None: 
+			return
+
+		prev.next = temp.next
+		temp = None
 
 	def __str__(self):
 		node = self.head
@@ -88,19 +69,14 @@ class DoublyLinkedList:
 
 
 if __name__ == "__main__":
-	dll = DoublyLinkedList()
-	dll.push_front(1)
-	dll.push_front(2)
-	dll.push_front(3)
-	dll.push_front(4)
-	dll.push_back(5)
-	dll.push_back(6)
-	print(dll)
-	assert dll.__str__() == "4->3->2->1->5->6"
-	assert dll.pop_front() == 4
-	assert dll.pop_back() == 6
-	print(dll)
-	assert dll.__str__() == "3->2->1->5"
-	dll.remove(2)
-	print(dll)
-	assert dll.__str__() == "3->1->5"
+	ll = LinkedList()
+	ll.push_back(6)
+	ll.push_front(7)
+	ll.push_front(1)
+	ll.push_back(4)
+	ll.insert_after(ll.head.next, 8)
+	print(ll)
+	assert ll.__str__() == "1->7->8->6->4"
+	ll.remove(6)
+	print(ll)
+	assert ll.__str__() == "1->7->8->4"
