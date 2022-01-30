@@ -14,41 +14,44 @@ class Node:
 class Queue:
 
 	def __init__(self):
-		self.front = self.rear = None
+		self.front = None
+		self.back = None
 
-	def isEmpty(self):
-		return self.front == None
+	def is_empty(self):
+		return self.front is None
 
-	def EnQueue(self, item):
-		temp = Node(item)
-		if self.rear == None:
-			self.front = self.rear = temp
+	def enqueue(self, new_data):
+		new_node = Node(new_data)
+		if not self.back:
+			self.front = new_node
+			self.back = new_node
 			return
-		self.rear.next = temp
-		self.rear = temp
+		node = self.back
+		self.back = new_node
+		node.next = self.back
 
-	def DeQueue(self):
-		if self.isEmpty():
+	def dequeue(self):
+		if self.is_empty():
 			return
-		temp = self.front
-		self.front = temp.next
+		node = self.front
+		self.front = node.next
 
-		if self.front == None:
-			self.rear = None
+		if not self.front:
+			self.back = None
 
 
 def test_queue():
 	q = Queue()
-	q.EnQueue(10)
-	q.EnQueue(20)
-	q.DeQueue()
-	q.DeQueue()
-	q.EnQueue(30)
-	q.EnQueue(40)
-	q.EnQueue(50) 
-	q.DeQueue()  
+	q.enqueue(10)
+	q.enqueue(20)
+	q.dequeue()
+	q.dequeue()
+	q.enqueue(30)
+	q.enqueue(40)
+	q.enqueue(50) 
+	q.dequeue()  
 	assert q.front.data == 40
-	assert q.rear.data == 50
+	assert q.back.data == 50
 
 
 if __name__ == "__main__":

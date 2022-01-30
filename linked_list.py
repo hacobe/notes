@@ -23,7 +23,7 @@ class LinkedList:
 
 	def push_back(self, new_data):
 		new_node = Node(new_data)
-		if self.head is None:
+		if not self.head:
 			self.head = new_node
 			return
 
@@ -36,28 +36,29 @@ class LinkedList:
 	def insert_after(self, prev_node, new_data):
 		assert prev_node
 		new_node = Node(new_data)
-		new_node.next = prev_node.next
+		node = prev_node.next
 		prev_node.next = new_node
+		new_node.next = node
 
 	def remove(self, data):
-		temp = self.head 
-		if temp is not None: 
-			if temp.data == data: 
-				self.head = temp.next
-				temp = None
-				return
-
-		while temp is not None: 
-			if temp.data == data: 
-				break
-			prev = temp
-			temp = temp.next
-
-		if temp is None: 
+		if not self.head:
 			return
 
-		prev.next = temp.next
-		temp = None
+		node = self.head
+		if node.data == data:
+			self.head = node.next
+			node = None
+			return
+
+		prev = node
+		node = node.next
+		while node: 
+			if node.data == data: 
+				prev.next = node.next
+				node = None
+				return
+			prev = node
+			node = node.next
 
 	def __str__(self):
 		node = self.head

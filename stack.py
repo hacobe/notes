@@ -15,7 +15,7 @@ class Stack:
 	def __init__(self):
 		self.head = None
 
-	def isempty(self):
+	def is_empty(self):
 		return self.head is None
 
 	def push(self, data):
@@ -27,7 +27,7 @@ class Stack:
 			self.head = newnode
 
 	def pop(self):
-		if self.isempty():
+		if self.is_empty():
 			return None
 		else:
 			poppednode = self.head
@@ -36,7 +36,7 @@ class Stack:
 			return poppednode.data
 
 	def peek(self):
-		if self.isempty():
+		if self.is_empty():
 			return None
 		else:
 			return self.head.data
