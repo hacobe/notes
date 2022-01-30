@@ -67,3 +67,4 @@ chapters:
       - file: modular_exponentiation
       - file: james_stein_estimation
       - file: entropy
+      - file: critical_points
