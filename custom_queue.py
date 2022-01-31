@@ -1,5 +1,11 @@
 """Implement a queue.
 
+Notes:
+* Don't forget to check assign back to be empty if front is in dequeue
+* Queue has a front and a back pointer, while the basic Linked List only has a head pointer
+* When you enqueue, you make the new node the back
+* When you dequeue, you remove the front
+
 Sources:
 * https://www.geeksforgeeks.org/queue-linked-list-implementation/
 """
@@ -17,22 +23,21 @@ class Queue:
 		self.front = None
 		self.back = None
 
-	def is_empty(self):
-		return self.front is None
-
 	def enqueue(self, new_data):
 		new_node = Node(new_data)
+
 		if not self.back:
 			self.front = new_node
 			self.back = new_node
 			return
+
 		node = self.back
 		self.back = new_node
 		node.next = self.back
 
 	def dequeue(self):
-		if self.is_empty():
-			return
+		assert self.front
+
 		node = self.front
 		self.front = node.next
 

@@ -31,7 +31,7 @@ class LinkedList:
 		while node.next:
 			node = node.next
 
-		node.next =  new_node
+		node.next = new_node
 
 	def insert_after(self, prev_node, new_data):
 		assert prev_node
