@@ -21,6 +21,7 @@ chapters:
         - file: introduction_to_operating_systems
         - file: concurrency
         - file: multithreading
+        - file: ostep_concurrency_and_threads
   - file: data_structures_and_algorithms
     sections:
       - file: Basic comparison sorting
