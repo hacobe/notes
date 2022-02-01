@@ -14,6 +14,7 @@ class Node:
 		self.data = data
 		self.next = None
 
+
 class Stack:
 
 	def __init__(self):
@@ -29,7 +30,8 @@ class Stack:
 		self.head = new_node
 
 	def pop(self):
-		data = self.head.data
+		node = self.head
+		data = node.data
 		self.head = self.head.next
 		node = None
 		return data
