@@ -22,6 +22,9 @@ chapters:
         - file: concurrency
         - file: multithreading
         - file: ostep_concurrency_and_threads
+        - file: ostep_locks
+        - file: ostep_condition_variables
+        - file: ostep_semaphores
   - file: data_structures_and_algorithms
     sections:
       - file: Basic comparison sorting
