@@ -5,7 +5,8 @@ Solves https://leetcode.com/problems/lru-cache/
 Solution is based on:
 https://leetcode.com/problems/lru-cache/discuss/45926/Python-Dict-%2B-Double-LinkedList
 
-A simpler solution uses an OrderedDict
+A simpler solution uses an OrderedDict. You can use move_to_end or just pop the item
+with the given key and put it back into the dictionary.
 
 Notes:
 * Removing a node is easy, because of the prev and next pointers
@@ -68,6 +69,9 @@ class LRUCache:
         self.key_to_node[key] = node
         if len(self.key_to_node) > self.capacity:
             # Remove the node right after the head.
+            # Don't use self.head.next directly in remove,
+            # because we need to save node.key to delete
+            # the node from the map.
             node = self.head.next
             self._remove(node)
             del self.key_to_node[node.key]

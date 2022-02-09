@@ -3,6 +3,7 @@
 Notes:
 * Don't forget the self prefix
 * Don't forget to mark the task done
+* If I don't use the lock context, then make sure to release the lock before continuing to the next neighbor_url
 
 Sources:
 * https://leetcode.com/problems/web-crawler-multithreaded/discuss/434058/ThreadPoolExecutor-%2B-Queue-python-2
@@ -12,7 +13,11 @@ import Queue
 
 
 def get_host_name(url):
-    return url.split('/')[2]
+    start = len("http://")
+    i = start
+    while i < len(url) and url[i] != "/":
+        i += 1
+    return url[start:i]
 
 
 class Crawler:
@@ -23,7 +28,7 @@ class Crawler:
         self.lock = threading.Lock()
         self.visited = set()
         
-    def worker(self):
+    def _worker(self):
         while True:
             # Also, works if timeout=0.1 and then you don't need to send None
             # In that case, it will raise an Empty error eventually and that
@@ -33,6 +38,9 @@ class Crawler:
                 break
             neighbor_urls = self.htmlParser.getUrls(url)
             for neighbor_url in neighbor_urls:
+                # This releases the lock if it reaches the end of the code
+                # in the context, if there's an error or if continue is
+                # called.
                 with self.lock:
                     if neighbor_url in self.visited:
                         continue
@@ -52,7 +60,7 @@ class Crawler:
         num_threads = 8
         threads = []
         for _ in range(num_threads):
-            threads.append(threading.Thread(target=worker))
+            threads.append(threading.Thread(target=self._worker))
             threads[-1].start()
 
         self.queue.join()
