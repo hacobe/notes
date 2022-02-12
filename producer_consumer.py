@@ -11,74 +11,74 @@ Sources:
 import threading
 
 def put(value):
-	global fill_ptr
+	global put_ptr
 	global MAX
 	global count
 	global buffer_
 
-	buffer_[fill_ptr] = value
-	fill_ptr = (fill_ptr + 1) % MAX
+	buffer_[put_ptr] = value
+	put_ptr = (put_ptr + 1) % MAX
 	count += 1
 
 def get():
-	global use_ptr
+	global get_ptr
 	global MAX
 	global count
 	global buffer_
 
-	tmp = buffer_[use_ptr]
-	use_ptr = (use_ptr + 1) % MAX
+	tmp = buffer_[get_ptr]
+	get_ptr = (get_ptr + 1) % MAX
 	count -= 1
 	return tmp
 
 def producer():
 	global loops
-	global mutex
-	global empty
-	global fill
+	global lock
+	global not_empty
+	global not_full
 
 	for i in range(loops):
-		mutex.acquire()
+		lock.acquire()
 		while count == MAX:
-			empty.wait()
+			not_full.wait()
 		put(i)
-		fill.notify()
-		mutex.release()
+		not_empty.notify()
+		lock.release()
 
 def consumer():
 	global loops
-	global mutex
-	global empty
-	global fill
+	global lock
+	global not_empty
+	global not_full
 
 	for i in range(loops):
-		mutex.acquire()
+		lock.acquire()
 		while count == 0:
-			fill.wait()
+			not_empty.wait()
 		tmp = get()
-		empty.notify()
-		mutex.release()
+		not_full.notify()
+		lock.release()
 		print(tmp)
 
 if __name__ == "__main__":
 	global MAX
-	global fill_ptr
-	global use_ptr
+	global put_ptr
+	global get_ptr
 	global count
 	global buffer_
 	global loops
-	global mutex
-	global empty
-	global fill
+	global lock
+	global not_empty
+	global not_full
 	MAX = 1
-	fill_ptr = 0
-	use_ptr = 0
+	put_ptr = 0
+	get_ptr = 0
 	count = 0
 	buffer_ = [0]
 	loops = 5
-	mutex = threading.Lock()
-	empty = threading.Condition(mutex)
-	fill = threading.Condition(mutex)
+	lock = threading.Lock()
+	not_empty = threading.Condition(lock)
+	not_full = threading.Condition(lock)
 
 	producer_thread = threading.Thread(target=producer)
 	consumer_thread = threading.Thread(target=consumer)
