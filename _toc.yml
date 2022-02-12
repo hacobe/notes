@@ -25,6 +25,8 @@ chapters:
         - file: ostep_locks
         - file: ostep_condition_variables
         - file: ostep_semaphores
+        - file: ostep_locked_data_structures
+        - file: ostep_common_concurrency_problems
   - file: data_structures_and_algorithms
     sections:
       - file: Basic comparison sorting
