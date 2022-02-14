@@ -15,7 +15,7 @@ def dag_relaxation(Adj, s, w):
     # is the reverse of a topological sort order."
     # (Recitation 10)
     order = []
-    dfs_dag(Adj, 0, order)
+    dfs_dag(Adj, s, order)
     order.reverse()
     # now order is the topological sort of the graph
     d = [float('inf') for _ in range(len(order))]
