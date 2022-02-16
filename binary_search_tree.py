@@ -3,66 +3,64 @@
 Sources:
 * https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 * https://www.geeksforgeeks.org/binary-search-tree-set-2-delete/
+* https://leetcode.com/problems/delete-node-in-a-bst/discuss/93374/Simple-Python-Solution-With-Explanation
 """
 
 class Node:
-	def __init__(self, key):
+	def __init__(self, val):
 		self.left = None
 		self.right = None
-		self.val = key
+		self.val = val
 
 
 def search(root, key):
-	if root is None or root.val == key:
+	if (not root) or (root.val == key):
 		return root
 
-	if root.val < key:
-		return search(root.right, key)
+	if key <= root.val:
+		return search(root.left, key)
 
-	return search(root.left, key)
+	return search(root.right, key)
 
 
 def insert(root, key):
-	if root is None:
+	if not root:
 		return Node(key)
+
+	if key <= root.val:
+		root.left = insert(root.left, key)
 	else:
-		if root.val == key:
-			return root
-		elif root.val < key:
-			root.right = insert(root.right, key)
-		else:
-			root.left = insert(root.left, key)
+		root.right = insert(root.right, key)
+
 	return root
 
 
-def _minValueNode(node):
-	current = node
-	while current.left is not None:
-		current = current.left
-	return current
+def _min_value_node(root):
+	node = root
+	while node.left:
+		node = node.left
+	return node
 
 
-def deleteNode(root, key):
-	if root is None:
+def remove(root, key):
+	if not root:
 		return root
 
 	if key < root.val:
-		root.left = deleteNode(root.left, key)
+		root.left = remove(root.left, key)
 	elif key > root.val:
-		root.right = deleteNode(root.right, key)
+		root.right = remove(root.right, key)
 	else:
-		if root.left is None:
-			temp = root.right
-			root = None
-			return temp
-		elif root.right is None:
-			temp = root.left
-			root = None
-			return temp
+		# Why does returning root.left or root.right
+		# not remove more of the tree than we want?
+		if not root.right:
+			return root.left
+		elif not root.left:
+			return root.right
 
-		temp = _minValueNode(root.right)
-		root.val = temp.val
-		root.right = deleteNode(root.right, temp.val)
+		min_value_node_in_right_subtree = _min_value_node(root.right)
+		root.val = min_value_node_in_right_subtree.val
+		root.right = remove(root.right, min_value_node_in_right_subtree.val)
 
 	return root
 
@@ -90,13 +88,13 @@ def test_binary_search_tree():
 	root = insert(root, 80)
 	assert inorder(root) == [20, 30, 40, 50, 60, 70, 80]
 
-	root = deleteNode(root, 20)
+	root = remove(root, 20)
 	assert inorder(root) == [30, 40, 50, 60, 70, 80]
 
-	root = deleteNode(root, 30)
+	root = remove(root, 30)
 	assert inorder(root) == [40, 50, 60, 70, 80]
 
-	root = deleteNode(root, 50)
+	root = remove(root, 50)
 	assert inorder(root) == [40, 60, 70, 80]
 
 
