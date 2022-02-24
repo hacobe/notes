@@ -2,7 +2,7 @@
 
 This is a summary of most of the sections in Chapter 27 ("Locks") of "Operating Systems: Three Easy Pieces".
 
-It describes how locks are implemented using instructions provided by the hardware and system calls provided by the operating system. A simple solution is to allow a program to enable and disable interrupts, but this has several problems. A naive solution is to use a flag without any hardware primitives, but we can't correct solution this way. The Test-And-Set, Compare-And-Swap and Load-Linked / Store-Conditional instructions can each be used to build spin locks. The Fetch-And-Add instruction can be used to build a ticket lock. With a queue, some system calls to make threads sleep and wake them up, and an instruction like Test-And-Set, a lock can be built that avoids a lot of spin waiting.
+It describes how locks are implemented using instructions provided by the hardware and system calls provided by the operating system. A simple solution is to allow a program to enable and disable interrupts, but this has several problems. Another approach is to use a flag without any hardware primitives, but we can't get a correct solution this way. The Test-And-Set, Compare-And-Swap and Load-Linked / Store-Conditional instructions can each be used to build spin locks. The Fetch-And-Add instruction can be used to build a ticket lock. With a queue, some system calls to make threads sleep and wake them up, and an instruction like Test-And-Set, a lock can be built that avoids a lot of spin waiting.
 
 ## Introduction
 
