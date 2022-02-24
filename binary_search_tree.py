@@ -36,6 +36,7 @@ def insert(root, key):
 
 
 def _min_value_node(root):
+	assert root
 	node = root
 	while node.left:
 		node = node.left
@@ -51,13 +52,19 @@ def remove(root, key):
 	elif key > root.val:
 		root.right = remove(root.right, key)
 	else:
-		# Why does returning root.left or root.right
-		# not remove more of the tree than we want?
+		# At this point, root is the node that
+		# we want to remove. The question is what
+		# to replace it with.
 		if not root.right:
 			return root.left
 		elif not root.left:
 			return root.right
 
+		# At this point, we know the node we want to replace
+		# has a left child and a right child.
+		# We replace the node with node that has the min value in the
+		# right subtree and then we remove that node with min value
+		# from the right subtree.
 		min_value_node_in_right_subtree = _min_value_node(root.right)
 		root.val = min_value_node_in_right_subtree.val
 		root.right = remove(root.right, min_value_node_in_right_subtree.val)
