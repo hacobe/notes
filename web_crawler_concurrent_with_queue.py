@@ -1,15 +1,19 @@
-"""Web crawler
+"""Concurrent web crawler with thread-safe queue
 
 Notes:
 * Don't forget the self prefix
 * Don't forget to mark the task done
-* If I don't use the lock context, then make sure to release the lock before continuing to the next neighbor_url
+* If I don't use the lock context,
+  then make sure to release the lock before continuing to the next neighbor_url.
+* Using an Event doesn't work,
+  because you'll end up blocking on get forever when the queue is empty.
+* Note that the queue uses a different lock than self.lock
 
 Sources:
 * https://leetcode.com/problems/web-crawler-multithreaded/discuss/434058/ThreadPoolExecutor-%2B-Queue-python-2
 """
 import threading
-import Queue
+from queue import Queue
 
 
 def get_host_name(url):
@@ -24,7 +28,7 @@ class Crawler:
     
     def __init__(self, htmlParser):
         self.htmlParser = htmlParser
-        self.queue = Queue.Queue()
+        self.queue = Queue()
         self.lock = threading.Lock()
         self.visited = set()
         
@@ -34,8 +38,10 @@ class Crawler:
             # In that case, it will raise an Empty error eventually and that
             # will stop the submitted future.
             url = self.queue.get(block=True)
+
             if url is None:
                 break
+
             neighbor_urls = self.htmlParser.getUrls(url)
             for neighbor_url in neighbor_urls:
                 # This releases the lock if it reaches the end of the code
@@ -51,6 +57,10 @@ class Crawler:
             self.queue.task_done()
                 
     def crawl(self, startUrl):
+        self.visited.clear()
+        while self.queue.qsize() > 0:
+            self.queue.get()
+
         self.visited.add(startUrl)
         self.queue.put(startUrl)
         
@@ -82,3 +92,40 @@ class Solution(object):
         :rtype: List[str]
         """
         return Crawler(htmlParser).crawl(startUrl)
+
+
+if __name__ == "__main__":
+    class HtmlParser:
+
+        def __init__(self):
+            urls = [
+                "http://news.yahoo.com",
+                "http://news.yahoo.com/news",
+                "http://news.yahoo.com/news/topics/",
+                "http://news.google.com",
+                "http://news.yahoo.com/us"
+            ]
+            edges = [[2,0],[2,1],[3,2],[3,1],[0,4]]
+            self.adj = {}
+            for u, v in edges:
+                if urls[u] not in self.adj:
+                    self.adj[urls[u]] = []
+                self.adj[urls[u]].append(urls[v])
+
+        def getUrls(self, url):
+            return self.adj.get(url, [])
+
+    expected = [
+        "http://news.yahoo.com",
+        "http://news.yahoo.com/news",
+        "http://news.yahoo.com/news/topics/",
+        "http://news.yahoo.com/us"
+    ]
+    expected.sort()
+    htmlParser = HtmlParser()
+    startUrl = "http://news.yahoo.com/news/topics/"
+    solution = Solution()
+    actual = solution.crawl(startUrl, htmlParser)
+    actual.sort()
+    print(actual)
+    assert actual == expected
