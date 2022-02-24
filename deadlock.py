@@ -1,6 +1,8 @@
 """
 Notes:
 * Interleave the locks
+* Need the while True to ensure the deadlock happens
+* You can add a countA and countB if it's hard to tell that the deadlock has happened
 
 Sources:
 * https://medium.com/swlh/getting-started-with-concurrency-in-python-part-ii-deadlocks-the-producer-consumer-model-gil-ae28afec3e7e
