@@ -47,7 +47,6 @@ chapters:
       - file: naive_bayes
       - file: linear_discriminant_analysis
       - file: k_means_clustering
-      - file: pca
       - file: support_vector_machines
       - file: kernel_trick
   - file: deep_learning
@@ -67,6 +66,11 @@ chapters:
       - file: eigendecomposition
       - file: singular_value_decomposition
       - file: moore_penrose_pseudoinverse
+      - file: pca
+  - file: optimization
+    sections:
+       - file: critical_points
+       - file: overflow_and_underflow
   - file: miscellaneous
     sections:
       - file: broadcasting
@@ -74,4 +78,3 @@ chapters:
       - file: modular_exponentiation
       - file: james_stein_estimation
       - file: entropy
-      - file: critical_points
