@@ -1,0 +1,1024 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSTEP: Locks &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OSTEP: Condition Variables" href="ostep_condition_variables.html" />
+    <link rel="prev" title="OSTEP: Concurrency and Threads" href="ostep_concurrency_and_threads.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_a_computer.html">
+     What is a computer?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="a_tour_of_computer_systems.html">
+     A Tour of Computer Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="transistors.html">
+     Transistors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
+     Flip-flops
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synchronous_systems.html">
+     Synchronous systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="operating_systems.html">
+   Operating systems
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction_to_operating_systems.html">
+     Introduction to operating systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multithreading.html">
+     Multithreading
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="backtracking.html">
+     Backtracking
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sliding_window.html">
+     Sliding window
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="0-1%20Knapsack.html">
+     0-1 Knapsack
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_machine_learning.html">
+     What is machine learning?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bias_variance_tradeoff.html">
+     Bias-Variance trade-off
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="naive_bayes.html">
+     Naive bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_discriminant_analysis.html">
+     Linear discriminant analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="k_means_clustering.html">
+     K-means clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machines.html">
+     Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kernel_trick.html">
+     Kernel trick
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="deep_learning.html">
+   Deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient descent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_parallelism.html">
+     Data parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="t5_style_model_parallelism.html">
+     T5-style model parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pipeline_parallelism.html">
+     Pipeline parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
+     ZeRO-Offload
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mixture_of_experts.html">
+     Mixture of Experts
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="linear_algebra.html">
+   Linear algebra
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_algebra_3blue1brown.html">
+     3Blue1Brown’s Linear Algebra series
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eigendecomposition.html">
+     Eigendecomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="singular_value_decomposition.html">
+     Singular value decomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="moore_penrose_pseudoinverse.html">
+     Moore-Penrose pseudoinverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="how_to_solve_it.html">
+     How to solve it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="modular_exponentiation.html">
+     Modular exponentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein estimation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="entropy.html">
+     Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ostep_locks.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fostep_locks.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#locks-the-basic-idea">
+   Locks: The Basic Idea
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluating-locks">
+   Evaluating Locks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#controlling-interrupts">
+   Controlling interrupts
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-failed-attempt-just-using-loads-stores">
+   A Failed Attempt: Just Using Loads/Stores
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#building-working-spin-locks-with-test-and-set">
+   Building Working Spin Locks with Test-And-Set
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#evaluating-spin-locks">
+   Evaluating Spin Locks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-and-swap">
+   Compare-And-Swap
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-linked-and-store-conditional">
+   Load-Linked and Store-Conditional
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fetch-and-add">
+   Fetch-And-Add
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#too-much-spinning-what-now">
+   Too Much Spinning: What Now?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-simple-approach-just-yield-baby">
+   A Simple Approach: Just Yield, Baby
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-queues-sleeping-instead-of-spinning">
+   Using Queues: Sleeping Instead Of Spinning
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#different-os-different-support">
+   Different OS, Different Support
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ostep-locks">
+<h1>OSTEP: Locks<a class="headerlink" href="#ostep-locks" title="Permalink to this headline">¶</a></h1>
+<p>This is a summary of most of the sections in Chapter 27 (“Locks”) of “Operating Systems: Three Easy Pieces”.</p>
+<p>It describes how locks are implemented using instructions provided by the hardware and system calls provided by the operating system. A simple solution is to allow a program to enable and disable interrupts, but this has several problems. Another approach is to use a flag without any hardware primitives, but we can’t get a correct solution this way. The Test-And-Set, Compare-And-Swap and Load-Linked / Store-Conditional instructions can each be used to build spin locks. The Fetch-And-Add instruction can be used to build a ticket lock. With a queue, some system calls to make threads sleep and wake them up, and an instruction like Test-And-Set, a lock can be built that avoids a lot of spin waiting.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>We would like to execute a sequence of instructions atomically, but can’t due to:</p>
+<ul class="simple">
+<li><p>Presence of interrupts on a single processor</p></li>
+<li><p>Multiple threads executing on multiple processors concurrently</p></li>
+</ul>
+<p>The <strong>lock</strong> solves this problem. We put a lock around a critical section so that the code in that critical section executes atomically.</p>
+</div>
+<div class="section" id="locks-the-basic-idea">
+<h2>Locks: The Basic Idea<a class="headerlink" href="#locks-the-basic-idea" title="Permalink to this headline">¶</a></h2>
+<p>A lock is primarily a variable that holds the state “free” or “acquired”. If a thread calls lock() and the lock is free, then the thread acquires the lock and is said to be the owner of the lock. If another thread calls lock() and the lock has already been acquired by another thread, then the function does not return until the lock is free and can be acquired by the caller thread.</p>
+</div>
+<div class="section" id="evaluating-locks">
+<h2>Evaluating Locks<a class="headerlink" href="#evaluating-locks" title="Permalink to this headline">¶</a></h2>
+<p>The goals of a lock:</p>
+<ul class="simple">
+<li><p>Correctness: “Basically, does the lock work, preventing multiple threads from entering a critical section?”</p></li>
+<li><p>Fairness: “Does each thread contending for the lock get a fair shot at acquiring it once it is free?”</p></li>
+<li><p>Performance: “time overheads added by using the lock”</p></li>
+</ul>
+<p>There are a few different scenarios under which to evaluate performance:</p>
+<ul class="simple">
+<li><p>No contention: “when a single thread is running and grabs and releases the lock, what is the overhead of doing so?”</p></li>
+<li><p>Contention on a single CPU</p></li>
+<li><p>Contention on multiple CPUs</p></li>
+</ul>
+</div>
+<div class="section" id="controlling-interrupts">
+<h2>Controlling interrupts<a class="headerlink" href="#controlling-interrupts" title="Permalink to this headline">¶</a></h2>
+<p>We first present a very simple solution to building a lock assuming primitives to enable and disable interrupts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">lock</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">DisableInterrupts</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">unlock</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">EnableInterrupts</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Unfortunately, this approach has several downsides:</p>
+<ul class="simple">
+<li><p>It requires the thread to perform a privileged operation: “a greedy program could call lock() at the beginning of its execution and thus monopolize the processor; worse, an errant or malicious program could call lock() and go into an endless loop”</p></li>
+<li><p>It doesn’t work on multiprocessors</p></li>
+<li><p>It’s inefficient: “Compared to normal instruction execution, code that masks or unmasks interrupts tends to be executed slowly by modern CPUs”</p></li>
+</ul>
+</div>
+<div class="section" id="a-failed-attempt-just-using-loads-stores">
+<h2>A Failed Attempt: Just Using Loads/Stores<a class="headerlink" href="#a-failed-attempt-just-using-loads-stores" title="Permalink to this headline">¶</a></h2>
+<p>Here is another attempt at building a lock that doesn’t work:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>typedef struct __lock_t { int flag; } lock_t;
+
+void init(lock_t *mutex) {
+	// 0 -&gt; lock is available, 1 -&gt; held
+	mutex-&gt;flag = 0;
+}
+
+void lock(lock_t *mutex) {
+	while (mutex-&gt;flag == 1) // TEST the flag
+		; // spin-wait (do nothing)
+	mutex-&gt;flag = 1; // now SET it!
+}
+
+void unlock(lock_t *mutex) {
+	mutex-&gt;flag = 0;
+}
+</pre></div>
+</div>
+<p>It has 2 problems: correctness and performance.</p>
+<p>For correctness, Figure 28.2 shows an example of an execution where the lock does not provide mutual exclusion:</p>
+<p><img alt="ostep_figure28.2" src="_images/ostep_figure28.2.png" /></p>
+<p>For performance, the thread waiting to acquire a lock that is already held: “endlessly checks the value of flag, a technique known as spin-waiting” and “Spin-waiting wastes time waiting for another thread to release a lock.”</p>
+</div>
+<div class="section" id="building-working-spin-locks-with-test-and-set">
+<h2>Building Working Spin Locks with Test-And-Set<a class="headerlink" href="#building-working-spin-locks-with-test-and-set" title="Permalink to this headline">¶</a></h2>
+<p>We introduce one example of hardware support for building locks in the form of an instruction called <strong>test-and-set</strong>. The instruction executes the following code atomically:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>int TestAndSet(int *old_ptr, int new) {
+	int old = *old_ptr; // fetch old value at old_ptr
+	*old_ptr = new; // store ’new’ into old_ptr
+	return old; // return the old value
+}
+</pre></div>
+</div>
+<p>We can use it to build a lock as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="n">__lock_t</span> <span class="p">{</span>
+	<span class="nb">int</span> <span class="n">flag</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">lock_t</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">init</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="o">//</span> <span class="mi">0</span><span class="p">:</span> <span class="n">lock</span> <span class="ow">is</span> <span class="n">available</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="n">lock</span> <span class="ow">is</span> <span class="n">held</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">lock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">TestAndSet</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">flag</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="p">;</span> <span class="o">//</span> <span class="n">spin</span><span class="o">-</span><span class="n">wait</span> <span class="p">(</span><span class="n">do</span> <span class="n">nothing</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">unlock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Suppose we have a single thread that tries to acquire the lock. The lock flag will start at 0. TestAndSet will return the old value (0), so the function will not start spin waiting, but it will also set the flag to 1. Now suppose we have another thread that tries to acquire the lock while it’s held by another thread. The value of the flag will be 1. TestAndSet will return the old value (1) and set the flag to 1 again. It will keep setting the flag to 1 until the thread holding the lock releases it and sets the flag to 0.</p>
+<p>This is called a <strong>spin lock</strong>. In order to work correctly, it assumes a <strong>preemptive scheduler</strong>, i.e., one that “will interrupt a thread via a timer, in order to run a different thread, from time to time”, because “Without preemption, spin locks don’t make much sense on a single CPU, as a thread spinning on a CPU will never relinquish it.”</p>
+</div>
+<div class="section" id="evaluating-spin-locks">
+<h2>Evaluating Spin Locks<a class="headerlink" href="#evaluating-spin-locks" title="Permalink to this headline">¶</a></h2>
+<p>We evaluate the spin lock on the 3 dimensions we discussed earlier:</p>
+<ul class="simple">
+<li><p>Correctness: It does provide mutual exclusion.</p></li>
+<li><p>Fairness: “…spin locks don’t provide any fairness guarantees. Indeed, a thread spinning may spin forever,
+under contention.”</p></li>
+<li><p>Performance</p>
+<ul>
+<li><p>Single CPU: Poor performance, because if a thread has acquired a lock, each of the other threads trying to acquire the lock will spin for a CPU cycle before giving up the CPU for another thread to spin.</p></li>
+<li><p>Multiple CPUs: “spin locks work reasonably well (if the number of threads roughly equals the number of CPUs)… imagine Thread A on CPU 1 and Thread B on CPU 2, both contending for a lock. If Thread A (CPU 1) grabs the lock, and then Thread B tries to, B will spin (on CPU 2). However, presumably the critical section is short, and thus soon the lock becomes available, and is acquired by Thread B. Spinning to wait for a lock held on another processor.”</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="compare-and-swap">
+<h2>Compare-And-Swap<a class="headerlink" href="#compare-and-swap" title="Permalink to this headline">¶</a></h2>
+<p>Besides Test-And-Set, some systems provide an atomic instruction called <strong>Compare-And-Swap</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">CompareAndSwap</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">ptr</span><span class="p">,</span> <span class="nb">int</span> <span class="n">expected</span><span class="p">,</span> <span class="nb">int</span> <span class="n">new</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nb">int</span> <span class="n">original</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">original</span> <span class="o">==</span> <span class="n">expected</span><span class="p">)</span>
+		<span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">new</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">original</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We can use it to build a lock as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">lock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">CompareAndSwap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">flag</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="p">;</span> <span class="o">//</span> <span class="n">spin</span><span class="o">-</span><span class="n">wait</span> <span class="p">(</span><span class="n">do</span> <span class="n">nothing</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">unlock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The implementation is exactly the same as for Test-And-Set except for the while loop condition. It’s also a spin lock and the behavior is the same.</p>
+</div>
+<div class="section" id="load-linked-and-store-conditional">
+<h2>Load-Linked and Store-Conditional<a class="headerlink" href="#load-linked-and-store-conditional" title="Permalink to this headline">¶</a></h2>
+<p>Besides Test-And-Set and Compare-And-Swap, some systems provide a pair of instructions. For example, MIPS has the instruction <strong>load-linked</strong> and the instruction <strong>store-conditional</strong>. We illustrate their behavior below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>int LoadLinked(int *ptr) {
+	return *ptr;
+}
+
+int StoreConditional(int *ptr, int value) {
+	if (no update to *ptr since LoadLinked to this address) {
+		*ptr = value;
+		return 1; // success!
+	} else {
+		return 0; // failed to update
+	}
+}
+</pre></div>
+</div>
+<p>We can use it to build a lock as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>void lock(lock_t *lock) {
+	while (1) {
+		while (LoadLinked(&amp;lock-&gt;flag) == 1)
+			; // spin until it’s zero
+		if (StoreConditional(&amp;lock-&gt;flag, 1) == 1)
+			return; // if set-it-to-1 was a success: all done
+					// otherwise: try it all over again
+	}
+}
+
+void unlock(lock_t *lock) {
+	lock-&gt;flag = 0;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="fetch-and-add">
+<h2>Fetch-And-Add<a class="headerlink" href="#fetch-and-add" title="Permalink to this headline">¶</a></h2>
+<p>Besides Test-And-Set, Compare-And-Swap, and Load-Linked/Store-Conditional, some systems provide the instruction <strong>Fetch-And-Add</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">FetchAndAdd</span><span class="p">(</span><span class="nb">int</span> <span class="o">*</span><span class="n">ptr</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nb">int</span> <span class="n">old</span> <span class="o">=</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+	<span class="o">*</span><span class="n">ptr</span> <span class="o">=</span> <span class="n">old</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">old</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We can use it to build a <strong>ticket lock</strong> instead of a spin lock:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="n">__lock_t</span> <span class="p">{</span>
+	<span class="nb">int</span> <span class="n">ticket</span><span class="p">;</span>
+	<span class="nb">int</span> <span class="n">turn</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">lock_t</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">lock_init</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">ticket</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">turn</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">lock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nb">int</span> <span class="n">myturn</span> <span class="o">=</span> <span class="n">FetchAndAdd</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">ticket</span><span class="p">);</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">turn</span> <span class="o">!=</span> <span class="n">myturn</span><span class="p">)</span>
+		<span class="p">;</span> <span class="o">//</span> <span class="n">spin</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">unlock</span><span class="p">(</span><span class="n">lock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">lock</span><span class="o">-&gt;</span><span class="n">turn</span> <span class="o">=</span> <span class="n">lock</span><span class="o">-&gt;</span><span class="n">turn</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The ticket lock “ensures progress for all threads” in contrast to “a thread spinning on test-and-set (for example) [that] could spin forever even as other threads acquire and release the lock.”</p>
+</div>
+<div class="section" id="too-much-spinning-what-now">
+<h2>Too Much Spinning: What Now?<a class="headerlink" href="#too-much-spinning-what-now" title="Permalink to this headline">¶</a></h2>
+<p>Some of the hardware-based locks above spend a lot of time spinning. The question then is “How can we develop a lock that doesn’t needlessly waste time spinning on the CPU?” We need operating system support for this in addition to the hardware support.</p>
+</div>
+<div class="section" id="a-simple-approach-just-yield-baby">
+<h2>A Simple Approach: Just Yield, Baby<a class="headerlink" href="#a-simple-approach-just-yield-baby" title="Permalink to this headline">¶</a></h2>
+<p>We assume an OS primitive yield(), which “a thread can call when it wants to give up the CPU and let another thread run…yield is simply a system call that moves the caller from the unning state to the ready state, and thus promotes another thread to running. Thus, the yielding thread essentially deschedules itself.”</p>
+<p>This is better than the earlier approach, but still has issues: “Assuming some kind of round-robin scheduler, each of the 99 will execute this run-and-yield pattern before the thread holding the lock gets to run again. While better than our spinning approach (which would waste 99 time slices spinning), this approach is still costly; the cost of a context switch can be substantial, and there is thus plenty of waste. Worse, we have not tackled the starvation problem at all. A thread may get caught in an endless yield loop while other threads repeatedly enter and exit the critical section.”</p>
+</div>
+<div class="section" id="using-queues-sleeping-instead-of-spinning">
+<h2>Using Queues: Sleeping Instead Of Spinning<a class="headerlink" href="#using-queues-sleeping-instead-of-spinning" title="Permalink to this headline">¶</a></h2>
+<p>This solution explicitly exerts: “some control over which thread next gets to acquire the lock after the current holder releases it”.</p>
+<p>The system call park() puts the calling thread to sleep, unpark(threadID) wakes the given thread and setpark() indicates that the thread is about to park.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>typedef struct __lock_t {
+	int flag;
+	int guard;
+	queue_t *q;
+} lock_t;
+
+void lock_init(lock_t *m) {
+	m-&gt;flag = 0;
+	m-&gt;guard = 0;
+	queue_init(m-&gt;q);
+}
+
+void lock(lock_t *m) {
+	while (TestAndSet(&amp;m-&gt;guard, 1) == 1)
+		; //acquire guard lock by spinning
+	if (m-&gt;flag == 0) {
+		m-&gt;flag = 1; // lock is acquired
+		m-&gt;guard = 0;
+	} else {
+		queue_add(m-&gt;q, gettid());
+		setpark();
+		m-&gt;guard = 0;
+		park();
+	}
+}
+
+void unlock(lock_t *m) {
+	while (TestAndSet(&amp;m-&gt;guard, 1) == 1)
+		; //acquire guard lock by spinning
+	if (queue_empty(m-&gt;q))
+		m-&gt;flag = 0; // let go of lock; no one wants it
+	else
+		unpark(queue_remove(m-&gt;q)); // hold lock
+									// (for next thread!)
+	m-&gt;guard = 0;
+}
+</pre></div>
+</div>
+<p>This code has some subtleties explained in the section.</p>
+</div>
+<div class="section" id="different-os-different-support">
+<h2>Different OS, Different Support<a class="headerlink" href="#different-os-different-support" title="Permalink to this headline">¶</a></h2>
+<p>Linux provides the system calls futex_wait(address, expected), which puts the thread to sleep assuming that the address is equal to expected, and futex_wake(address), which wakes one thread, instead of park, unpark and setpark.</p>
+<p>Figure 28.10 illustrates the usage of this system calls:</p>
+<p><img alt="ostep_figure28.10" src="_images/ostep_figure28.10.png" /></p>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Chapter 27 (“Locks”), Operating Systems: Three Easy Pieces, <a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf">https://pages.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf</a> accessed on 2/2/2022</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="ostep_concurrency_and_threads.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">OSTEP: Concurrency and Threads</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="ostep_condition_variables.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">OSTEP: Condition Variables</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

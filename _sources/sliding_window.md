@@ -79,6 +79,8 @@ def fun(arr, k):
     return ans
 ```
 
+Note that in the worst case the left pointer visits each element of the array once and the right pointer visits each element of the array once, so the time complexity is O(n).
+
 ## Example (2)
 
 https://leetcode.com/problems/maximize-the-confusion-of-an-exam/

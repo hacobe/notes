@@ -1,0 +1,857 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSTEP: Concurrency and Threads &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OSTEP: Locks" href="ostep_locks.html" />
+    <link rel="prev" title="Multithreading" href="multithreading.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_a_computer.html">
+     What is a computer?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="a_tour_of_computer_systems.html">
+     A Tour of Computer Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="transistors.html">
+     Transistors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
+     Flip-flops
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synchronous_systems.html">
+     Synchronous systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="operating_systems.html">
+   Operating systems
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction_to_operating_systems.html">
+     Introduction to operating systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multithreading.html">
+     Multithreading
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="backtracking.html">
+     Backtracking
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sliding_window.html">
+     Sliding window
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="0-1%20Knapsack.html">
+     0-1 Knapsack
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_machine_learning.html">
+     What is machine learning?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bias_variance_tradeoff.html">
+     Bias-Variance trade-off
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="naive_bayes.html">
+     Naive bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_discriminant_analysis.html">
+     Linear discriminant analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="k_means_clustering.html">
+     K-means clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machines.html">
+     Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kernel_trick.html">
+     Kernel trick
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="deep_learning.html">
+   Deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient descent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_parallelism.html">
+     Data parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="t5_style_model_parallelism.html">
+     T5-style model parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pipeline_parallelism.html">
+     Pipeline parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
+     ZeRO-Offload
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mixture_of_experts.html">
+     Mixture of Experts
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="linear_algebra.html">
+   Linear algebra
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_algebra_3blue1brown.html">
+     3Blue1Brown’s Linear Algebra series
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eigendecomposition.html">
+     Eigendecomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="singular_value_decomposition.html">
+     Singular value decomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="moore_penrose_pseudoinverse.html">
+     Moore-Penrose pseudoinverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="how_to_solve_it.html">
+     How to solve it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="modular_exponentiation.html">
+     Modular exponentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein estimation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="entropy.html">
+     Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ostep_concurrency_and_threads.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fostep_concurrency_and_threads.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-use-threads">
+   Why use threads?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#an-example-thread-creation">
+   An Example: Thread Creation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-it-gets-worse-shared-data">
+   Why It Gets Worse: Shared Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-heart-of-the-problem-uncontrolled-scheduling">
+   The Heart Of The Problem: Uncontrolled Scheduling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-wish-for-atomicity">
+   The Wish For Atomicity
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-more-problem-waiting-for-another">
+   One More Problem: Waiting For Another
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-concurrency-terms">
+   Key Concurrency Terms
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ostep-concurrency-and-threads">
+<h1>OSTEP: Concurrency and Threads<a class="headerlink" href="#ostep-concurrency-and-threads" title="Permalink to this headline">¶</a></h1>
+<p>This is a summary of Chapter 26 (“Concurrency and Threads”) from “Operating Systems: Three Easy Pieces”.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The chapter defines a thread as follows: “In this note, we introduce a new abstraction for a single running process: that of a <strong>thread</strong>. Instead of our classic view of a single point of execution within a program (i.e., a single PC where instructions are being fetched from and executed), a <strong>multi-threaded</strong> program has more than one point of execution (i.e., multiple PCs, each of which is being fetched and executed from). Perhaps another way to think of this is that each thread is very much like a separate process, except for one difference: they share the same address space and thus can access the same data.”</p>
+<p>The state of a single thread includes a program counter and a private set of registers for computation. We save this state in a data structure called the <strong>thread control block</strong> (TCB), which is analogous to the <strong>process control block</strong>. A <strong>context switch</strong> saves the state of the thread currently running so that it can be restored later when we want to start running it again. In the shared address space, each thread gets its own stack.</p>
+</div>
+<div class="section" id="why-use-threads">
+<h2>Why use threads?<a class="headerlink" href="#why-use-threads" title="Permalink to this headline">¶</a></h2>
+<p>There are 2 reasons we need threads:</p>
+<ul class="simple">
+<li><p>We can run threads over multiple processors in order to execute programs in parallel</p></li>
+<li><p>We can enable multiple threads to run concurrently on a single processor</p></li>
+</ul>
+<p>We could use processes for this too, but threads share an address space, which makes them more convenient than processes for programs that need to share data.</p>
+</div>
+<div class="section" id="an-example-thread-creation">
+<h2>An Example: Thread Creation<a class="headerlink" href="#an-example-thread-creation" title="Permalink to this headline">¶</a></h2>
+<p>Figure 26.2 shows an example of a multi-threaded program in C. I translate this program into Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">mythread</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">mythread</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,))</span>
+	<span class="n">t2</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">mythread</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,))</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;main: begin</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+	<span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">t2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">t1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="n">t2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;main: end</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are multiple different execution orderings that are possible for this program depending on the operating system scheduler. You can even have “B” printed before “A”, because a thread that is created first is not necessarily run first. Here are 3 different possible execution orderings from Figures 26.2-26.4:</p>
+<p><img alt="ostep_figure26.3" src="_images/ostep_figure26.3.png" /></p>
+<p><img alt="ostep_figure26.4" src="_images/ostep_figure26.4.png" /></p>
+<p><img alt="ostep_figure26.5" src="_images/ostep_figure26.5.png" /></p>
+</div>
+<div class="section" id="why-it-gets-worse-shared-data">
+<h2>Why It Gets Worse: Shared Data<a class="headerlink" href="#why-it-gets-worse-shared-data" title="Permalink to this headline">¶</a></h2>
+<p>Figure 26.6 shows an example of a multi-threaded program in C with shared data. I translate this program into Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">mythread</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">: begin</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+	<span class="k">global</span> <span class="n">counter</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e7</span><span class="p">)):</span>
+		<span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">: done</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">mythread</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,))</span>
+	<span class="n">t2</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">mythread</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,))</span>
+	<span class="k">global</span> <span class="n">counter</span>
+	<span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;main: begin (counter = </span><span class="si">{0}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">))</span>
+	<span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">t2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">t1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="n">t2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;main: done with both (counter = </span><span class="si">{0}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Running it can produce different results every time. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> 
+<span class="n">main</span><span class="p">:</span> <span class="n">begin</span> <span class="p">(</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">A</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">B</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">B</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">A</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">main</span><span class="p">:</span> <span class="n">done</span> <span class="k">with</span> <span class="n">both</span> <span class="p">(</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">12876934</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">main</span><span class="o">.</span><span class="n">py</span> 
+<span class="n">main</span><span class="p">:</span> <span class="n">begin</span> <span class="p">(</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">A</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">B</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">A</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">B</span><span class="p">:</span> <span class="n">done</span>
+<span class="n">main</span><span class="p">:</span> <span class="n">done</span> <span class="k">with</span> <span class="n">both</span> <span class="p">(</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">12992739</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-heart-of-the-problem-uncontrolled-scheduling">
+<h2>The Heart Of The Problem: Uncontrolled Scheduling<a class="headerlink" href="#the-heart-of-the-problem-uncontrolled-scheduling" title="Permalink to this headline">¶</a></h2>
+<p>Consider the following assembly code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100 mov 0x8049a1c, %eax
+105 add $0x1, %eax
+108 mov %eax, 0x8049a1c
+</pre></div>
+</div>
+<p>We suppose that the value of the counter is stored at address 0x8049a1c. We load the value of the counter into the register eax, then add one to that register, and finally update the original value in memory.</p>
+<p>Figure 26.7 shows what could happen:</p>
+<p><img alt="ostep_figure26.7" src="_images/ostep_figure26.7.png" /></p>
+<p>Thread 1 loads the counter value into its register and adds one to it, but before it updates the value in memory, a timer interrupt goes off, the operating system saves the state of that thread to its TCB and pauses the thread. Then, the operating system chooses Thread 2 to run. Thread 2 reads the value of the counter from memory, which is still the original value, adds 1 to it and stores the result in memory. The operating system switches back to Thread 1 and executes the last instruction, which stores the same result in memory again.</p>
+<p>The example demonstrates a <strong>race condition</strong>, because the output of the code above depend on the timing of the execution of the instructions.</p>
+</div>
+<div class="section" id="the-wish-for-atomicity">
+<h2>The Wish For Atomicity<a class="headerlink" href="#the-wish-for-atomicity" title="Permalink to this headline">¶</a></h2>
+<p>What we really want is to take the 3 instructions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100 mov 0x8049a1c, %eax
+105 add $0x1, %eax
+108 mov %eax, 0x8049a1c
+</pre></div>
+</div>
+<p>And have the hardware execute them atomically, i.e., as one unit. In other words, we want a “super instruction” like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>100 memory-add 0x8049a1c, $0x1
+</pre></div>
+</div>
+<p>It could not get interrupted, because the hardware would guarantee to execute the entire instruction in one step.</p>
+<p>In the general case, we don’t have an instruction like that. Instead, the hardware provides a few basic <strong>synchronization primitives</strong> from which we build more advanced concurrent programs.</p>
+</div>
+<div class="section" id="one-more-problem-waiting-for-another">
+<h2>One More Problem: Waiting For Another<a class="headerlink" href="#one-more-problem-waiting-for-another" title="Permalink to this headline">¶</a></h2>
+<p>The discussion above focuses on “accessing shared variables and the need to support atomicity for critical sections”. Another common interaction between threads is that “one thread must wait for another to complete some action before it continues”, so we also have synchronization primitives to support not just atomicity but also this “sleeping/waking interaction” between threads.</p>
+</div>
+<div class="section" id="key-concurrency-terms">
+<h2>Key Concurrency Terms<a class="headerlink" href="#key-concurrency-terms" title="Permalink to this headline">¶</a></h2>
+<p>The chapter has an aside about the following Key Concurrency Terms:</p>
+<ul class="simple">
+<li><p><em>A <strong>critical section</strong> is a piece of code that accesses a shared resource,
+usually a variable or data structure.</em></p></li>
+<li><p><em>A <strong>race condition</strong> (or <strong>data race</strong> [NM92]) arises if multiple threads of
+execution enter the critical section at roughly the same time; both
+attempt to update the shared data structure, leading to a surprising
+(and perhaps undesirable) outcome.</em></p></li>
+<li><p><em>An <strong>indeterminate program</strong> consists of one or more race conditions;
+the output of the program varies from run to run, depending on
+which threads ran when. The outcome is thus not <strong>deterministic</strong>,
+something we usually expect from computer systems.</em></p></li>
+<li><p><em>To avoid these problems, threads should use some kind of <strong>mutual
+exclusion</strong> primitives; doing so guarantees that only a single thread
+ever enters a critical section, thus avoiding races, and resulting in
+deterministic program outputs.</em></p></li>
+</ul>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Chapter 26 (“Concurrency and Threads”), Operating Systems: Three Easy Pieces, <a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf">https://pages.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf</a> accessed on 2/1/2022</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="multithreading.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Multithreading</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="ostep_locks.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">OSTEP: Locks</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

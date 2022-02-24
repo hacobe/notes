@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OSTEP: Condition Variables &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="OSTEP: Semaphores" href="ostep_semaphores.html" />
+    <link rel="prev" title="OSTEP: Locks" href="ostep_locks.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_a_computer.html">
+     What is a computer?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="a_tour_of_computer_systems.html">
+     A Tour of Computer Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="transistors.html">
+     Transistors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
+     Flip-flops
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synchronous_systems.html">
+     Synchronous systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="operating_systems.html">
+   Operating systems
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction_to_operating_systems.html">
+     Introduction to operating systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multithreading.html">
+     Multithreading
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="backtracking.html">
+     Backtracking
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sliding_window.html">
+     Sliding window
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="0-1%20Knapsack.html">
+     0-1 Knapsack
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_machine_learning.html">
+     What is machine learning?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bias_variance_tradeoff.html">
+     Bias-Variance trade-off
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="naive_bayes.html">
+     Naive bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_discriminant_analysis.html">
+     Linear discriminant analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="k_means_clustering.html">
+     K-means clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machines.html">
+     Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kernel_trick.html">
+     Kernel trick
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="deep_learning.html">
+   Deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient descent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_parallelism.html">
+     Data parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="t5_style_model_parallelism.html">
+     T5-style model parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pipeline_parallelism.html">
+     Pipeline parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
+     ZeRO-Offload
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mixture_of_experts.html">
+     Mixture of Experts
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="linear_algebra.html">
+   Linear algebra
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_algebra_3blue1brown.html">
+     3Blue1Brown’s Linear Algebra series
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eigendecomposition.html">
+     Eigendecomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="singular_value_decomposition.html">
+     Singular value decomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="moore_penrose_pseudoinverse.html">
+     Moore-Penrose pseudoinverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="how_to_solve_it.html">
+     How to solve it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="modular_exponentiation.html">
+     Modular exponentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein estimation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="entropy.html">
+     Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ostep_condition_variables.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fostep_condition_variables.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#definition-and-routines">
+   Definition and Routines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-producer-consumer-bounded-buffer-problem">
+   The Producer/Consumer (Bounded Buffer) Problem
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#incomplete-initial-code">
+     Incomplete initial code
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-broken-solution">
+     A Broken Solution
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#better-but-still-broken-while-not-if">
+     Better, But Still Broken: While, Not If
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-single-buffer-producer-consumer-solution">
+     The Single Buffer Producer/Consumer Solution
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#covering-conditions">
+   Covering Conditions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ostep-condition-variables">
+<h1>OSTEP: Condition Variables<a class="headerlink" href="#ostep-condition-variables" title="Permalink to this headline">¶</a></h1>
+<p>This is a summary of Chapter 30 (“Condition Variables”) from “Operating Systems: Three Easy Pieces”.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Locks are not the only primitives we need to build concurrent programs: “In particular, there are many cases where a thread wishes to check whether a condition is true before continuing its execution. For example, a parent thread might wish to check whether a child thread has completed before continuing (this is often called a join())”.</p>
+<p>The program in Figure 30.1 motivates the need for condition variables. I translate that program into Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+
+<span class="k">def</span> <span class="nf">child</span><span class="p">():</span>
+	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
+	<span class="c1"># XXX how to indicate we are done?</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: begin&quot;</span><span class="p">)</span>
+	<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">child</span><span class="p">)</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="c1"># XXX how to wait for child?</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: end&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The program will output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parent</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">parent</span><span class="p">:</span> <span class="n">end</span>
+<span class="n">child</span>
+</pre></div>
+</div>
+<p>But we want it to output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">parent</span><span class="p">:</span> <span class="n">begin</span>
+<span class="n">child</span>
+<span class="n">parent</span><span class="p">:</span> <span class="n">end</span>
+</pre></div>
+</div>
+<p>We could use a “spin-based approach” as follows (translation of Figure 30.2):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">child</span><span class="p">():</span>
+	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
+	<span class="c1"># XXX how to indicate we are done?</span>
+	<span class="k">global</span> <span class="n">done</span>
+	<span class="n">done</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: begin&quot;</span><span class="p">)</span>
+	<span class="k">global</span> <span class="n">done</span>
+	<span class="n">done</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">child</span><span class="p">)</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="c1"># XXX how to wait for child?</span>
+	<span class="k">while</span> <span class="n">done</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="k">pass</span>  <span class="c1"># spin</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: end&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>But this approach wastes CPU cycles as the parent spins.</p>
+</div>
+<div class="section" id="definition-and-routines">
+<h2>Definition and Routines<a class="headerlink" href="#definition-and-routines" title="Permalink to this headline">¶</a></h2>
+<p>A <strong>condition variable</strong> is “an explicit queue that threads can put themselves on when some state of execution
+(i.e., some <strong>condition</strong>) is not as desired (by <strong>waiting</strong> on the condition); some other thread, when it changes said state, can then wake one (or more) of those waiting threads and thus allow them to continue (by <strong>signaling</strong> on the condition).”</p>
+<p>Figure 30.3 shows how to solve the problem posed above with a condition variable. I translate it into Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">child</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
+	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
+	<span class="c1"># XXX how to indicate we are done?</span>
+	<span class="c1"># thr_exit:</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+	<span class="k">global</span> <span class="n">done</span>
+	<span class="n">done</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">condition</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">done</span>
+	<span class="n">done</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: begin&quot;</span><span class="p">)</span>
+	<span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="n">condition</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">lock</span><span class="p">)</span>
+	<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">child</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">lock</span><span class="p">))</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="c1"># XXX how to wait for child?</span>
+	<span class="c1"># thr_join:</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+	<span class="k">while</span> <span class="n">done</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="n">condition</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: end&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A condition variable has 2 operations: wait() and notify() (notify() is called signal() in the textbook). wait() releases the lock and puts the thread that calls it to sleep. This is done atomically, i.e, the instructions that comprise wait() are executed together and cannot be interrupted. notify() is called when a thread wants to wake a sleeping thread.</p>
+<p>To see how the program above works, consider 2 cases:</p>
+<ol class="simple">
+<li><p>Parent creates the child thread, but continues executing. In this case, the parent acquires the lock, enters the while loop, releases the lock and goes to sleep. The child eventually runs, acquires the free lock, sets done to 1, wakes up the parent thread.</p></li>
+<li><p>Parent creates the child thread and the child thread starts executing immediately. It “sets done to 1, calls signal to wake a sleeping thread (but there is none, so it just returns), and is done.” The parent does not enter the while loop (done != 0) so it doesn’t wait.</p></li>
+</ol>
+<p>In the code above, I’ve simulated (1) by adding time.sleep(1) at the start of the child function. We can simulate (2) by moving the time.sleep(1) call to right after the child thread starts.</p>
+<p><em>Do we need the state variable?</em></p>
+<p>Below is a program without the state variable. Notice that time.sleep(1) is right after the child thread starts, so we are simulating case (2). This program works fine in case (1). However, in case (2), the child thread calls notify() and there is no thread to wake up, so the thread continues and exits. Then, the parent thread calls wait() and it waits indefinitely, because there is no notify() call coming.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">child</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">lock</span><span class="p">):</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span>
+	<span class="c1"># XXX how to indicate we are done?</span>
+	<span class="c1"># thr_exit:</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+	<span class="n">condition</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">done</span>
+	<span class="n">done</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: begin&quot;</span><span class="p">)</span>
+	<span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="n">condition</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">lock</span><span class="p">)</span>
+	<span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">child</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">lock</span><span class="p">))</span>
+	<span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+	<span class="c1"># XXX how to wait for child?</span>
+	<span class="c1"># thr_join:</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+	<span class="n">condition</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+	<span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;parent: end&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Do we need the lock?</em></p>
+<p>The implementation of Condition requires a lock, so we can’t define a Condition without one, but supposing we could define a Condition without a lock then we could run into a race condition: “Specifically, if the parent calls
+thr_join() and then checks the value of done, it will see that it is 0 and thus try to go to sleep. But just before it calls wait to go to sleep, the parent is interrupted, and the child runs. The child changes the state variable
+done to 1 and signals, but no thread is waiting and thus no thread is woken. When the parent runs again, it sleeps forever, which is sad.”</p>
+</div>
+<div class="section" id="the-producer-consumer-bounded-buffer-problem">
+<h2>The Producer/Consumer (Bounded Buffer) Problem<a class="headerlink" href="#the-producer-consumer-bounded-buffer-problem" title="Permalink to this headline">¶</a></h2>
+<p>Here’s the setup for the Producer/Consumer problem: “Imagine one or more producer threads and one or more consumer
+threads. Producers generate data items and place them in a buffer; consumers grab said items from the buffer and consume them in some way.”</p>
+<p>Here are some real world examples that use a bounded buffer:</p>
+<ul class="simple">
+<li><p>“a multi-threaded web server, a producer puts HTTP requests into a work
+queue (i.e., the bounded buffer); consumer threads take requests out of
+this queue and process them.”</p></li>
+<li><p>“A bounded buffer is also used when you pipe the output of one program into another, e.g., grep foo file.txt | wc -l. This example runs two processes concurrently; grep writes lines from file.txt with the string foo in them to what it thinks is standard output; the UNIX shell redirects the output to what is called a UNIX pipe (created by the
+pipe system call). The other end of this pipe is connected to the standard input of the process wc, which simply counts the number of lines in the input stream and prints out the result. Thus, the grep process is the
+producer; the wc process is the consumer; between them is an in-kernel bounded buffer; you, in this example, are just the happy user.”</p></li>
+</ul>
+<div class="section" id="incomplete-initial-code">
+<h3>Incomplete initial code<a class="headerlink" href="#incomplete-initial-code" title="Permalink to this headline">¶</a></h3>
+<p>We start out with some code where the shared buffer is just a single integer. This code will throw an assertion error if you run it. It’s just meant to present a kind of scaffolding that we will continually improve on working towards the solution.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">buffer_</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="k">def</span> <span class="nf">get</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">return</span> <span class="n">buffer_</span>
+
+<span class="k">def</span> <span class="nf">producer</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loops</span><span class="p">):</span>
+		<span class="n">put</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">consumer</span><span class="p">():</span>
+	<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+		<span class="n">tmp</span> <span class="o">=</span> <span class="n">get</span><span class="p">()</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">buffer_</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">loops</span> <span class="o">=</span> <span class="mi">5</span>
+	<span class="n">producer_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer</span><span class="p">)</span>
+	<span class="n">consumer_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer</span><span class="p">)</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">consumer_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="n">consumer_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In this code: “The put() routine assumes the buffer is empty (and checks this with an assertion), and then simply puts a value into the shared buffer and marks it full by setting count to 1. The get() routine does the opposite, setting the buffer to empty (i.e., setting count to 0) and returning the value”. Also, we have “a producer that puts an integer into the shared buffer loops number of times, and a consumer that gets the data out of that shared buffer (forever), each time printing out the data item it pulled from the shared buffer”.</p>
+</div>
+<div class="section" id="a-broken-solution">
+<h3>A Broken Solution<a class="headerlink" href="#a-broken-solution" title="Permalink to this headline">¶</a></h3>
+<p>The following code works when there is just one producer thread and one consumer thread, but breaks when there are more than one of either thread.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">buffer_</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="k">def</span> <span class="nf">get</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">return</span> <span class="n">buffer_</span>
+
+<span class="k">def</span> <span class="nf">producer</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">cond</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loops</span><span class="p">):</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># p1</span>
+		<span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>   <span class="c1"># p2</span>
+			<span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># p3</span>
+		<span class="n">put</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>			 <span class="c1"># p4</span>
+		<span class="n">cond</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>	 <span class="c1"># p5</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>	 <span class="c1"># p6</span>
+
+<span class="k">def</span> <span class="nf">consumer</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">cond</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loops</span><span class="p">):</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>  <span class="c1"># c1</span>
+		<span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>   <span class="c1"># c2</span>
+			<span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c1"># c3</span>
+		<span class="n">tmp</span> <span class="o">=</span> <span class="n">get</span><span class="p">()</span>      <span class="c1"># c4</span>
+		<span class="n">cond</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>    <span class="c1"># c5</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>  <span class="c1"># c6</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">cond</span>
+	
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">buffer_</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">loops</span> <span class="o">=</span> <span class="mi">5</span>
+	<span class="n">mutex</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="n">cond</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">mutex</span><span class="p">)</span>
+
+	<span class="n">producer_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer</span><span class="p">)</span>
+
+	<span class="n">num_consumer_threads</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">consumer_threads</span> <span class="o">=</span> <span class="p">[</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span>
+		<span class="n">target</span><span class="o">=</span><span class="n">consumer</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_consumer_threads</span><span class="p">)]</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">consumer_threads</span><span class="p">)):</span>
+		<span class="n">consumer_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">consumer_threads</span><span class="p">)):</span>
+		<span class="n">consumer_threads</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If I run this code with num_consumer_threads = 2, then “assert count == 1” in get() throws an error. Here is an example execution that has the same behavior:</p>
+<p><img alt="ostep_figure30.9" src="_images/ostep_figure30.9.png" /></p>
+<p>Here is the crux of the problem: “after the producer woke <span class="math notranslate nohighlight">\(T_{c1}\)</span>, but before <span class="math notranslate nohighlight">\(T_{c1}\)</span> ever ran, the state of the bounded buffer changed (thanks to <span class="math notranslate nohighlight">\(T_{c2}\)</span>). Signaling a thread only wakes them up; it is thus a hint that the state
+of the world has changed (in this case, that a value has been placed in the buffer), but there is no guarantee that when the woken thread runs, the state will still be as desired.”</p>
+<p>An implementation where signaling a thread only wakes it up and doesn’t immediately start running that thread is called <strong>Mesa semantics</strong> and stands in contrast to <strong>Hoare semantics</strong> where signaling a thread immediately starts executing that thread. Almost all systems use Mesa semantics.</p>
+</div>
+<div class="section" id="better-but-still-broken-while-not-if">
+<h3>Better, But Still Broken: While, Not If<a class="headerlink" href="#better-but-still-broken-while-not-if" title="Permalink to this headline">¶</a></h3>
+<p>We can fix the particular error described above by replacing the if statement in the producer and the if statement in the consumer with a while statement in each. With that change, the “consumer <span class="math notranslate nohighlight">\(T_{c1}\)</span> wakes up and (with the lock held) immediately re-checks the state of the shared variable (c2). If the buffer is empty at that point, the consumer simply goes back to sleep (c3).”</p>
+<p>But the implementation with while loops still has a bug. As before, if I run the code with 1 producer thread and 1 consumer thread, then it works fine. But this time if I run the code with num_consumer_threads = 2, then it prints the expected output (the numbers 0 through 4 each on their own line), but then does not exit.</p>
+<p>Here is an example execution that has the same behavior:</p>
+<p><img alt="ostep_figure30.11" src="_images/ostep_figure30.11.png" /></p>
+<p>The crux of the problem is that the program can get into a situation where one of the consumers calls notify() to wake one thread from sleeping, but both the other consumer and the producer are sleeping and if it happens to wake the consumer all 3 threads will end up sleeping.</p>
+</div>
+<div class="section" id="the-single-buffer-producer-consumer-solution">
+<h3>The Single Buffer Producer/Consumer Solution<a class="headerlink" href="#the-single-buffer-producer-consumer-solution" title="Permalink to this headline">¶</a></h3>
+<p>The solution is to use 2 condition variables:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+	<span class="k">global</span> <span class="n">fill_ptr</span>
+	<span class="k">global</span> <span class="n">MAX</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="n">buffer_</span><span class="p">[</span><span class="n">fill_ptr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+	<span class="n">fill_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">fill_ptr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX</span>
+	<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">get</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">use_ptr</span>
+	<span class="k">global</span> <span class="n">MAX</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+
+	<span class="n">tmp</span> <span class="o">=</span> <span class="n">buffer_</span><span class="p">[</span><span class="n">use_ptr</span><span class="p">]</span>
+	<span class="n">use_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="n">use_ptr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">MAX</span>
+	<span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+	<span class="k">return</span> <span class="n">tmp</span>
+
+<span class="k">def</span> <span class="nf">producer</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">empty</span>
+	<span class="k">global</span> <span class="n">fill</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loops</span><span class="p">):</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+		<span class="k">while</span> <span class="n">count</span> <span class="o">==</span> <span class="n">MAX</span><span class="p">:</span>
+			<span class="n">empty</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+		<span class="n">put</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+		<span class="n">fill</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">consumer</span><span class="p">():</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">empty</span>
+	<span class="k">global</span> <span class="n">fill</span>
+
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loops</span><span class="p">):</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+		<span class="k">while</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">fill</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+		<span class="n">tmp</span> <span class="o">=</span> <span class="n">get</span><span class="p">()</span>
+		<span class="n">empty</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+		<span class="n">mutex</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="k">global</span> <span class="n">MAX</span>
+	<span class="k">global</span> <span class="n">fill_ptr</span>
+	<span class="k">global</span> <span class="n">use_ptr</span>
+	<span class="k">global</span> <span class="n">count</span>
+	<span class="k">global</span> <span class="n">buffer_</span>
+	<span class="k">global</span> <span class="n">loops</span>
+	<span class="k">global</span> <span class="n">mutex</span>
+	<span class="k">global</span> <span class="n">empty</span>
+	<span class="k">global</span> <span class="n">fill</span>
+	<span class="n">MAX</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="n">fill_ptr</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">use_ptr</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="n">buffer_</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+	<span class="n">loops</span> <span class="o">=</span> <span class="mi">5</span>
+	<span class="n">mutex</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="n">empty</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">mutex</span><span class="p">)</span>
+	<span class="n">fill</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="n">mutex</span><span class="p">)</span>
+
+	<span class="n">producer_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">producer</span><span class="p">)</span>
+	<span class="n">consumer_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">consumer</span><span class="p">)</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">consumer_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="n">producer_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+	<span class="n">consumer_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="covering-conditions">
+<h2>Covering Conditions<a class="headerlink" href="#covering-conditions" title="Permalink to this headline">¶</a></h2>
+<p>This section discusses an example where you can notify all other threads to wake up calling pthread_cond_broadcast() in C (or notify_all() in Python).</p>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Chapter 30 (“Condition Variables”), Operating Systems: Three Easy Pieces, <a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf">https://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf</a> accessed on 2/2/2022</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="ostep_locks.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">OSTEP: Locks</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="ostep_semaphores.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">OSTEP: Semaphores</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

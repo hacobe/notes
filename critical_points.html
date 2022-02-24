@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -53,6 +55,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overflow and Underflow" href="overflow_and_underflow.html" />
+    <link rel="prev" title="Optimization" href="optimization.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -88,7 +92,7 @@
   </a>
  </li>
 </ul>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="computer_architecture.html">
    Computer architecture
@@ -191,6 +195,36 @@
      Multithreading
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -253,6 +287,11 @@
      0-1 Knapsack
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -288,11 +327,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="k_means_clustering.html">
      K-means clustering
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pca.html">
-     PCA
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,14 +428,41 @@
      Moore-Penrose pseudoinverse
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -538,12 +599,17 @@
                 
   <div class="section" id="critical-points">
 <h1>Critical points<a class="headerlink" href="#critical-points" title="Permalink to this headline">¶</a></h1>
-<p>Suppose we have a function <span class="math notranslate nohighlight">\(y = f(x)\)</span> with <span class="math notranslate nohighlight">\(x, y \in \mathbb{R}\)</span>.</p>
+<p>The <strong>derivative</strong> of the function <span class="math notranslate nohighlight">\(f'(x)\)</span> gives the slope of the tangent line to the graph of the function at the point <span class="math notranslate nohighlight">\(x\)</span>. It measures the effect of a small change in the input to the function on the output of the function, i.e., <span class="math notranslate nohighlight">\(f(x + \epsilon) \approx f(x) + \epsilon f'(x)\)</span>.</p>
 <p>A point <span class="math notranslate nohighlight">\(x\)</span> where the derivative <span class="math notranslate nohighlight">\(f'(x) = 0\)</span> is called a <strong>critical point</strong>. A critical point may be a <strong>maximum</strong>, a <strong>minimum</strong> or a <strong>saddle point</strong>. See Figure 4.2 from Goodfellow:</p>
 <p><img alt="goodfellow_figure4.2" src="_images/goodfellow_figure4.2.png" /></p>
-<p>The second derivative <span class="math notranslate nohighlight">\(f''(x)\)</span> measures <strong>curvature</strong>.</p>
-<p>If the second derivative at the point <span class="math notranslate nohighlight">\(f''(x) \gt 0\)</span>, then the point is a minimum. If <span class="math notranslate nohighlight">\(f''(x) \lt 0\)</span>, then point is a maximum. If <span class="math notranslate nohighlight">\(f''(x) = 0\)</span>, then the <strong>second derivative test</strong> is inconclusive.</p>
-<p>For a function <span class="math notranslate nohighlight">\(f(\textbf{x})\)</span> that takes a vector <span class="math notranslate nohighlight">\(\textbf{x}\)</span> as an input, we can compute the gradient <span class="math notranslate nohighlight">\(\nabla f(\textbf{x})\)</span> with respect to <span class="math notranslate nohighlight">\(\textbf{x}\)</span>. Then, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is a critical point if <span class="math notranslate nohighlight">\(\nabla f(\textbf{x}) = 0\)</span>.</p>
+<p>The <strong>second derivative</strong> of the function <span class="math notranslate nohighlight">\(f''(x)\)</span> “measures how the rate of change of a quantity is itself changing” (<a class="reference external" href="https://en.wikipedia.org/wiki/Second_derivative">https://en.wikipedia.org/wiki/Second_derivative</a>).</p>
+<p>If the second derivative at the point <span class="math notranslate nohighlight">\(f''(x) \gt 0\)</span>, then “the first derivative <span class="math notranslate nohighlight">\(f'(x)\)</span> increases as we move to the right and decreases as we move to the left…In other words, as we move right, the slope begins to point uphill to the right, and as we move left, the slope begins to point uphill to the left” (Goodfellow). Therefore, when <span class="math notranslate nohighlight">\(f'(x) = 0\)</span> and <span class="math notranslate nohighlight">\(f''(x) \gt 0\)</span>, <span class="math notranslate nohighlight">\(x\)</span> is a minimum. Similarly, when <span class="math notranslate nohighlight">\(f'(x) = 0\)</span> and <span class="math notranslate nohighlight">\(f''(x) \gt 0\)</span>, <span class="math notranslate nohighlight">\(x\)</span> is a maximum. When <span class="math notranslate nohighlight">\(f'(x) = 0\)</span> and <span class="math notranslate nohighlight">\(f''(x) = 0\)</span>, then the <strong>second derivative test</strong> is inconclusive and “<span class="math notranslate nohighlight">\(x\)</span> may be a saddle point or a part of a flat region” (Goodfellow).</p>
+<p>For a function <span class="math notranslate nohighlight">\(f(\textbf{x})\)</span> that takes a vector <span class="math notranslate nohighlight">\(\textbf{x}\)</span> as an input, we can compute the <strong>gradient</strong> <span class="math notranslate nohighlight">\(\nabla f(\textbf{x})\)</span> with respect to <span class="math notranslate nohighlight">\(\textbf{x}\)</span>. The gradient is a vector, where the <span class="math notranslate nohighlight">\(i\)</span>th component is equal to the partial derivative <span class="math notranslate nohighlight">\(\frac{\partial d f}{\partial d x_i}\)</span>. The <span class="math notranslate nohighlight">\(i\)</span>th component measures the effect of a small change in the <span class="math notranslate nohighlight">\(i\)</span>th input to the function on the output of the function.</p>
+<p>Like in the univariate case, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is a critical point if <span class="math notranslate nohighlight">\(\nabla f(\textbf{x}) = 0\)</span>.</p>
+<p>The <strong>Hessian</strong> of the function <span class="math notranslate nohighlight">\(\textbf{H}(f)(\textbf{x})_{i,j} = \frac{\partial^2}{\partial x_i \partial x_j} f(\textbf{x})\)</span>. The Hessian is the <strong>Jacobian</strong> of the gradient. We can use the Hessian to get the second derivative in a specific direction: “The second derivative in a specific direction represented by a unit vector <span class="math notranslate nohighlight">\(\textbf{d}\)</span> is given by <span class="math notranslate nohighlight">\(\textbf{d}^T \textbf{H} \textbf{d}\)</span>. When <span class="math notranslate nohighlight">\(\textbf{d}\)</span> is an eigenvector of <span class="math notranslate nohighlight">\(\textbf{H}\)</span>, the second derivative in that direction is given by the corresponding eigenvalue. For other directions of <span class="math notranslate nohighlight">\(\textbf{d}\)</span>, the directional second derivative is a weighted average of all the eigenvalues, with weights between 0 and 1, and eigenvectors that have a smaller angle with <span class="math notranslate nohighlight">\(\textbf{d}\)</span> receiving more weight. The maximum eigenvalue determines the maximum second derivative, and the minimum eigenvalue determines the minimum second derivative” (Goodfellow). We know that the Hessian has an eigendecomposition, because it is a real, symmetric matrix.</p>
+<p>If the Hessian is positive definite, i.e., all the eigenvalues are positive, then the second derivative in any direction must be positive (the second derivative is a weighted average of the eigenvalues of the Hessian). Therefore, when <span class="math notranslate nohighlight">\(\nabla f(\textbf{x}) = 0\)</span> and the Hessian is positive definite, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is a minimum. Similarly, when <span class="math notranslate nohighlight">\(\nabla f(\textbf{x}) = 0\)</span> and the Hessian is negative definite, <span class="math notranslate nohighlight">\(\textbf{x}\)</span> is a maximum. If some eigenvalues are positive and some are negative, then “<span class="math notranslate nohighlight">\(\textbf{x}\)</span> is a local maximum on one cross section off but a local minimum on another cross section. See Figure 4.5 for an example” (Goodfellow).</p>
+<p><img alt="goodfellow_figure4.5" src="_images/goodfellow_figure4.5.png" /></p>
+<p>The multivariate second derivative test “is inconclusive whenever all the nonzero eigenvalues have the same sign but at least one eigenvalue is zero. This is because the univariate second derivative test is inconclusive in the cross section corresponding to the zero eigenvalue” (Goodfellow).</p>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
@@ -584,6 +650,24 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="optimization.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Optimization</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="overflow_and_underflow.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Overflow and Underflow</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
 
 </div>
         

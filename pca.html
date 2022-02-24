@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -53,8 +55,8 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Support vector machines" href="support_vector_machines.html" />
-    <link rel="prev" title="K-means clustering" href="k_means_clustering.html" />
+    <link rel="next" title="Optimization" href="optimization.html" />
+    <link rel="prev" title="Moore-Penrose pseudoinverse" href="moore_penrose_pseudoinverse.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -193,6 +195,36 @@
      Multithreading
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -255,18 +287,23 @@
      0-1 Knapsack
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
   </ul>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="machine_learning.html">
    Machine learning
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
   <label for="toctree-checkbox-4">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
+  <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="what_is_machine_learning.html">
      What is machine learning?
@@ -290,11 +327,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="k_means_clustering.html">
      K-means clustering
-    </a>
-   </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
-     PCA
     </a>
    </li>
    <li class="toctree-l2">
@@ -366,16 +398,16 @@
    </li>
   </ul>
  </li>
- <li class="toctree-l1 has-children">
+ <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="linear_algebra.html">
    Linear algebra
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
   <label for="toctree-checkbox-6">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul>
+  <ul class="current">
    <li class="toctree-l2">
     <a class="reference internal" href="linear_algebra_3blue1brown.html">
      3Blue1Brown’s Linear Algebra series
@@ -396,14 +428,41 @@
      Moore-Penrose pseudoinverse
     </a>
    </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -523,6 +582,11 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example">
+   Example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -540,17 +604,40 @@
                 
   <div class="section" id="pca">
 <h1>PCA<a class="headerlink" href="#pca" title="Permalink to this headline">¶</a></h1>
-<p>PCA is a method for taking some data and compressing it, while preserving as much information as possible.</p>
-<p>By “data”, we mean a matrix <span class="math notranslate nohighlight">\(\textbf{X} \in \mathbb{R}^{n, p}\)</span>. By “compressing” it, we mean producing another matrix <span class="math notranslate nohighlight">\(\textbf{C} \in \mathbb{R}^{n,k}\)</span> where <span class="math notranslate nohighlight">\(k &lt; p\)</span>. In what sense do we try to preserve information in the original dataset? We can explain that first visually.</p>
-<p>Take <span class="math notranslate nohighlight">\(p = 2\)</span> and <span class="math notranslate nohighlight">\(k = 1\)</span>. A natural way to compress points in a plane is to project them onto a line. Which line? We take the line that minimizes the projection error, i.e., the sum of the distances bewteen each point and their projection. The plot below shows such a line and the projection of point <span class="math notranslate nohighlight">\(A\)</span> onto the line.</p>
+<p>Suppose we have <span class="math notranslate nohighlight">\(n\)</span> points <span class="math notranslate nohighlight">\(\{\textbf{x}^{(1)}, \dots, \textbf{x}^{(n)}\}\)</span>. For each point <span class="math notranslate nohighlight">\(\textbf{x}^{(i)} \in \mathbb{R}^p\)</span>, we want to produce a compressed version <span class="math notranslate nohighlight">\(\textbf{c}^{(i)} \in \mathbb{R}^k\)</span> where <span class="math notranslate nohighlight">\(k &lt; p\)</span>. We produce a compressed point via an encoding function <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{c}\)</span> and we recover the original point using a decoding function <span class="math notranslate nohighlight">\(g\)</span>, where <span class="math notranslate nohighlight">\(\textbf{x} \approx g(f(\textbf{x}))\)</span>.</p>
+<p>PCA assumes that:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(g(\textbf{c}) = \textbf{D} \textbf{c}\)</span>, where <span class="math notranslate nohighlight">\(\textbf{D} \in \mathbb{R}^{p \times k}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\textbf{D}^T \textbf{D} = \textbf{I}\)</span>, i.e., the columns of <span class="math notranslate nohighlight">\(\textbf{D}\)</span> are orthogonal to each other and have unit norm.</p></li>
+</ol>
+<p>Under those assumptions, setting <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{D}^T \textbf{x}\)</span> minimizes the reconstruction error (I temporarily drop the bolding below for convenience):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\min_c \lVert x - Dc \rVert_2 &amp;= \min_c [ (x - Dc)^T (x - Dc) ] \nonumber \\
+&amp;= \min_c [ (x - Dc)^T x - (x - Dc)^T Dc ] \nonumber \\
+&amp;= \min_c [ x^T (x - Dc) - (Dc)^T (x - Dc) ] \nonumber \\
+&amp;= \min_c [ x^T x - x^T Dc - (Dc)^T x + (Dc)^T (Dc) ] \nonumber \\
+&amp;= \min_c [ - 2 x^T Dc + c^T D^T Dc ] \nonumber \\
+&amp;= \min_c [ - 2 x^T Dc + c^T c ] \nonumber \\
+\end{align}
+\end{split}\]</div>
+<p>The gradient of the last line is:</p>
+<p><span class="math notranslate nohighlight">\(\nabla_{c} \left( - 2 x^T Dc + c^T c \right) = -2D^T x + 2c\)</span></p>
+<p>Setting it equal to 0 to find the minimum yields <span class="math notranslate nohighlight">\(c = D^T x\)</span>.</p>
+<p>So now we have <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{D}^T \textbf{x}\)</span> and <span class="math notranslate nohighlight">\(g(\textbf{c}) = \textbf{D} \textbf{c}\)</span>. How do we find <span class="math notranslate nohighlight">\(\textbf{D}\)</span>? We solve the following optimization problem:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{D}^* = \textrm{argmin}_{\textbf{D}} \sqrt{\sum_{i,j} \left(x_j^{(i)} - g(f(\textbf{x}^{(i)}))_j \right)^2} \textrm{ subject to } \textbf{D}^T \textbf{D} = \textbf{I}_l\)</span></p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<p>Take <span class="math notranslate nohighlight">\(p = 2\)</span> and <span class="math notranslate nohighlight">\(k = 1\)</span>. Then, <span class="math notranslate nohighlight">\(\textbf{D}\)</span> is just the column vector <span class="math notranslate nohighlight">\(\textbf{d}\)</span> in <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. It corresponds to a direction in the plane (imagine a vector centered at the origin with its head on the point (<span class="math notranslate nohighlight">\(d_0\)</span>, <span class="math notranslate nohighlight">\(d_1\)</span>)). Then, <span class="math notranslate nohighlight">\(f(\textbf{x}) = \textbf{d}^T \textbf{x}^{(i)}\)</span> is just the dot product of <span class="math notranslate nohighlight">\(\textbf{d}\)</span> and <span class="math notranslate nohighlight">\(\textbf{x}^{(i)}\)</span>, which is the projection of <span class="math notranslate nohighlight">\(\textbf{x}^{(i)}\)</span> onto <span class="math notranslate nohighlight">\(\textbf{d}\)</span>. The plot below shows a point in the plane projected onto the axis defined by <span class="math notranslate nohighlight">\(\textbf{d}\)</span> that minimizes the reconstruction error:</p>
 <p><img alt="pca_projection" src="_images/pca_projection.png" /></p>
 <p><strong>Side note:</strong> The line we get from minimizing the projection error is different from the line we get from least squares regression, because least squares regression tries to minimize the error in <span class="math notranslate nohighlight">\(y\)</span>, while the projection error cares about error in <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> equally.</p>
-<p>In 2D, we project the data onto a line. In 3D, we project the data onto a plane (<span class="math notranslate nohighlight">\(k = 2\)</span>) or a line (<span class="math notranslate nohighlight">\(k = 1)\)</span>. In general, we project the data onto a “linear subspace”. What this means is that we try to find a linear transformation <span class="math notranslate nohighlight">\(\textbf{A}\)</span> such that <span class="math notranslate nohighlight">\(\textbf{A} \textbf{x} = \textbf{c}\)</span> where <span class="math notranslate nohighlight">\(\textbf{x} \in \mathbb{R}^p\)</span>, <span class="math notranslate nohighlight">\(\textbf{A} \in \mathbb{R}^{k,p}\)</span> and <span class="math notranslate nohighlight">\(\textbf{c} \in \mathbb{R}^k\)</span> and where the projection error between <span class="math notranslate nohighlight">\(\textbf{x}\)</span> and <span class="math notranslate nohighlight">\(\textbf{c}\)</span> is minimized. Using <span class="math notranslate nohighlight">\(\textbf{A}\)</span> in this way, we compress <span class="math notranslate nohighlight">\(\textbf{x}\)</span> to <span class="math notranslate nohighlight">\(\textbf{c}\)</span>. We could imagine more complicated geometry to project data onto, but we make the assumption of linear subspaces to keep things simple.</p>
+</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Dimensionality Reduction, Machine Learning,</p></li>
-<li><p>Goodfellow, Deep Learning, 2.12</p></li>
+<li><p>Goodfellow, Deep Learning, Chapter 2.12</p></li>
+<li><p>Dimensionality Reduction, Machine Learning, Andrew Ng</p></li>
 <li><p><a class="reference external" href="https://stats.stackexchange.com/questions/318625/why-do-the-leading-eigenvectors-of-a-maximize-texttrdtad">https://stats.stackexchange.com/questions/318625/why-do-the-leading-eigenvectors-of-a-maximize-texttrdtad</a></p></li>
 <li><p><a class="reference external" href="https://stats.stackexchange.com/questions/32174/pca-objective-function-what-is-the-connection-between-maximizing-variance-and-m">https://stats.stackexchange.com/questions/32174/pca-objective-function-what-is-the-connection-between-maximizing-variance-and-m</a></p></li>
 <li><p>3Brown1Blue, Dot products and duality</p></li>
@@ -588,19 +675,19 @@
 <div class='prev-next-bottom'>
     
     <div id="prev">
-        <a class="left-prev" href="k_means_clustering.html" title="previous page">
+        <a class="left-prev" href="moore_penrose_pseudoinverse.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">K-means clustering</p>
+                <p class="prevnext-title">Moore-Penrose pseudoinverse</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="support_vector_machines.html" title="next page">
+        <a class="right-next" href="optimization.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Support vector machines</p>
+                <p class="prevnext-title">Optimization</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

@@ -42,6 +42,8 @@
     <script src="_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -191,6 +193,36 @@
      Multithreading
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -253,6 +285,11 @@
      0-1 Knapsack
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
@@ -288,11 +325,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="k_means_clustering.html">
      K-means clustering
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="pca.html">
-     PCA
     </a>
    </li>
    <li class="toctree-l2">
@@ -394,14 +426,41 @@
      Moore-Penrose pseudoinverse
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="miscellaneous.html">
    Miscellaneous
   </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-  <label for="toctree-checkbox-7">
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
    <i class="fas fa-chevron-down">
    </i>
   </label>
@@ -521,6 +580,11 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#glossary">
+   Glossary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sources">
    Sources
   </a>
@@ -539,6 +603,43 @@
   <div class="section" id="concurrency">
 <h1>Concurrency<a class="headerlink" href="#concurrency" title="Permalink to this headline">¶</a></h1>
 <p>A computer program is a sequence of instructions. We can execute 2 computer programs <strong>sequentially</strong> by first executing the instructions of one of the programs and then executing the instructions of the other program. Alternatively, we could execute the 2 computer programs <strong>concurrently</strong> by executing their instructions during overlapping time periods. For example, we could alternate executing instructions from each program so that the programs are executed over roughly the same time period. If we had 2 or more processing units capable of executing instructions, then we could also execute the 2 computer programs in <strong>parallel</strong> by executing the instructions of 1 program on 1 processing unit and the other program on another processing unit. If we execute the 2 programs in parallel, then the 2 programs would be executed during overlapping time periods, which makes parallel computing a special case of concurrent computing.</p>
+<div class="section" id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Thread</strong>: “In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently by a scheduler, which is typically a part of the operating system.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Thread_(computing)">https://en.wikipedia.org/wiki/Thread_(computing)</a>)</p></li>
+<li><p><strong>Process</strong>: “In computing, a process is the instance of a computer program that is being executed by one or many threads.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Process_(computing)">https://en.wikipedia.org/wiki/Process_(computing)</a>)</p></li>
+<li><p><strong>Lock</strong>: A synchronization primitive to control access to a shared resource.</p>
+<ul>
+<li><p>“In computer science, a lock or mutex (from mutual exclusion) is a synchronization primitive: a mechanism that enforces limits on access to a resource when there are many threads of execution.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Lock_(computer_science)">https://en.wikipedia.org/wiki/Lock_(computer_science)</a>)</p></li>
+</ul>
+</li>
+<li><p><strong>Mutex</strong>: See “Lock”</p></li>
+<li><p><strong>Semaphore</strong>: A variable used to control access to a shared resource, e.g., a count that is incremented or decremented or a bit that is toggled.</p>
+<ul>
+<li><p>“In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads and avoid critical section problems in a concurrent system such as a multitasking operating system. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled) depending on programmer-defined conditions.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Semaphore_(programming)">https://en.wikipedia.org/wiki/Semaphore_(programming)</a>)</p></li>
+</ul>
+</li>
+<li><p><strong>Monitor</strong>: A monitor has 2 definitions. In the first definition, a monitor is a pattern in concurrent programming that uses a lock and condition variables to temporarily give up access to a resource in order to wait for a condition to be met and then regain access. In the second definition, it just refers to a thread-safe class, object or module.</p>
+<ul>
+<li><p>“A monitor consists of a mutex (lock) object and condition variables. A condition variable essentially is a container of threads that are waiting for a certain condition. Monitors provide a mechanism for threads to temporarily give up exclusive access in order to wait for some condition to be met, before regaining exclusive access and resuming their task…Another definition of monitor is a thread-safe class, object, or module that wraps around a mutex in order to safely allow access to a method or variable by more than one thread. The defining characteristic of a monitor is that its methods are executed with mutual exclusion: At each point in time, at most one thread may be executing any of its methods. By using one or more condition variables it can also provide the ability for threads to wait on a certain condition (thus using the above definition of a ‘monitor’). For the rest of this article, this sense of “monitor” will be referred to as a ‘thread-safe object/class/module’.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Monitor_(synchronization)">https://en.wikipedia.org/wiki/Monitor_(synchronization)</a>)</p></li>
+</ul>
+</li>
+<li><p><strong>Reentrant lock</strong>: Like a lock, but it can be acquired multiple times by the owner of the lock.</p>
+<ul>
+<li><p>“In computer science, the reentrant mutex (recursive mutex, recursive lock) is a particular type of mutual exclusion (mutex) device that may be locked multiple times by the same process/thread, without causing a deadlock.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Reentrant_mutex">https://en.wikipedia.org/wiki/Reentrant_mutex</a>)</p></li>
+</ul>
+</li>
+<li><p><strong>Race condition</strong>: “A race condition or race hazard is the condition of an electronics, software, or other system where the system’s substantive behavior is dependent on the sequence or timing of other uncontrollable events.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Race_condition">https://en.wikipedia.org/wiki/Race_condition</a>)</p></li>
+<li><p><strong>Critical section</strong>: A section of code that accesses a shared resource.</p>
+<ul>
+<li><p>“In concurrent programming, concurrent accesses to shared resources can lead to unexpected or erroneous behavior, so parts of the program where the shared resource is accessed need to be protected in ways that avoid the concurrent access. This protected section is the critical section or critical region. It cannot be executed by more than one process at a time.”</p></li>
+</ul>
+</li>
+<li><p><strong>Deadlock</strong>: “In concurrent computing, a deadlock is a state in which each member of a group waits for another member, including itself, to take action, such as sending a message or more commonly releasing a lock.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Deadlock">https://en.wikipedia.org/wiki/Deadlock</a>)</p></li>
+<li><p><strong>Livelock</strong>: “A livelock is similar to a deadlock, except that the states of the processes involved in the livelock constantly change with regard to one another, none progressing.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Deadlock#Livelock">https://en.wikipedia.org/wiki/Deadlock#Livelock</a>)</p></li>
+<li><p><strong>Starvation</strong>: “In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work.” (<a class="reference external" href="https://en.wikipedia.org/wiki/Starvation_(computer_science)">https://en.wikipedia.org/wiki/Starvation_(computer_science)</a>)</p></li>
+</ul>
+</div>
 <div class="section" id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">

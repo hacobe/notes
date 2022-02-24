@@ -1,0 +1,1095 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-threaded web crawler &#8212; Technical notes</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Technical notes</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="computer_architecture.html">
+   Computer architecture
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_a_computer.html">
+     What is a computer?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="binary_addition.html">
+     Binary addition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow.html">
+     Overflow
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="twos_complement.html">
+     Two’s complement
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="a_tour_of_computer_systems.html">
+     A Tour of Computer Systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="transistors.html">
+     Transistors
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flip_flops.html">
+     Flip-flops
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synchronous_systems.html">
+     Synchronous systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="assembly.html">
+     Assembly
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="c_memory_management.html">
+     C memory management
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="computer_chip.html">
+     Computer chip
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="floating_point.html">
+     Floating point
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="flynns_taxonomy.html">
+     Flynn’s taxonomy
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="operating_systems.html">
+   Operating systems
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="introduction_to_operating_systems.html">
+     Introduction to operating systems
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="concurrency.html">
+     Concurrency
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multithreading.html">
+     Multithreading
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_concurrency_and_threads.html">
+     OSTEP: Concurrency and Threads
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locks.html">
+     OSTEP: Locks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_condition_variables.html">
+     OSTEP: Condition Variables
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_semaphores.html">
+     OSTEP: Semaphores
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_locked_data_structures.html">
+     OSTEP: Locked data structures
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="ostep_common_concurrency_problems.html">
+     OSTEP: Common Concurrency Problems
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="data_structures_and_algorithms.html">
+   Data structures and algorithms
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Basic%20comparison%20sorting.html">
+     Basic comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Non-comparison%20sorting.html">
+     Non-comparison sorting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Merge%20sort.html">
+     Merge sort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Quicksort.html">
+     Quicksort
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Dynamic%20programming.html">
+     Dynamic programming
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Heap.html">
+     Heap
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="Trie.html">
+     Trie
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="backtracking.html">
+     Backtracking
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sliding_window.html">
+     Sliding window
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="0-1%20Knapsack.html">
+     0-1 Knapsack
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="correctness_proof.html">
+     Correctness proof
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="machine_learning.html">
+   Machine learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="what_is_machine_learning.html">
+     What is machine learning?
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bias_variance_tradeoff.html">
+     Bias-Variance trade-off
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="naive_bayes.html">
+     Naive bayes
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_discriminant_analysis.html">
+     Linear discriminant analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="k_means_clustering.html">
+     K-means clustering
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="support_vector_machines.html">
+     Support vector machines
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kernel_trick.html">
+     Kernel trick
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="deep_learning.html">
+   Deep learning
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient_descent.html">
+     Gradient descent
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="automatic_differentiation.html">
+     Automatic differentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="attention.html">
+     Attention
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="graph_neural_networks.html">
+     Graph neural networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_parallelism.html">
+     Data parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="t5_style_model_parallelism.html">
+     T5-style model parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pipeline_parallelism.html">
+     Pipeline parallelism
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="zero_offload.html">
+     ZeRO-Offload
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mixture_of_experts.html">
+     Mixture of Experts
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="linear_algebra.html">
+   Linear algebra
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear_algebra_3blue1brown.html">
+     3Blue1Brown’s Linear Algebra series
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="eigendecomposition.html">
+     Eigendecomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="singular_value_decomposition.html">
+     Singular value decomposition
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="moore_penrose_pseudoinverse.html">
+     Moore-Penrose pseudoinverse
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="pca.html">
+     PCA
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="optimization.html">
+   Optimization
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="critical_points.html">
+     Critical points
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="overflow_and_underflow.html">
+     Overflow and Underflow
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="miscellaneous.html">
+   Miscellaneous
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="broadcasting.html">
+     Broadcasting
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="how_to_solve_it.html">
+     How to solve it
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="modular_exponentiation.html">
+     Modular exponentiation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="james_stein_estimation.html">
+     James-Stein estimation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="entropy.html">
+     Entropy
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/multithreaded_web_crawler.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmultithreaded_web_crawler.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-threaded-web-crawler">
+   Single-threaded web crawler
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#incorrect-multi-threaded-web-web-crawler">
+   Incorrect multi-threaded web web crawler
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#problem-1-threads-may-exit-early">
+     Problem #1: Threads may exit early
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#thread-1-thread-2">
+   thread 1           				| thread 2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   thread 1           				| thread 2
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#problem-2-a-url-can-get-visited-twice">
+     Problem #2: A url can get visited twice
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   thread 1           		  | thread 2
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multi-threaded-web-crawler-with-blocking-queue">
+   Multi-threaded web crawler with blocking queue
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#blocking-queue">
+   Blocking queue
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#why-do-condition-variables-need-to-be-in-while-statements">
+     Why do condition variables need to be in while statements?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#practical-tips">
+   Practical tips
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#see-also">
+   See also
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-questions">
+   Further questions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#footnotes">
+   Footnotes
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="multi-threaded-web-crawler">
+<h1>Multi-threaded web crawler<a class="headerlink" href="#multi-threaded-web-crawler" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="single-threaded-web-crawler">
+<h2>Single-threaded web crawler<a class="headerlink" href="#single-threaded-web-crawler" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="n">startUrl</span><span class="p">,</span> <span class="n">htmlParser</span><span class="p">):</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">([</span><span class="n">startUrl</span><span class="p">])</span>
+    <span class="n">visited</span> <span class="o">=</span> <span class="p">{</span><span class="n">startUrl</span><span class="p">}</span>
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="n">neighbor_urls</span> <span class="o">=</span> <span class="n">htmlParser</span><span class="o">.</span><span class="n">getUrls</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="n">neighbor_urls</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+            	<span class="k">continue</span>
+            <span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+            <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">visited</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="incorrect-multi-threaded-web-web-crawler">
+<h2>Incorrect multi-threaded web web crawler<a class="headerlink" href="#incorrect-multi-threaded-web-web-crawler" title="Permalink to this headline">¶</a></h2>
+<p>This code is basically multiple threads running the code we used for the single-threaded crawler.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">class</span> <span class="nc">Crawler</span><span class="p">:</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">htmlParser</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">htmlParser</span> <span class="o">=</span> <span class="n">htmlParser</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">:</span>
+			<span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+			<span class="n">neighbor_urls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">htmlParser</span><span class="o">.</span><span class="n">getUrls</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="n">neighbor_urls</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">:</span>
+					<span class="k">continue</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startUrl</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">startUrl</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">startUrl</span><span class="p">)</span>
+
+		<span class="n">num_threads</span> <span class="o">=</span> <span class="mi">8</span>
+		<span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">):</span>
+			<span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker</span><span class="p">))</span>
+
+		<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">deque</span></code> is thread-safe.[^1] But the code still has 2 problems:</p>
+<ol class="simple">
+<li><p>Threads may exit early possibly with exceptions thrown and even resulting in a singled-threaded process</p></li>
+<li><p>A url can get visited twice</p></li>
+</ol>
+<div class="section" id="problem-1-threads-may-exit-early">
+<h3>Problem #1: Threads may exit early<a class="headerlink" href="#problem-1-threads-may-exit-early" title="Permalink to this headline">¶</a></h3>
+<p>The problem is that we can have the first thread pop a url from the queue making it empty and then before it gets a chance to add the links for that url, the OS interrupts and switches to another thread, which sees that the queue is empty and exits.</p>
+<p>Consider the following execution of 2 threads:</p>
+</div>
+</div>
+<div class="section" id="thread-1-thread-2">
+<h2>thread 1           				| thread 2<a class="headerlink" href="#thread-1-thread-2" title="Permalink to this headline">¶</a></h2>
+<p>queue is not empty 				|
+pops startUrl      				|
+calls getUrls      				|
+| queue is empty (or it tries)
+| exits
+add a url to the queue          |
+[now we only have 1 thread]     |</p>
+<p>Here’s another execution:</p>
+</div>
+<div class="section" id="id1">
+<h2>thread 1           				| thread 2<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>							| queue is not empty
+</pre></div>
+</div>
+<p>queue is not empty 				|
+pops startUrl      				|
+calls getUrls      				|
+| attempts to pop from the queue and throws an error
+| exits
+add a url to the queue          |
+[now we only have 1 thread]     |</p>
+<div class="section" id="problem-2-a-url-can-get-visited-twice">
+<h3>Problem #2: A url can get visited twice<a class="headerlink" href="#problem-2-a-url-can-get-visited-twice" title="Permalink to this headline">¶</a></h3>
+<p>The problem is that link 1 and link 2 might link to the same page. One thread, which has extracted the page from processing link 1, checks that the page is not in visited and proceeds, but before it can get added to visited it is interrupted by another thread, which has extracted the page from processing link 2.</p>
+<p>Consider the execution below of 2 threads (described in detail in handwritten/race_condition_url_visited_twice_web_crawler_20220216.pdf). Suppose that we start with queue = [b, c] and visited = {a, b, c} (we can imagine sequential execution up to that point within one of the threads).</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>thread 1           		  | thread 2<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>queue is not empty 		  |
+pops a url from the queue |
+getUrls(b)     	          |
+d not in visited          |
+| queue is not empty
+| pop url
+| getUrls(c)
+| d not visited
+| add d to visited
+| add d to queue
+add d to visited          |
+add d to queue            |</p>
+<p>At the end of the execution, the queue will be [d, d] ensuring that d gets visited twice.</p>
+</div>
+<div class="section" id="multi-threaded-web-crawler-with-blocking-queue">
+<h2>Multi-threaded web crawler with blocking queue<a class="headerlink" href="#multi-threaded-web-crawler-with-blocking-queue" title="Permalink to this headline">¶</a></h2>
+<p>Here are the fixes:</p>
+<ol class="simple">
+<li><p>Threads may exit early</p>
+<ol class="simple">
+<li><p>Have the while loop go forever without explicit breaking.</p></li>
+<li><p>Use Python’s blocking queue to block on get when the queue is empty instead of throwing an error</p></li>
+<li><p>Use the task tracking features of Python’s blocking queue (<code class="docutils literal notranslate"><span class="pre">task_done</span></code> and <code class="docutils literal notranslate"><span class="pre">join</span></code>) to signal when the work has actually been completed.</p></li>
+<li><p>After the work has been completed, break explicitly by enqueuing a stop item for each thread.</p></li>
+</ol>
+</li>
+<li><p>A url can get visited twice</p>
+<ol class="simple">
+<li><p>Wrap checking for visited and adding to visited in a lock to ensure atomic execution.</p></li>
+</ol>
+</li>
+</ol>
+<p>The shared variables that get updated are self.visited and self.queue. Each queue operation is synchronized with a lock internal to the queue. And we’ve wrapped the checking and modification of self.visited with a lock.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+
+<span class="k">class</span> <span class="nc">Crawler</span><span class="p">:</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">htmlParser</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">htmlParser</span> <span class="o">=</span> <span class="n">htmlParser</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">visited</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+			<span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+			<span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+				<span class="k">break</span>
+			<span class="n">neighbor_urls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">htmlParser</span><span class="o">.</span><span class="n">getUrls</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="n">neighbor_urls</span><span class="p">:</span>
+				<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">neighbor_url</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">:</span>
+						<span class="k">continue</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">neighbor_url</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">crawl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startUrl</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">startUrl</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">startUrl</span><span class="p">)</span>
+
+		<span class="n">num_threads</span> <span class="o">=</span> <span class="mi">8</span>
+		<span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">):</span>
+			<span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker</span><span class="p">))</span>
+
+		<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+		<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+		<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">visited</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="blocking-queue">
+<h2>Blocking queue<a class="headerlink" href="#blocking-queue" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="k">class</span> <span class="nc">Queue</span><span class="p">:</span>
+
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">queue</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">all_tasks_done</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Condition</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">=</span> <span class="mi">0</span>
+
+	<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+			<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+			<span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+		<span class="k">return</span> <span class="n">item</span>
+
+	<span class="k">def</span> <span class="nf">put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">not_empty</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">task_done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">-=</span> <span class="mi">1</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">all_tasks_done</span><span class="o">.</span><span class="n">notify_all</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+			<span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">unfinished_tasks</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">all_tasks_done</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="section" id="why-do-condition-variables-need-to-be-in-while-statements">
+<h3>Why do condition variables need to be in while statements?<a class="headerlink" href="#why-do-condition-variables-need-to-be-in-while-statements" title="Permalink to this headline">¶</a></h3>
+<p>At a high-level, a thread can check the condition, the condition can be true at that point, but by the time the thread wakes up and re-acquires the lock, then the condition has changed. Also, sometimes a thread can woken up spuriously, but I think that’s more rare.</p>
+<p>At a medium-level:</p>
+<ul class="simple">
+<li><p>Thread 1 goes to sleep waiting for the queue not to be empty</p></li>
+<li><p>Thread 2 acquires the lock to put a new item in the queue</p></li>
+<li><p>Thread 3 calls get() but gets blocked waiting for the lock</p></li>
+<li><p>Thread 2 wakes up Thread 1, but Thread 3 grabs the lock first and takes the item that was added to the queue</p></li>
+<li><p>Thread 1 is finally able to reacquire the lock, but now tries to pop from an empty queue</p></li>
+</ul>
+<p>At a low-level, suppose that we just used an if statement instead of a while loop and consider the following execution. We start with the queue = [b, c], visited = {a, b, c} and unfinished_tasks = 2. In other words, we’ve finished processing URL a, but not URL b and c that were linked to from a.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>thread 1</p></th>
+<th class="head"><p>thread 2</p></th>
+<th class="head"><p>thread 3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>get() returns b</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>parses b [finds no links]</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p>task_done()</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>			                  | get() returns					|
+			                  | parses c [finds link d]			|
+</pre></div>
+</div>
+<p>get()			              	  |                                 |
+if len(queue) == 0 [true] 	  |									|
+not_empty.wait()	   [1]|									|
+| put(d)						    |
+| 	acquires lock 			 [2]|
+|     adds d to the queue         |
+|                                 | get()
+|									|	blocks on acquiring lock       [3]
+|		not_empty.notify()		 [4]|
+|              					|
+thread wakes up 		  	  |                                 |
+blocks on reacquiring lock [5]|                                 |
+|		releases lock            [6]|
+| 								| 	acquires lock                  [7]
+|									| 	removes d from the queue       [8]
+| 								| 	not_empty.notify()
+|                                 | 	releases lock
+reacquires lock          	  | 								|
+pops from empty            [9]|									|</p>
+<p>The numbers in brackets corresponds to the list numbers in this <a class="reference external" href="http://web.archive.org/web/20210118112846/http://256stuff.com/gray/docs/misc/producer_consumer_race_conditions/">post</a>.</p>
+</div>
+</div>
+<div class="section" id="practical-tips">
+<h2>Practical tips<a class="headerlink" href="#practical-tips" title="Permalink to this headline">¶</a></h2>
+<p>How to analyze concurrent programs:</p>
+<ul class="simple">
+<li><p>Imagine an adversarial scheduler.</p></li>
+<li><p>Draw a picture with a column for each thread and a column for each the important state to keep track of. The state column is what happens after the instruction in the same row is executed.</p></li>
+<li><p>Imagine sequential execution within one thread to get to the point of execution that you want to analyze.</p></li>
+<li><p>Think of what parts of the code you want to execute atomically, i.e., without interruption</p></li>
+</ul>
+<p>Questions that come up for the multi-threaded web crawler:</p>
+<ul class="simple">
+<li><p>When do you know that you’re done?</p></li>
+<li><p>Is the wait call wrapped in a while loop?</p></li>
+<li><p>Will the wait call wait forever?</p></li>
+<li><p>Will every sleeping thread eventually get a signal to wake up?</p></li>
+<li><p>Are there no returns, continues, or errors in between lock acquire and release?</p></li>
+<li><p>Is every url only visited once?</p></li>
+<li><p>Is the lock held for when signalling?</p></li>
+</ul>
+<p>Problems that come up for the multi-threaded web crawler:</p>
+<ul class="simple">
+<li><p>threads exit early reducing the program to a single threaded one</p></li>
+<li><p>infinite loop from interrupted update to the counter</p>
+<ul>
+<li><p>adding to a counter is not an atomic operation</p></li>
+<li><p><a class="reference external" href="https://stackoverflow.com/questions/1717393/is-the-operator-thread-safe-in-python">https://stackoverflow.com/questions/1717393/is-the-operator-thread-safe-in-python</a></p></li>
+</ul>
+</li>
+<li><p>visting the same url twice because checking visited and adding to visited are not executed atomically</p></li>
+<li><p>wasting time in a while loop waiting for the queue to be empty (we’d rather cede control when it’s empty)</p></li>
+<li><p>the condition not being true anymore if you use an if statement rather than while loop</p></li>
+</ul>
+<p>These <a class="reference external" href="http://web.mit.edu/6.826/www/notes/HO14.pdf">notes</a> define “Easy concurrency” as:</p>
+<ul class="simple">
+<li><p>“Every shared variable must be protected by a lock. A variable is shared if it is touched by
+more than one thread…”</p></li>
+<li><p>“You must hold the lock for a shared variable before you touch the variable…”</p></li>
+<li><p>“If you want an atomic operation on several shared variables that are protected by different
+locks, you must not release any locks until you are done…”</p></li>
+</ul>
+<p>Some of the tips from OSTEP:</p>
+<ul class="simple">
+<li><p><strong>Use a disassembler</strong> to see what instructions make up e.g., an addition</p></li>
+<li><p>Some tips related to “There are a number of small but important things to remember when
+you use the POSIX thread library (or really, any thread library)”, including “Always use condition variables to signal between threads”</p></li>
+<li><p>Think about concurrency as a <strong>malicious scheduler</strong></p></li>
+<li><p><strong>More concurrency isn’t necessarily faster</strong>: “If the scheme you design adds a lot of overhead (for example, by acquiring and releasing locks frequently, instead of once), the fact that it is more concurrent may not be important…All of that said, there is one way to really know: build both alternatives (simple but less concurrent, and complex but more concurrent) and measure how they do.”</p></li>
+<li><p><strong>Be wary of locks and control flow</strong>: “…be wary of control flow changes that lead to function returns,
+exits, or other similar error conditions that halt the execution of a function. Because many functions will begin by acquiring a lock, allocating some memory, or doing other similar stateful operations, when errors arise, the code has to undo all of the state before returning, which is error-prone.”</p></li>
+<li><p><strong>Always hold the lock while signalling</strong>: “The example above shows a case where you must hold the lock for correctness; however, there are some other cases where it is likely OK not to, but probably is something you should avoid…The converse of this tip, i.e., hold the lock when calling wait, is not just a tip, but rather mandated by the semantics of wait, because wait always (a) assumes the lock is held when you call it, (b) releases said lock when putting the caller to sleep, and (c) re-acquires the lock just before returning…”</p></li>
+<li><p><strong>Use while (not if) for conditions</strong>: “When checking for a condition in a multi-threaded program, using a while loop is always correct; using an if statement only might be, depending on the semantics of signaling. Thus, always use while and your code will behave as expected. Using while loops around conditional checks also handles the case where spurious wakeups occur.”</p></li>
+<li><p><strong>Enforce locking ordering by lock address</strong></p></li>
+</ul>
+</div>
+<div class="section" id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>web_crawler_concurrent_with_queue.py</p></li>
+<li><p>web_crawler_concurrent_without_queue.py</p></li>
+<li><p>blocking_queue.py</p></li>
+</ul>
+</div>
+<div class="section" id="further-questions">
+<h2>Further questions<a class="headerlink" href="#further-questions" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Does signalling have to be done inside the lock?</strong> Generally it’s a good idea and I don’t think hurts, but is it strictly necessary? There is some discussion of it in the <a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf">chapter</a> on condition variables in OSTEP starting with “In this example, we imagine that one does not need to hold a lock in order to signal and wait. What problem could occur here?” However, I think that discussion is when you pretend that condition variables don’t require a lock for waiting and you show what happens if you don’t lock around waiting and signaling.</p></li>
+<li><p>Relatedly, <strong>why do condition variables require a lock?</strong> I think it’s just understanding this key paragraph from the same chapter: “The issue here is a subtle race condition. Specifically, if the parent calls thr join() and then checks the value of done, it will see that it is 0 and thus try to go to sleep. But just before it calls wait to go to sleep, the parent is interrupted, and the child runs. The child changes the state variable done to 1 and signals, but no thread is waiting and thus no thread is woken. When the parent runs again, it sleeps forever, which is sad.”</p></li>
+<li><p><strong>How is a condition variable implemented?</strong></p></li>
+</ul>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://home.cs.colorado.edu/~kena/classes/5828/s10/lectures/10_eightsimplerules.pdf">https://home.cs.colorado.edu/~kena/classes/5828/s10/lectures/10_eightsimplerules.pdf</a></p></li>
+<li><p><a class="reference external" href="https://homes.cs.washington.edu/~djg/teachingMaterials/spac/sophomoricParallelismAndConcurrency.pdf">https://homes.cs.washington.edu/~djg/teachingMaterials/spac/sophomoricParallelismAndConcurrency.pdf</a></p></li>
+<li><p><a class="reference external" href="http://web.mit.edu/6.826/www/notes/HO14.pdf">http://web.mit.edu/6.826/www/notes/HO14.pdf</a></p></li>
+<li><p><a class="reference external" href="https://pages.cs.wisc.edu/~remzi/OSTEP/">https://pages.cs.wisc.edu/~remzi/OSTEP/</a></p></li>
+</ul>
+</div>
+<div class="section" id="footnotes">
+<h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
+<p>[^1:] “Deques support thread-safe, memory efficient appends and pops from either side of the deque…” (<a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.deque">https://docs.python.org/3/library/collections.html#collections.deque</a>)</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By hacobe<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
