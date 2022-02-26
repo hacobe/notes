@@ -6,15 +6,21 @@ $\textbf{A} \textbf{v} = \lambda \textbf{v}$
 
 We call $\lambda$ the **eigenvalue** of $\textbf{A}$.
 
-A linear transformation acts on its eigenvectors like a scalar would. The eigenvalue is the factor by which the eigenvector is stretched (or squished or flipped) under the transformation.
+A linear transformation acts on its eigenvectors like a scalar would. The eigenvalue is the factor by which the eigenvector is stretched (or squished) under the transformation.
 
-It turns out that every real, symmetric matrix $\textbf{A}$ can be decomposed as follows:
+Suppose that $\textbf{A}$ has $n$ linearly independent eigenvectors, then the **eigendecomposition** of $\textbf{A}$ is:
 
-$\textbf{A} = \textbf{Q} \Lambda \textbf{Q}^T$
+$\textbf{A} = \textbf{V} \textrm{diag}(\boldsymbol{\lambda}) \textbf{V}^{-1}$
 
-where $\textbf{Q}$ is an orthogonal matrix composed of the eigenvectors of $\textbf{A}$ and $\Lambda$ is a diagonal matrix where $\Lambda_{i,i}$ is the eigenvalue associated with the eigenvector given by the $i$-th column of $\textbf{Q}$. This is called the **eigendecomposition** of $\textbf{A}$. We can then interpret the original transformation as scaling the space by $\Lambda_{i,i}$ in the direction of the $i$-th column of $\textbf{Q}$.
+where each column of $\textbf{V}$ is an eigenvector of $\textbf{A}$ and the $i$-th component of $\boldsymbol{\lambda}$ is the eigenvalue associated with the $i$-th column of $\textbf{V}$.
 
-One application of the eigendecomposition is to compute $\textbf{A}^n$ efficiently, because $\textbf{A}^n = \textbf{Q} \Lambda^n \textbf{Q}^T$ and $\Lambda$ is a diagonal matrix.
+When $\textbf{A}$ is a real, symmetric matrix, then $\textbf{A}$ can be decomposed as follows:
+
+$\textbf{A} = \textbf{Q} \boldsymbol{\Lambda} \textbf{Q}^T$
+
+where each column of $\textbf{Q}$ is an eigenvector of $\textbf{A}$ and $\Lambda_{i,i}$ is the eigenvalue associated with the $i$-th column of $\textbf{Q}$. We can then interpret the original transformation as scaling the space by $\Lambda_{i,i}$ in the direction of the $i$-th column of $\textbf{Q}$.
+
+One application of the eigendecomposition is to compute $\textbf{A}^n$ efficiently (https://math.stackexchange.com/questions/2628253/compute-the-100th-power-of-a-given-matrix).
 
 ## Sources
 

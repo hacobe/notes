@@ -17,49 +17,31 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-A lock is a synchronization primitive used to control access to a shared resource
-
-A mutex is a lock
-
-A semaphore is a variable used to control access to a shared resource.
-For example, there can be some number of tokens available for accessing
-a shared resource and the count keeps track of the tokens and that count is
-incremented when a thread releases access and decremented when a thread gains access.
-Or it can just be a variable that is toggled.
-
-Bounded semaphore when the number of tokens cannot exceeed some fixed number.
-
-A monitor has 2 definitions. A class, method or function that is thread safe. Or a pattern
-built with a lock and a condition where you wait in a while loop for some statement to become true
-
-A critical section is a part of the code that accesses a shared resource
-
-A race condition is when the substantive behavior of a system depends on the timing
-or sequence of otherwise uncontrollable events
-For example you might have two threads incrementing a global count
-
-Deadlock is when 2 or more members of a group are waiting for each to complete some action.
-For example a thread grabs lock 1 and then tries to grab lock 2. Another thread
-grabs lock 2 and then tries to grab lock 1. Now both threads are waiting for each other.
-
-Livelock is like deadlock except that the members of the group keep taking some action
-but never progress. If all the dining philosophers sit down at the same time, and their
-policy is to grab the right fork and then wait for 5 minutes for the left fork to become
-available and if it's not available then to grab the left fork and wait for 5 minutes
-for the right fork to become available.
-
-Starvation is when a thread cannot access the resources it needs because of competition
-from other threads.
-
-1/((1-p) + p/s)
+import torch
+np.random.seed(0)
+torch.manual_seed(0)
 
 
+model = SoftmaxRegression(4, 3)
+X = np.random.randn(5, 4)
+y = np.random.randint(3, size=5)
+yhat = model(torch.Tensor(X))
+# https://stackoverflow.com/questions/55675345/should-i-use-softmax-as-output-when-using-cross-entropy-loss-in-pytorch
+criterion = torch.nn.NLLLoss() #torch.nn.CrossEntropyLoss()
+loss = criterion(yhat, torch.tensor(y))
+loss.backward()
+yhat, model.linear.weight.grad, model.linear.weight.grad.shape
 ------------------
 
-[0;36m  File [0;32m"<ipython-input-1-e5d7c58261a9>"[0;36m, line [0;32m1[0m
-[0;31m    A lock is a synchronization primitive used to control access to a shared resource[0m
-[0m         ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-5-34f3ae01001e>[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;32mimport[0m [0mtorch[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 2[0;31m [0mnp[0m[0;34m.[0m[0mrandom[0m[0;34m.[0m[0mseed[0m[0;34m([0m[0;36m0[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      3[0m [0mtorch[0m[0;34m.[0m[0mmanual_seed[0m[0;34m([0m[0;36m0[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;34m[0m[0m
+[1;32m      5[0m [0;34m[0m[0m
 
-SyntaxError: invalid syntax (<ipython-input-1-e5d7c58261a9>, line 1)
+[0;31mNameError[0m: name 'np' is not defined
+NameError: name 'np' is not defined
 

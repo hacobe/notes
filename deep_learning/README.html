@@ -42,8 +42,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.14.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -592,6 +590,14 @@
 <a class="reference external" href="https://github.com/pytorch/examples/blob/master/mnist/main.py">https://github.com/pytorch/examples/blob/master/mnist/main.py</a>
 <a class="reference external" href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html">https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html</a>
 <a class="reference external" href="https://github.com/ddbourgin/numpy-ml/blob/master/numpy_ml/neural_nets/layers/layers.py">https://github.com/ddbourgin/numpy-ml/blob/master/numpy_ml/neural_nets/layers/layers.py</a></p>
+<ul class="simple">
+<li><p>make sure dy is incorporated in the backward pass</p></li>
+<li><p>test backward pass of activations by multiplying by constant and taking the sum</p></li>
+<li><p>be careful about whether you’re using log softmax vs softmax</p></li>
+<li><p>be careful about whether you’re using BinaryCrossEntropy vs NLLLoss</p></li>
+<li><p>sometimes what’s online is after canceling out certain terms and isn’t strictly comparable to what i’m doing</p></li>
+<li><p>sometimes breaking up the computation into layers actually makes things more complicated and it’d be easier to just do it one function like softmax_regression.py, logistic_regression.py, linear_regression.py</p></li>
+</ul>
 
     <script type="text/x-thebe-config">
     {
