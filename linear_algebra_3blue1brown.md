@@ -97,7 +97,7 @@ There is a duality between 1x2 matrices (linear transformation that takes a vect
 
 The cross product $\textbf{v} \times \textbf{w}$ takes two vectors in 3D space as input and returns a vector that is perpendicular to both of the input vectors.
 
-The magnitude of the output vector is the area of the parallelogram that the input vectors span out if $\textbf{v}$ is on the right of $\textbf{w}$ and the negative of that area otherwise. Notice that the order of the input vectors to the cross product matters. This area can be computed as the determinant of the matrix where the first column is $\textbf{v}$ and the second column is $\textbf{w}$.
+The magnitude of the output vector is the area of the parallelogram that the input vectors span out if $\textbf{v}$ is on the right of $\textbf{w}$ and the negative of that area otherwise. Notice that the order of the input vectors to the cross product matters. This area can be computed as the determinant of the matrix where the first column is $\textbf{v}$ and the second column is $\textbf{w}$ (more precisely, the matrix formed from the 2D coordinates of the vectors on the 2D plane that they span).
 
 The direction of the output vector is perpendicular to the parallelogram and follows the "right-hand rule". The right-hand rule says to put the fore finger of your right hand in the direction of $\textbf{v}$ and stick out your middle finger in the direction of $\textbf{w}$. The direction that your thumb is pointing is the direction of the output vector.
 
