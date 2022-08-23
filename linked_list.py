@@ -1,5 +1,6 @@
 """
 Sources:
+* https://leetcode.com/problems/design-linked-list/
 * https://www.geeksforgeeks.org/linked-list-set-1-introduction/
 * https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
 * https://www.geeksforgeeks.org/linked-list-set-3-deleting-node/
@@ -7,77 +8,99 @@ Sources:
 
 class Node:
 
-	def __init__(self, data):
-		self.data = data
-		self.next = None
+	def __init__(self, val, next=None):
+		self.val = val
+		self.next = next
 
-class LinkedList:
+
+class MyLinkedList:
 
 	def __init__(self):
 		self.head = None
 
-	def push_front(self, new_data):
-		new_node = Node(new_data)
-		new_node.next = self.head
-		self.head = new_node
+	def get(self, index):
+		node = self.head
+		i = 0
+		while node:
+			if i == index:
+				return node.val
+			node = node.next
+			i += 1
+		return -1
 
-	def push_back(self, new_data):
-		new_node = Node(new_data)
+	def addAtHead(self, val: int) -> None:
+		node = Node(val)
+		node.next = self.head
+		self.head = node
+
+	def addAtTail(self, val: int) -> None:
+		new_node = Node(val)
 		if not self.head:
 			self.head = new_node
 			return
 
 		node = self.head
-		while node.next:
+		prev_node = None
+		while node:
+			prev_node = node
 			node = node.next
-
-		node.next = new_node
-
-	def insert_after(self, prev_node, new_data):
-		assert prev_node
-		new_node = Node(new_data)
-		node = prev_node.next
 		prev_node.next = new_node
-		new_node.next = node
 
-	def remove(self, data):
-		if not self.head:
+	def addAtIndex(self, index: int, val: int) -> None:
+		if index == 0:
+			self.addAtHead(val)
 			return
 
 		node = self.head
-		if node.data == data:
-			self.head = node.next
-			node = None
-			return
-
-		prev = node
-		node = node.next
-		while node: 
-			if node.data == data: 
-				prev.next = node.next
-				node = None
+		prev_node = None
+		i = 0
+		while node:
+			if i == index:
+				new_node = Node(val)
+				prev_node.next = new_node
+				new_node.next = node
 				return
-			prev = node
+			prev_node = node
 			node = node.next
+			i += 1
+
+		if i == index:
+			new_node = Node(val)
+			prev_node.next = new_node
+
+	def deleteAtIndex(self, index: int) -> None:
+		if index == 0:
+			self.head = self.head.next
+			return
+		node = self.head
+		prev_node = None
+		i = 0
+		while node:
+			if i == index:
+				prev_node.next = node.next
+				return
+			prev_node = node
+			node = node.next
+			i += 1 
 
 	def __str__(self):
 		node = self.head
 		parts = []
 		while node:
-			parts.append(str(node.data))
+			parts.append(str(node.val))
 			node = node.next
 		return "->".join(parts)
 
 
 if __name__ == "__main__":
-	ll = LinkedList()
-	ll.push_back(6)
-	ll.push_front(7)
-	ll.push_front(1)
-	ll.push_back(4)
-	ll.insert_after(ll.head.next, 8)
+	ll = MyLinkedList()
+	ll.addAtTail(6)
+	ll.addAtHead(7)
+	ll.addAtHead(1)
+	ll.addAtTail(4)
+	ll.addAtIndex(2, 8)
 	print(ll)
 	assert ll.__str__() == "1->7->8->6->4"
-	ll.remove(6)
+	ll.deleteAtIndex(3)
 	print(ll)
 	assert ll.__str__() == "1->7->8->4"

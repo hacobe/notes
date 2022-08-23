@@ -5,48 +5,52 @@ Notes:
 * When you pop you remove the head
 
 Sources:
+* https://leetcode.com/problems/min-stack/
 * https://www.geeksforgeeks.org/implement-a-stack-using-singly-linked-list/
 """
 
 class Node:
 
-	def __init__(self, data):
-		self.data = data
-		self.next = None
+	def __init__(self, val, min_val, next=None):
+		self.val = val
+		self.min_val = min_val
+		self.next = next
 
 
-class Stack:
+class MinStack:
 
 	def __init__(self):
 		self.head = None
 
-	def push(self, data):
-		if not self.head:
-			self.head = Node(data) 
-			return 
-
-		new_node = Node(data)
-		new_node.next = self.head
-		self.head = new_node
+	def push(self, val):
+		min_val = float('inf')
+		if self.head:
+			min_val = self.head.min_val
+		min_val = min(val, min_val)
+		node = Node(val, min_val)
+		node.next = self.head
+		self.head = node
 
 	def pop(self):
-		node = self.head
-		data = node.data
 		self.head = self.head.next
-		node = None
-		return data
+
+	def top(self):
+		return self.head.val
+
+	def getMin(self):
+		return self.head.min_val
 
 	def __str__(self):
 		iternode = self.head
 		s = []
 		while iternode is not None:
-			s.append(str(iternode.data))
+			s.append(str(iternode.val))
 			iternode = iternode.next
 		return "->".join(s)
 
 
 def test_stack():
-	stack = Stack()
+	stack = MinStack()
 	stack.push(11)
 	stack.push(22)
 	stack.push(33)
