@@ -5,6 +5,7 @@ Implementation tips:
 - Be careful about inclusive vs. exclusive indices
 - Be careful about calculating the mid point
 - Remember that the input must be sorted
+- Remember that for the recursive implementation you have to return an index into the original array
 """
 
 import sys
