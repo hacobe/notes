@@ -20,8 +20,6 @@ $\textbf{A} = \textbf{Q} \boldsymbol{\Lambda} \textbf{Q}^T$
 
 where each column of $\textbf{Q}$ is an eigenvector of $\textbf{A}$ and $\Lambda_{i,i}$ is the eigenvalue associated with the $i$-th column of $\textbf{Q}$. We can then interpret the original transformation as scaling the space by $\Lambda_{i,i}$ in the direction of the $i$-th column of $\textbf{Q}$.
 
-One application of the eigendecomposition is to compute $\textbf{A}^n$ efficiently (https://math.stackexchange.com/questions/2628253/compute-the-100th-power-of-a-given-matrix).
-
 ## Sources
 
 * Goodfellow, Deep learning, Section 2.7
