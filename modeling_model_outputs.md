@@ -1,0 +1,5 @@
+# Modeling model outputs
+
+Andrew Gelman gives the following advice in this [blog post](https://web.archive.org/web/20220909190908/https://statmodeling.stat.columbia.edu/2017/09/20/using-black-box-machine-learning-predictions-inputs-bayesian-analysis/) "'...train some neural net, treat the outputs of the net as the actual measurement, and then add the trained neural net to your likelihood. This is my advice when people want to/have to use machine learning algorithms but also want to quantify systematic uncertainties.' My response: yes, I give that advice too, and I’ve used this method in consulting problems."
+
+This is basically the approach taken by [LLL18](https://arxiv.org/abs/1807.03888). They perform Gaussian Discriminant Analysis on the embeddings of a neural network classifier. More generally, one could view post-hoc calibration, quality estimation and rejection as doing this too.

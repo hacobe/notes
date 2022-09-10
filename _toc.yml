@@ -71,6 +71,18 @@ chapters:
     sections:
        - file: critical_points
        - file: overflow_and_underflow
+  - file: robustness_and_uncertainty_for_structured_prediction
+    sections:
+      - file: structured_prediction
+      - file: ensemble_methods
+      - file: calibration_definitions
+      - file: post_hoc_calibration
+      - file: decoding_strategies
+      - file: maximum_softmax_probability
+      - file: selective_prediction
+      - file: modeling_model_outputs
+      - file: ood_detection
+      - file: calibration_for_structured_prediction
   - file: miscellaneous
     sections:
       - file: broadcasting
