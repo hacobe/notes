@@ -27,7 +27,7 @@ Two events A and B are **independent** if P(A | B) = P(A).
 
 *Independence is a symmetric relationship*. If P(A | B) = P(A), then P(B | A) = P(B n A) / P(A) = P(A n B) / P(A) = (P(A | B) * P(B)) / P(A) = P(B). If A is independent of B, then B is independent of A and vice versa. An equivalent definition of independence is then P(B | A) = P(B).
  
-If P(A | B) = P(A), then P(A n B) = P(A | B) * P(B) = P(A)P(B). If P(A n B) = P(A)P(B), then P(A | B) = P(A). Another definition of independence is that P(A n B) = P(A)P(B).
+If P(A | B) = P(A), then P(A n B) = P(A | B) * P(B) = P(A)P(B). If P(A n B) = P(A)P(B), then P(A | B) = P(A). *Another definition of independence is that P(A n B) = P(A)P(B).*
 
 *Disjoint events with positive probability are not independent.* If A and B have positive probability, then P(A)P(B) > 0, but P(AnB) must be equal to 0, because the events are disjoint, so P(AnB) cannot equal P(A)P(B), so they cannot be independent. Consider the event A consisting of the realization of a 6 sided die landing on 1 and the realization of the die landing on 2. And consider the event B consisting of the realization of the die landing on 3 and the die landing on 6. These events are disjoint. The realizations that appear in one do not appear in the other. They also each have positive probability. P(A n B) = 0. P(A) = P(the die landing on 1 or 2) = 2/6 = 1/3. P(B) = P(the die landing on 3 or 6) = 2/6 = 1/3. P(A)P(B) = 1/6.
 

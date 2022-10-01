@@ -17,7 +17,7 @@ A random variable X is **continuous** if its probability density function exist.
 
 Note that if a random variable X is continuous then P(X = x) = 0 for every x. Also, a PDF can be bigger than 1. It can even be unbounded as long as it still integrates to 1 over the entire real line.
 
-If X is a random variable with CDF F, then the **inverse CDF**, or **quantile function** is $F^{-1}(q) = inf{x : F > q}$ for $q \in [0, 1]$. F^{-1}(1/2) is the median.
+If X is a random variable with CDF F, then the **inverse CDF**, or **quantile function** is $F^{-1}(q) = \inf \{x : F > q\}$ for $q \in [0, 1]$. $F^{-1}(1/2)$ is the median.
 
 Given a pair of random variables X and Y, we define the **bivariate cumulative distribution function** as $F_{X, Y} = P(X \lt x, Y \lt y)$.
 
