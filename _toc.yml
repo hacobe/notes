@@ -79,6 +79,10 @@ chapters:
     sections:
        - file: critical_points
        - file: overflow_and_underflow
+  - file: probability
+    sections:
+       - file: probability_basics
+       - file: random_variables
   - file: robustness_and_uncertainty_for_structured_prediction
     sections:
       - file: structured_prediction
