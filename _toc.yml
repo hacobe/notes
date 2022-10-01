@@ -60,6 +60,14 @@ chapters:
       - file: pipeline_parallelism
       - file: zero_offload
       - file: mixture_of_experts
+  - file: reinforcement_learning
+    sections:
+      - file: reinforcement_learning_framework
+      - file: reinforcement_learning_objective
+      - file: imitation_learning
+      - file: problems_with_imitation_learning
+      - file: policy_gradients
+      - file: policy_gradients_vs_imitation_learning
   - file: linear_algebra
     sections:
       - file: linear_algebra_3blue1brown
