@@ -49,6 +49,10 @@ chapters:
       - file: k_means_clustering
       - file: support_vector_machines
       - file: kernel_trick
+      - file: Linear regression
+      - file: Logistic regression
+      - file: Softmax regression
+      - file: MLP
   - file: deep_learning
     sections:
       - file: gradient_descent
