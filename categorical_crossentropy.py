@@ -32,13 +32,16 @@ def categorical_crossentropy_from_logprobs(y_true, y_logprobs):
 	return -np.mean(np.sum(y_true * y_logprobs, axis=1))
 
 
-def categorical_crossentropy_from_dense_targets_and_probs(y_true_dense, y_prob):
+def categorical_crossentropy_from_dense_targets_and_probs(y_true_dense, y_prob, eps=1e-12):
 	# y_true: (n, ) dense encoding
 	# y_prob: (n, k)
 
 	# we can avoid converting to one hot
 	# also, no sum is needed here
-	return -np.mean(np.log(y_prob[np.arange(len(y_prob)), y_true_dense]))
+	assert eps > 0
+	y_prob_clipped = np.clip(y_prob, eps, 1. - eps)
+
+	return -np.mean(np.log(y_prob_clipped[np.arange(len(y_true_dense)), y_true_dense]))
 
 
 
