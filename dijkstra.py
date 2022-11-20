@@ -4,11 +4,11 @@ import heapq
 def dijkstra(n, graph, start):
 	visited = [False]*n
 	d = [float("inf")] * n
-	queue = []
+	heap = []
 	d[start] = 0
-	heapq.heappush(queue, (0, start))
-	while queue:
-		g, u = heapq.heappop(queue)
+	heapq.heappush(heap, (0, start))
+	while heap:
+		g, u = heapq.heappop(heap)
 		visited[u] = True
 		for v, w in graph[u]:
 			if visited[v]:
@@ -16,5 +16,5 @@ def dijkstra(n, graph, start):
 			f = g + w
 			if f < d[v]:
 				d[v] = f
-				heapq.heappush(queue, (f, v))
+				heapq.heappush(heap, (f, v))
 	return d
