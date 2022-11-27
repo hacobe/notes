@@ -34,6 +34,7 @@ class MyLinkedList:
 		self.head = node
 
 	def addAtTail(self, val: int) -> None:
+		# Handles the case of an empty list
 		new_node = Node(val)
 		if not self.head:
 			self.head = new_node
@@ -64,6 +65,7 @@ class MyLinkedList:
 			node = node.next
 			i += 1
 
+		# "If index equals the length of the linked list, the node will be appended to the end of the linked list"
 		if i == index:
 			new_node = Node(val)
 			prev_node.next = new_node
