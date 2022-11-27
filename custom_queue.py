@@ -31,15 +31,13 @@ class Queue:
 			self.back = new_node
 			return
 
-		node = self.back
+		self.back.next = new_node
 		self.back = new_node
-		node.next = self.back
 
 	def dequeue(self):
 		assert self.front
 
-		node = self.front
-		self.front = node.next
+		self.front = self.front.next
 
 		if not self.front:
 			self.back = None
