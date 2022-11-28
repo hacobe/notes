@@ -5,6 +5,7 @@ Notes:
 * Queue has a front and a back pointer, while the basic Linked List only has a head pointer
 * When you enqueue, you make the new node the back
 * When you dequeue, you remove the front
+* Think of front and back as pointers to nodes in the linked list rather than as nodes themselves
 
 Sources:
 * https://www.geeksforgeeks.org/queue-linked-list-implementation/
