@@ -11,14 +11,19 @@ def gen_primes(n):
 
 	i = 2
 	while (i * i <= n):
-		if is_prime[i] == False:
+		if prime[i] == False:
+			i += 1
 			continue
 
 		j = i
 		while i*j <= n:
-			is_prime[i*j] = False
+			prime[i*j] = False
 			j += 1
 
 		i += 1
 
 	return [i for i in range(len(prime)) if prime[i]]
+
+
+if __name__ == "__main__":
+	assert gen_primes(20) == [2, 3, 5, 7, 11, 13, 17, 19]
