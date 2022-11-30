@@ -11,15 +11,11 @@ def gen_primes(n):
 
 	i = 2
 	while (i * i <= n):
-		if prime[i] == False:
-			i += 1
-			continue
-
-		j = i
-		while i*j <= n:
-			prime[i*j] = False
-			j += 1
-
+		if prime[i]:
+			j = i
+			while i*j <= n:
+				prime[i*j] = False
+				j += 1
 		i += 1
 
 	return [i for i in range(len(prime)) if prime[i]]
