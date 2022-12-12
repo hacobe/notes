@@ -87,6 +87,20 @@ chapters:
     sections:
        - file: probability_basics
        - file: random_variables
+  - file: distributed_systems
+    sections:
+      - file: reliable_maintainable_scalable_applications
+      - file: data_models_and_query_languages
+      - file: log_segments_with_hash_index
+      - file: sstables
+      - file: data_warehousing
+      - file: encoding_and_evolution
+      - file: single_leader_replication
+      - file: partitioning
+      - file: batch_processing
+      - file: client_centric_consistency_models
+      - file: hadoop_distributed_file_system
+      - file: kafka
   - file: robustness_and_uncertainty_for_structured_prediction
     sections:
       - file: structured_prediction
