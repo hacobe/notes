@@ -65,8 +65,6 @@ This is basically the implementation of log_softmax in JAX.[^3]
 
 * Goodfellow, Deep learning, Section 4.1
 
-## Footnotes
-
 [^1]: https://stackoverflow.com/questions/25506281/what-are-some-possible-calculations-with-numpy-or-scipy-that-can-return-a-nan
 [^2]: https://jax.readthedocs.io/en/latest/_modules/jax/_src/nn/functions.html#softmax
 [^3]: https://jax.readthedocs.io/en/latest/_modules/jax/_src/nn/functions.html#log_softmax
