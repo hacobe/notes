@@ -17,7 +17,17 @@ def dag_relaxation(Adj, s, w):
     order = []
     dfs_dag(Adj, s, order)
     order.reverse()
+
     # now order is the topological sort of the graph
+
+    # We can prove the correctness of this algorithm via an inductive argument.
+    # There is an edge from `u` to `v` for each `v` in `Adj[u]`.
+    # Therefore, `u` is a parent of `v`, which implies that `u` comes before `v` in a topological sort.
+    # Assume that all the `d[x]` for `x` that come before `v` in a topological sort gives the shortest distance between `s` and `x`.
+    # By that assumption, `d[u]` gives the shortest distance between `s` and `u`.
+    # We loop through all the edges between `u` and `v` and find the minimum `d[u] + w(u,v)`.
+    # That minimum must be the shortest path between `s` and `v`.
+
     d = [float('inf') for _ in range(len(order))]
     d[s] = 0
     for u in order:
