@@ -63,6 +63,8 @@ chapters:
       - file: t5_style_model_parallelism
       - file: pipeline_parallelism
       - file: zero_offload
+      - file: zero_dp
+      - file: megatron_style_model_parallelism
       - file: mixture_of_experts
   - file: reinforcement_learning
     sections:
