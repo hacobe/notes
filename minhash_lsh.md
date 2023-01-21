@@ -8,7 +8,7 @@ The **Hamming similarity** between 2 arrays of equal length is the number of pos
 
 The **Jaccard similarity** between 2 sets is the size of their intersection divided by the size of their union.
 
-How does MinHash construct such an array for a set? It first maps the elements of the set to integers in a large range using, for example, CRC32 hashing. To get each of the K components of the array, it constructs a random hash function, hashes those integers and takes the minimum of the hash values as the value of the component. We map the elements of a set to large range of integers before the random hashing in order to reduce the probability of collisions.
+How does MinHash construct such an array for a set? It first maps the elements of the set to integers in a large range using, for example, CRC32 hashing. To get each of the K components of the array, it constructs a random hash function, hashes those integers and takes the minimum of the hash values as the value of the component. We map the elements of a set to a large range of integers before the random hashing in order to reduce the probability of collisions.
 
 The random hash function is h(x) = (intercept + slope * x) % prime, where intercept and slope are random, non-negative integers less than the maximum possible value of x and prime is a prime number larger than the maximum possible value of x.
 
@@ -30,7 +30,7 @@ A u B = {1, 2, 5, 9, 10}
 We then can write down a matrix representation of the 2 sets:
 
 ```
-	  A B
+    A B
 1   1 0
 2   1 1
 5   1 1
@@ -41,7 +41,7 @@ We then can write down a matrix representation of the 2 sets:
 Now suppose we shuffle the rows of this matrix. For example, we might get:
 
 ```
-	  A B
+    A B
 2   1 1
 1   1 0
 10  0 1
@@ -90,8 +90,8 @@ Instead of finding the first element of each array after shuffling by explicit c
 Here's an implementation:
 
 ```python
-A_list = [2, 1, 5]
-B_list = [2, 10, 5, 9]
+a = [2, 1, 5]
+b = [2, 10, 5, 9]
 np.random.seed(0)
 max_int = 2**32-1
 prime = 4294967311 # prime number larger than max_int
@@ -102,9 +102,9 @@ H = 0
 for _ in range(K):
   intercept = np.random.randint(max_int)
   slope = np.random.randint(max_int)
-  u = min([(intercept + slope * itoh[x]) % prime for x in A_list])
-  v = min([(intercept + slope * itoh[x]) % prime for x in B_list])
-  if u == v:
+  a0 = min([(intercept + slope * itoh[x]) % prime for x in a])
+  b0 = min([(intercept + slope * itoh[x]) % prime for x in b])
+  if a0 == b0:
     H += 1
 prob = H/K
 print(prob) # 0.40299
