@@ -164,8 +164,6 @@ We add parent pointers at each step and then traverse those pointers to recover 
 import collections
 
 def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, reduce_fn=max):
-  if n0 == 0 or n1 == 0:
-    return gap_score * max(n0, n1)
   mat = [[0 for _ in range(n1+1)] for _ in range(n0+1)]
   parents = collections.defaultdict(list)
   for m0 in range(1, n0+1):
