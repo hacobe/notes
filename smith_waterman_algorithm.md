@@ -2,9 +2,9 @@
 
 The [note](https://github.com/hacobe/notes/blob/main/needleman_wunsch_algorithm.md) on the Needleman-Wunsch algorithm should be read before this note.
 
-Given 2 strings, the **Smith-Waterman algorithm** returns a substring of an alignment that achieves the maximum alignment score over all possible substrings of alignments.
+Given 2 strings s0 and s1, the **Smith-Waterman algorithm** returns an alignment of a substring of s0 and a substring of s1  that achieves the maximum alignment score over all possible such alignments.
 
-It performs local sequence alignment (finding an optimal alignment substring) as opposed to the global sequence alignment (finding an optimal alignment) performed by the Needleman-Wunsch algorithm.
+It performs local sequence alignment as opposed to the global sequence alignment performed by the Needleman-Wunsch algorithm.
 
 Smith-Waterman modifies Needleman-Wunsch so that a negative alignment score is replaced by 0. Instead of starting at the bottom right corner and tracing back to the top left corner, it starts at a cell that achieves the maximum value in the matrix and traces back until it hits a cell with value 0.
 
