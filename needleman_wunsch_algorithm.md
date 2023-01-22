@@ -26,6 +26,8 @@ The idea is to use the alignment to identify regions of similarity in the 2 stri
 
 We then compute the alignment score as the sum of the position scores. The alignment score for the alignment above is (-1) + (-2) + (1) + (1) + (-2) + (1) + (-2) + (1) + (-1) + (1) + (1) + (-2) = -4.
 
+This is the example given in CLRS.
+
 Given 2 strings, the **Needleman-Wunsch algorithm** returns an alignment that achieves the maximum alignment score using dynamic programming.
 
 ## Edit Distance view of alignment
@@ -159,61 +161,68 @@ How do we get an alignment that achieves the maximum possible alignment score?
 We add parent pointers at each step and then traverse those pointers to recover the path through the matrix:
 
 ```python
-def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, comp_fn=lambda x, y: x > y):
+import collections
+
+def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, reduce_fn=max):
   if n0 == 0 or n1 == 0:
     return gap_score * max(n0, n1)
-  parents = {}
   mat = [[0 for _ in range(n1+1)] for _ in range(n0+1)]
+  parents = collections.defaultdict(list)
   for m0 in range(1, n0+1):
     mat[m0][0] = gap_score * m0
+    parents[(m0,0)] = [(m0-1,0)]
   for m1 in range(1, n1+1):
     mat[0][m1] = gap_score * m1
+    parents[(0,m1)] = [(0,m1-1)]
   for m0 in range(1, n0+1):
     for m1 in range(1, n1+1):
-      prev_cell_to_score = {
-          (m0-1, m1): mat[m0-1][m1] + gap_score,
-          (m0, m1-1): mat[m0][m1-1] + gap_score,
-          (m0-1, m1-1): mat[m0-1][m1-1] + (match_score if s0[m0-1] == s1[m1-1] else mismatch_score)
-      }
-      prev_cell_best = None
-      best_score = None
-      for prev_cell in prev_cell_to_score.keys():
-        score = prev_cell_to_score[prev_cell]
-        if best_score is None or comp_fn(score, best_score):
-          best_score = score
-          prev_cell_best = prev_cell
-      mat[m0][m1] = best_score
-      parents[(m0, m1)] = prev_cell_best
-
+      last_move_down = mat[m0-1][m1] + gap_score
+      last_move_right = mat[m0][m1-1] + gap_score
+      last_move_diag = mat[m0-1][m1-1] + (match_score if s0[m0-1] == s1[m1-1] else mismatch_score)
+      max_value = reduce_fn(last_move_down, last_move_right, last_move_diag)
+      mat[m0][m1] = max_value
+      if last_move_diag == max_value:
+        parents[(m0,m1)].append((m0-1, m1-1))
+      if last_move_right == max_value:
+        parents[(m0,m1)].append((m0, m1-1))
+      if last_move_down == max_value:
+        parents[(m0,m1)].append((m0-1, m1))
+    
   curr = (n0, n1)
   path = []
   while curr != (0, 0):
     path.append(curr)
-    parent = parents[curr]
+    # Break ties by taking the first parent.
+    parent = parents[curr][0]
     curr = parent
   path.append((0, 0))
   path.reverse()
-
-  prev = path[0]
+  
   t0 = []
   t1 = []
   for i in range(1, len(path)):
     curr = path[i]
     prev = path[i-1]
-
-    d1 = curr[0] - prev[0]
-    d2 = curr[1] - prev[1]
     
-    if d1 == 1 and d2 == 1:
-      t0.append(s0[prev[0]])
-      t1.append(s1[prev[1]])
-    elif d1 == 0:
-      t0.append("-")
-      t1.append(s1[prev[1]])
-    else:
-      t0.append(s0[prev[0]])
-      t1.append("-")
+    d0 = curr[0] - prev[0]
+    d1 = curr[1] - prev[1]
+    
+    # Subtract by 1 because
+    # we added a row and a column
+    # to the matrix.
+    i0 = curr[0]-1
+    i1 = curr[1]-1
 
+    if d0 == 1 and d1 == 1:
+      t0.append(s0[i0])
+      t1.append(s1[i1])
+    elif d0 == 0:
+      t0.append("-")
+      t1.append(s1[i1])
+    else:
+      t0.append(s0[i0])
+      t1.append("-")
+      
   t0 = "".join(t0)
   t1 = "".join(t1)
 
@@ -223,11 +232,11 @@ def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, comp_fn=la
 Running the function above for s0 and s1, we get a maximum score of -3 and the following alignment:
 
 ```
-GATCG-GCAT-
+-GATCGGCAT-
 CAATGTGAATC
 ```
 
-We can double check the alignment score: (-1) + (1) + (-1) + (-1) + (1) + (-2) + (1) + (-1) + (1) + (1) + (-2) = -3.
+We can double check the alignment score: (-2) + (-1) + (1) + (1) + (-1) + (-1) + (1) + (-1) + (1) + (1) + (-2) = -3.
 
 ## Sources
 
