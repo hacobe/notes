@@ -12,7 +12,7 @@ Smith-Waterman modifies Needleman-Wunsch so that a negative alignment score is r
 import collections
 import numpy as np
 
-def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, reduce_fn=max):
+def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1):
   mat = [[0 for _ in range(n1+1)] for _ in range(n0+1)]
   parents = collections.defaultdict(list)
   for m0 in range(1, n0+1):
@@ -26,7 +26,7 @@ def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1, reduce_fn=
       last_move_down = max(0, mat[m0-1][m1] + gap_score)
       last_move_right = max(0, mat[m0][m1-1] + gap_score)
       last_move_diag = max(0, mat[m0-1][m1-1] + (match_score if s0[m0-1] == s1[m1-1] else mismatch_score))
-      max_value = reduce_fn(last_move_down, last_move_right, last_move_diag)
+      max_value = max(last_move_down, last_move_right, last_move_diag)
       mat[m0][m1] = max_value
       if last_move_diag == max_value:
         parents[(m0,m1)].append((m0-1, m1-1))
