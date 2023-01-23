@@ -2,11 +2,11 @@
 
 The [note](https://github.com/hacobe/notes/blob/main/needleman_wunsch_algorithm.md) on the Needleman-Wunsch algorithm should be read before this note.
 
-Given 2 strings s0 and s1, the **Smith-Waterman algorithm** returns an alignment of a substring of s0 and a substring of s1  that achieves the maximum alignment score over all possible such alignments.
+Given 2 strings s0 and s1, the Smith-Waterman algorithm returns an alignment of a substring of s0 and a substring of s1  that achieves the maximum alignment score over all the alignments of all the possible substring pairs.[^1]
 
-It performs local sequence alignment as opposed to the global sequence alignment performed by the Needleman-Wunsch algorithm.
+Under the edit distance view of alignment, we can think of the algorithm as returning a sequence of operations that transforms a substring of s0 to a substring of s1. Furthermore, this sequence of operations achieves the maximum possible sum of operation scores over all the transformations between all the possible substring pairs. Using the edit distance as the score (gap_score=-1, mismatch_score=-1, match_score=0) returns 2 empty substrings, because it costs nothing to transform an empty substring into another empty substring. To avoid this trivial answer, we add a bonus for each successful match.
 
-Smith-Waterman modifies Needleman-Wunsch so that a negative alignment score is replaced by 0. Instead of starting at the bottom right corner and tracing back to the top left corner, it starts at a cell that achieves the maximum value in the matrix and traces back until it hits a cell with value 0.
+Smith-Waterman performs local sequence alignment as opposed to the global sequence alignment performed by the Needleman-Wunsch algorithm. It modifies Needleman-Wunsch so that a negative alignment score is replaced by 0. Also, instead of starting at the bottom right corner and tracing back to the top left corner, it starts at a cell that achieves the maximum value in the matrix and traces back until it hits a cell with value 0.
 
 ```python
 import collections
@@ -57,6 +57,9 @@ def g(s0, s1, n0, n1, gap_score=-2, match_score=1, mismatch_score=-1):
         break
     
     if end:
+      break
+
+    if len(parents[curr]) == 0:
       break
 
     # Break ties by taking the first parent.
@@ -120,3 +123,5 @@ assert t1 == "GTT-AC"
 
 * http://web.archive.org/web/20230121232816/https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm
 * http://web.archive.org/web/20230123195112/http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Smith-Waterman
+
+[^1]: "The Smith-Waterman algorithm (Smith and Waterman, 1981) is a modification of Needleman-Wunsch for computing an optimal local alignment, i.e. the best global alignment of substrings of two input sequences." (https://academic.oup.com/bioinformatics/article/35/19/3547/5474902)
