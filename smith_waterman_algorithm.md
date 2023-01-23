@@ -118,4 +118,5 @@ assert t1 == "GTT-AC"
 
 ## Sources
 
-* http://web.archive.org/web/20230121232816/https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm 
+* http://web.archive.org/web/20230121232816/https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm
+* http://web.archive.org/web/20230123195112/http://rna.informatik.uni-freiburg.de/Teaching/index.jsp?toolName=Smith-Waterman
