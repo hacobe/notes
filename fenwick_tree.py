@@ -53,7 +53,6 @@ class FastAddSlowPrefixSum:
 		return s
 
 
-
 def _last_set_bit(i):
 	# Return the last set bit of i
 	#
@@ -91,18 +90,17 @@ class FenwickTree:
 			self.add(i, arr[i])
 
 	def add(self, i, delta):
-		n = len(self.data) - 1
-		i += 1
-		while i <= n:
-			self.data[i] += delta
-			i = _get_next(i)
+		j = i + 1 # one-based index
+		while j < len(self.data):
+			self.data[j] += delta
+			j = _get_next(j)
 
 	def prefix_sum(self, end):
 		s = 0
-		i = end
-		while i > 0:
-			s += self.data[i]
-			i = _get_parent(i)
+		j = end # one-based index
+		while j > 0:
+			s += self.data[j]
+			j = _get_parent(j)
 		return s
 
 
