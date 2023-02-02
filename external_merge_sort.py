@@ -23,10 +23,44 @@ import string
 import numpy as np
 
 
-def merge_files(output_file, num_partitions):
+def _get_partition_file(idx):
+	return "partition{idx}.txt".format(idx=idx)
+
+
+def partition_and_sort(input_file, partition_size, num_partitions):
+	fin = open(input_file, "r")
+
+	fout = []
+	for i in range(num_partitions):
+		partition_file = _get_partition_file(i)
+		fout.append(open(partition_file, "w"))
+
+	fidx = 0
+	lines = []
+	for line in fin:
+		lines.append(line.strip() + "\n")
+		if len(lines) == partition_size:
+			lines.sort()
+			for line in lines:
+				fout[fidx].write(line)
+			fidx += 1
+			lines = []
+	if len(lines) > 0:
+		lines.sort()
+		for line in lines:
+			fout[fidx].write(line)
+
+	for i in range(len(fout)):
+		fout[i].close()
+
+	fin.close()
+
+
+def merge(output_file, num_partitions):
 	fin = []
 	for i in range(num_partitions):
-		fin.append(open(f"{i}.txt", "r"))
+		partition_file = _get_partition_file(i)
+		fin.append(open(partition_file, "r"))
 
 	fout = open(output_file, "w")
 	
@@ -53,43 +87,14 @@ def merge_files(output_file, num_partitions):
 	fout.close()
 
 
-def create_initial_runs(input_file, partition_size, num_partitions):
-	fin = open(input_file, "r")
-
-	fout = [None] * num_partitions
-	for i in range(num_partitions):
-		fout[i] = open(f"{i}.txt", "w")
-
-	fidx = 0
-	lines = []
-	for line in fin:
-		lines.append(line.strip() + "\n")
-		if len(lines) == partition_size:
-			lines.sort()
-			for line in lines:
-				fout[fidx].write(line)
-			fidx += 1
-			lines = []
-	if len(lines) > 0:
-		lines.sort()
-		for line in lines:
-			fout[fidx].write(line)
-
-	for i in range(len(fout)):
-		fout[i].close()
-
-	fin.close()
-
-
 def external_sort(input_file, output_file, partition_size, num_partitions):
-	create_initial_runs(input_file, partition_size, num_partitions)
-	merge_files(output_file, num_partitions)
+	partition_and_sort(input_file, partition_size, num_partitions)
+	merge(output_file, num_partitions)
 
 
 if __name__ == "__main__":
 	num_partitions = 10
 	partition_size = 1000
-
 	input_file = "input.txt"
 	output_file = "output.txt"
 
