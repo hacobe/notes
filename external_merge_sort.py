@@ -1,7 +1,7 @@
 """External merge sort.
 
-The implementation below is based on this
-[implementation](http://web.archive.org/web/20230202171450/https://www.geeksforgeeks.org/external-sorting/).
+The implementation below is based on:
+http://web.archive.org/web/20230202171450/https://www.geeksforgeeks.org/external-sorting/
 
 ```bash
 python external_merge_sort.py
