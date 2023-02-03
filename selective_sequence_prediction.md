@@ -1,4 +1,4 @@
-# Selective Sequence Prediction
+# Selective sequence prediction
 
 ## Summary
 
