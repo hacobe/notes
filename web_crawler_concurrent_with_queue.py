@@ -73,6 +73,7 @@ class Crawler:
             threads.append(threading.Thread(target=self._worker))
             threads[-1].start()
 
+        # Block until all items in the queue have been processed.
         self.queue.join()
 
         for _ in range(num_threads):
