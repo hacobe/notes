@@ -2,7 +2,7 @@
 
 ## Summary
 
-Selective prediction is prediction with the option to abstain on selected examples. It has mostly been studied in the classification setting. Instead, we focus on the structured prediction setting and on automatic speech recognition (ASR) and machine translation (MT) in particular. [Malinin and Gales 2021](https://arxiv.org/abs/2002.07650) reported that the entropy of the predictive probability distribution is the most informative measure of sequence-level error for ASR and MT selective prediction tasks compared to other summary statistics and heuristic methods in the literature. Here, we show that a simple, sample-based estimate outperforms those methods at the cost of additional compute.
+Selective prediction is prediction with the option to abstain on selected examples. It has mostly been studied in the classification setting. Instead, we focus on the structured prediction setting and on automatic speech recognition (ASR) and machine translation (MT) in particular. [Malinin and Gales 2021](https://arxiv.org/abs/2002.07650) reported that the entropy of the predictive probability distribution is the most informative measure of sequence-level error for ASR and MT selective prediction tasks compared to other summary statistics and heuristic methods in the literature. Here, we show that a simple, sample-based estimate outperforms those methods at the cost of additional compute. The code to reproduce these analyses is available [here](https://github.com/hacobe/rusp/tree/main/selective_prediction).
 
 ## Methods
 
