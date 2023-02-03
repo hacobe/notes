@@ -10,6 +10,8 @@ For many tasks, it is difficult to programmatically assess the quality of a lang
 
 To address these problems, we investigate strategies to synthesize training datasets for language reward models. We use a large dataset of human preferences over summaries of Reddit posts introduced in [Stiennon et al 2020](https://arxiv.org/pdf/2009.01325.pdf). We train language reward models on completely synthetic training datasets and evaluate them on the human preference data. We also compare the performance to reward models trained on the human preference data.
 
+The code to reproduce these analyses is [here](https://github.com/hacobe/rusp/tree/main/data_synthesis).
+
 ## Related work
 
 There is a large literature on quality estimation for machine translation. For several years, the EMNLP conference on machine translation has run quality estimation contests. In 2021, one of the best performing methods ("C-SPEC" in [Freitag et al 2021](https://aclanthology.org/2021.wmt-1.73.pdf)) used a data augmentation strategy that involved simulating translation errors ([Takahashi et al 2021](https://aclanthology.org/2021.wmt-1.113.pdf)) by replacing words in a reference translation with their antonyms or by changing the gender of words.
