@@ -31,11 +31,11 @@ class DiningPhilosophers:
                  putLeftFork: 'Callable[[], None]',
                  putRightFork: 'Callable[[], None]') -> None:
     left_fork = philosopher
-    right_right = (philosopher + 1) % 5
+    right_fork = (philosopher + 4) % 5
     if philosopher == 0:
-        first, second = left_fork, right_right
+        first, second = left_fork, right_fork
     else:
-        first, second = right_right, left_fork
+        first, second = right_fork, left_fork
         
     with self.forks[first]:
         with self.forks[second]:
