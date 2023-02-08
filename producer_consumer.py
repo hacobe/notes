@@ -4,6 +4,8 @@ Notes:
 * Put and get update the buffer, increment the buffer indices and increment the count.
   They don't access any locks or conditions.
  
+See also:
+* bounded_blocking_queue.py
 
 Sources:
 * Chapter 30 ("Condition Variables"), Operating Systems: Three Easy Pieces
