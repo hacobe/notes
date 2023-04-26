@@ -17,6 +17,14 @@ There are 3 Quota policy types:[^3]
 * **rollingwindow**: We supply an interval and a time unit. In this case, the number of requests would be calculated based on [time of the request - interval in time units, time of the request].
 * **flexi**: Like calendar, except that the start time is not provided, but determined based on the time of the first request that comes in.
 
+The calendar type is commonly used for billing purposes.
+
+The rollingwindow type is used to limit requests over time without respect to a specific calendar period. For example, suppose a client sends a large number of requests just before the end of the calendar period and just after. The number of requests may fall below the rate limit in each calendar period, but together may amount to a large number of requests in a short period of time.
+
+The rollingwindow type differs from the SpikeArrest policy in that the rollingwindow type can be applied more granularly than the SpikeArrest policy (specific users, organizations or endpoints rather than just to the API as a whole), but at a coarser level of time (minutes to months rather than seconds to minutes). These differences make the rollingwindow type suitable to distributing available load fairly across clients over time without respect to a specific calendar period rather than preventing severe spikes in traffic (including DDoS).
+
+The flexi type is useful for trial periods.
+
 As an example, OpenAI enforces rate limits "at the organization level, not user level, based on the specific endpoint used as well as the type of account you have" and those rate limits are "measured in two ways: RPM (requests per minute) and TPM (tokens per minute)."[^4]
 
 For the SpikeArrest policy, we supply a per-second rate or a per-minute rate and a boolean UseEffectiveCount.[^5] If UseEffectiveCount is true, then burst in traffic are allowed as long as they do not exceed the given rate. Otherwise (the default), bursts in traffic are not allowed and traffic is smoothed over time.
