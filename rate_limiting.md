@@ -25,7 +25,7 @@ The rollingwindow type differs from the SpikeArrest policy in that the rollingwi
 
 The flexi type is useful for trial periods.
 
-As an example, OpenAI enforces rate limits "at the organization level, not user level, based on the specific endpoint used as well as the type of account you have" and those rate limits are "measured in two ways: RPM (requests per minute) and TPM (tokens per minute)."[^4]
+As an example, OpenAI enforces rolling window rate limits "at the organization level, not user level, based on the specific endpoint used as well as the type of account you have" and those rate limits are "measured in two ways: RPM (requests per minute) and TPM (tokens per minute)."[^4] It also enforces a calendar rate limit on the amount that an organization can be billed per month.
 
 For the SpikeArrest policy, we supply a per-second rate or a per-minute rate and a boolean UseEffectiveCount.[^5] If UseEffectiveCount is true, then burst in traffic are allowed as long as they do not exceed the given rate. Otherwise (the default), bursts in traffic are not allowed and traffic is smoothed over time.
 
