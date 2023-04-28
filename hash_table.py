@@ -2,6 +2,9 @@
 
 Sources:
 * https://coderbook.com/@marcus/how-to-create-a-hash-table-from-scratch-in-python/
+
+See also:
+* hash_map_with_linked_list.py
 """
 
 class HashTable(object):
