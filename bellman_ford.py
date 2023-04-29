@@ -1,7 +1,8 @@
 """Bellman-Ford
 
 Sources:
-* https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-spring-2020/lecture-notes/MIT6_006S20_r12.pdf
+* https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/77ff36ad54779575d9ba8d8687f91b5b_MIT6_006S20_r11.pdf
+* https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/1a34924a2ee4e08c580c2268f8e854ee_MIT6_006S20_r12.pdf
 """
 def bellman_ford(Adj, n, w, s):
     d = [float("inf") for _ in range(n)]
