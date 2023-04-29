@@ -1,77 +1,101 @@
 """LRU cache.
 
-Solves https://leetcode.com/problems/lru-cache/
-
-Solution is based on:
-https://leetcode.com/problems/lru-cache/discuss/45926/Python-Dict-%2B-Double-LinkedList
-
-A simpler solution uses an OrderedDict. You can use move_to_end or just pop the item
-with the given key and put it back into the dictionary.
-
 Notes:
-* Removing a node is easy, because of the prev and next pointers
-* The dictionary goes from key to node, not from key to value
-* The linked list node stores the key and the value for entry in the dictionary
+* We can solve the problem with an OrderedDict using the move_to_end and popitem(last=False) methods
+* We could use collections.OrderedDict or build the OrderedDict from scratch.
+* An OrderedDict consists of a dictionary from key to node and a doubly linked list
+* We add a dummy node to the head and a dummy node to the tail in order to reduce the number of edge
+  cases for linked list operations
+* We have 2 helper methods: _remove_node_from_ll and _insert_node_into_ll_before_tail
+
+Sources:
+* Solves https://leetcode.com/problems/lru-cache/
+* https://leetcode.com/problems/lru-cache/discuss/45926/Python-Dict-%2B-Double-LinkedList
 """
 
 class Node:
 
-	def __init__(self, k, v):
-		self.key = k
-		self.val = v
-		self.prev = None
-		self.next = None
+    def __init__(self):
+        self.key = None
+        self.value = None
+        self.next = None
+        self.prev = None
 
-class LRUCache:
+class OrderedDict:
 
-    def __init__(self, capacity):
-        self.capacity = capacity
-        self.key_to_node = dict()
-        
-        # Initialize doubly linked list
-        # with dummy head and tail.
-        # Nodes closer to the tail have been used
-        # more recently.
-        # The LRU is right after the dummy head.
-        self.head = Node(0, 0)
-        self.tail = Node(0, 0)
+    def __init__(self):
+        self.key_to_node = {}
+        # Separate dummy nodes
+        # (not the same node or else there will be a cycle)
+        self.head = Node()
+        self.tail = Node()
         self.head.next = self.tail
         self.tail.prev = self.head
 
-    def _remove(self, node):
-        # Remove the node from the list
+    def _remove_node_from_ll(self, node):
         p = node.prev
         n = node.next
         p.next = n
         n.prev = p
 
-    def _add(self, node):
-        # Inserts the node right before the tail
+    def _insert_node_into_ll_before_tail(self, node):
         p = self.tail.prev
         p.next = node
         self.tail.prev = node
         node.prev = p
         node.next = self.tail
-        
-    def get(self, key):
-        if key not in self.key_to_node:
-            return -1
+    
+    def __getitem__(self, key):
         node = self.key_to_node[key]
-        self._remove(node)
-        self._add(node)
-        return node.val
+        return node.value
 
-    def put(self, key, value):
+    def __setitem__(self, key, value):
         if key in self.key_to_node:
-            self._remove(self.key_to_node[key])
-        node = Node(key, value)
-        self._add(node)
+            node = self.key_to_node[key]
+            node.value = value
+            return
+
+        node = Node()
+        node.key = key
+        node.value = value
         self.key_to_node[key] = node
-        if len(self.key_to_node) > self.capacity:
-            # Remove the node right after the head.
-            # Don't use self.head.next directly in remove,
-            # because we need to save node.key to delete
-            # the node from the map.
-            node = self.head.next
-            self._remove(node)
-            del self.key_to_node[node.key]
+        self._insert_node_into_ll_before_tail(node)
+
+    def __len__(self):
+        return len(self.key_to_node)
+
+    def __contains__(self, key):
+        return (key in self.key_to_node)
+
+    def move_to_end(self, key):
+        node = self.key_to_node[key]
+        self._remove_node_from_ll(node)
+        self._insert_node_into_ll_before_tail(node)
+
+    def popitem(self, last):
+        if last:
+            raise NotImplementedError
+        node = self.head.next
+        self._remove_node_from_ll(node)
+        self.key_to_node.pop(node.key)
+
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+
+    def get(self, key: int) -> int:
+        if key not in self.cache:
+            return -1
+        value = self.cache[key]
+        self.cache.move_to_end(key)
+        return value
+        
+
+    def put(self, key: int, value: int) -> None:
+        if (key not in self.cache) and (len(self.cache) == self.capacity):
+            self.cache.popitem(last=False)
+        self.cache[key] = value
+        self.cache.move_to_end(key)
