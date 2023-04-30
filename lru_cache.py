@@ -7,6 +7,7 @@ Notes:
 * We add a dummy node to the head and a dummy node to the tail in order to reduce the number of edge
   cases for linked list operations
 * We have 2 helper methods: _remove_node_from_ll and _insert_node_into_ll_before_tail
+* We need to define __init__, __len__, __contains__, __getitem__, __setitem__, move_to_end, popitem
 
 Sources:
 * Solves https://leetcode.com/problems/lru-cache/
