@@ -98,29 +98,28 @@ class UnionFind:
 		self.root = list(range(n))
 		self.rank = [1] * n
 
-	def find(self, x):
-		# Trace back to root.
-		if self.root[x] != x:
-			self.root[x] = self.find(self.root[x])
-		return self.root[x]
+	def find(self, u):
+		if u == self.root[u]:
+			return u
+		return self.find(self.root[u])
 
-	def union(self, x, y):
-		root_x, root_y = self.find(x), self.find(y)
-		if root_x != root_y:
-			# Of (root_x, root_y), make root_y
+	def union(self, u, v):
+		root_u, root_v = self.find(u), self.find(v)
+		if root_u != root_v:
+			# Of (root_u, root_v), make root_v
 			# the one with the largest rank.
-			if self.rank[root_x] > self.rank[root_y]:
-				root_x, root_y = root_y, root_x
-			self.rank[root_y] += self.rank[root_x]
+			if self.rank[root_u] > self.rank[root_v]:
+				root_u, root_v = root_v, root_u
 			# Take the one with largest rank as the root.
-			self.root[root_x] = root_y
+			self.root[root_u] = root_v
+			self.rank[root_v] += self.rank[root_u]
 
 
 def validPath(n, edges, source, destination):
 	# Preprocessing.
 	uf = UnionFind(n)
-	for a, b in edges:
-		uf.union(a, b)
+	for u, v in edges:
+		uf.union(u, v)
 	# Check for valid path.
 	return uf.find(source) == uf.find(destination)
 
