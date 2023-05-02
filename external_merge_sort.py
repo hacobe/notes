@@ -29,6 +29,13 @@ def _get_partition_file(idx):
 
 
 def partition_and_sort(input_file, partition_size, num_partitions):
+	num_lines = 0
+	with open(input_file, "r") as fin:
+		for line in fin:
+			num_lines += 1
+	# This implementation makes the following assumption:
+	assert num_lines == partition_size * num_partitions
+
 	fin = open(input_file, "r")
 
 	fout = []
