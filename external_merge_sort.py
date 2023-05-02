@@ -7,6 +7,7 @@ http://web.archive.org/web/20230202171450/https://www.geeksforgeeks.org/external
 python external_merge_sort.py
 sort input.txt > expected.txt
 cmp expected.txt output.txt
+rm expected.txt input.txt output.txt partition*.txt
 ```
 
 Sources:
@@ -64,6 +65,8 @@ def merge(output_file, num_partitions):
 
 	fout = open(output_file, "w")
 	
+	# Seed the heap with a line
+	# from each file.
 	heap = []
 	for i in range(len(fin)):
 		line = fin[i].readline()
@@ -75,6 +78,10 @@ def merge(output_file, num_partitions):
 	while num_finished <= i:
 		root = heapq.heappop(heap)
 		fout.write(root[0])
+		# Whenever we write a line from one of the files,
+		# we read a line from that file and add it to heap,
+		# so that the heap always contains one line from
+		# each file (until we exhaust the file).
 		line = fin[root[1]].readline()
 		if line:
 			heapq.heappush(heap, (line, root[1]))
