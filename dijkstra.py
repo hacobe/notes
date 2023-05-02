@@ -37,7 +37,7 @@ def dijkstra(n, graph, start):
 			if visited[v]:
 				continue
 			f = g + w
-			if f < d[v]:
+			if d[v] > f:
 				d[v] = f
 				heapq.heappush(heap, (f, v))
 	return d
