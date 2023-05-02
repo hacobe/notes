@@ -71,15 +71,15 @@ def merge(output_file, num_partitions):
 			break
 		heapq.heappush(heap, (line, i))
 
-	count = 0
-	while count <= i:
+	num_finished = 0
+	while num_finished <= i:
 		root = heapq.heappop(heap)
 		fout.write(root[0])
 		line = fin[root[1]].readline()
 		if line:
 			heapq.heappush(heap, (line, root[1]))
 		else:
-			count += 1
+			num_finished += 1
 
 	for i in range(len(fin)):
 		fin[i].close()
