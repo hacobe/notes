@@ -1,6 +1,12 @@
 """Floyd-Warshall.
 
+Dijkstra and Bellman-Ford are single source shortest path algorithms.
+Floyd-Warshall is an all pairs shortest path algorithm. It applies to
+graphs with positive or negative edge weights but with no negative
+cycles.
+
 Sources:
+* https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
 * https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/solutions/490312/JavaC++Python-Easy-Floyd-Algorithm/
 * http://web.archive.org/web/20230508143429/https://www.geeksforgeeks.org/floyd-warshall-algorithm-dp-16/
 """
