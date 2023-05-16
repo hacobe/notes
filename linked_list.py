@@ -1,4 +1,5 @@
-"""
+"""Implement a linked list.
+
 Sources:
 * https://leetcode.com/problems/design-linked-list/
 * https://www.geeksforgeeks.org/linked-list-set-1-introduction/
@@ -8,10 +9,9 @@ Sources:
 
 class Node:
 
-	def __init__(self, val, next=None):
+	def __init__(self, val):
 		self.val = val
-		self.next = next
-
+		self.next = None
 
 class MyLinkedList:
 
@@ -29,61 +29,58 @@ class MyLinkedList:
 		return -1
 
 	def addAtHead(self, val: int) -> None:
-		node = Node(val)
-		node.next = self.head
-		self.head = node
+		new_node = Node(val)
+		new_node.next = self.head
+		self.head = new_node
 
 	def addAtTail(self, val: int) -> None:
-		# Handles the case of an empty list
 		new_node = Node(val)
 		if not self.head:
 			self.head = new_node
 			return
-
+		prev = None
 		node = self.head
-		prev_node = None
 		while node:
-			prev_node = node
+			prev = node
 			node = node.next
-		prev_node.next = new_node
+		prev.next = new_node
 
 	def addAtIndex(self, index: int, val: int) -> None:
 		if index == 0:
 			self.addAtHead(val)
 			return
 
+		new_node = Node(val)
+		prev = None
 		node = self.head
-		prev_node = None
 		i = 0
 		while node:
 			if i == index:
-				new_node = Node(val)
-				prev_node.next = new_node
+				prev.next = new_node
 				new_node.next = node
 				return
-			prev_node = node
+			prev = node
 			node = node.next
 			i += 1
-
-		# "If index equals the length of the linked list, the node will be appended to the end of the linked list"
-		if i == index:
-			new_node = Node(val)
-			prev_node.next = new_node
+		if index == i:
+			prev.next = new_node
+			new_node.next = node
 
 	def deleteAtIndex(self, index: int) -> None:
 		if index == 0:
 			self.head = self.head.next
 			return
+
+		prev = None
 		node = self.head
-		prev_node = None
 		i = 0
 		while node:
 			if i == index:
-				prev_node.next = node.next
+				prev.next = node.next
 				return
-			prev_node = node
+			prev = node
 			node = node.next
-			i += 1 
+			i += 1
 
 	def __str__(self):
 		node = self.head
