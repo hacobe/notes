@@ -1,4 +1,4 @@
-# OSTEP: Free space management
+# OSTEP: Free-Space Management
 
 ## Introduction
 
@@ -72,4 +72,4 @@ In addition to the size, the header may also store a "magic number". We use the 
 
 ## Sources
 
-* Chapter 17 ("Free space management"), Operating Systems: Three Easy Pieces, https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf accessed on 7/23/2023. Up to including "Tracking The Size Of Allocated Regions".
+* Chapter 17 ("Free-Space Management"), Operating Systems: Three Easy Pieces, https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf accessed on 7/23/2023. Up to and including "Tracking The Size Of Allocated Regions".
