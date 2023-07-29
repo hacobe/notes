@@ -163,20 +163,30 @@ def test_multiple_malloc(memory_manager):
 
 
 def test_fragmentation(memory_manager):
+	# Like test_multiple_malloc except
+	# that we free the first reserved
+	# block and then request a large block.
+
 	# Reserve [0, 100)
 	start0 = memory_manager.malloc(100)
 	# Reserve [100, 400)
 	start1 = memory_manager.malloc(300)
 	# Free [0, 100)
 	memory_manager.free(start0)
+	# By freeing [0, 100), we add it back into the free list.
 	assert memory_manager.free_list == [[0, 100], [400, 1000]]
-	start2 = memory_manager.malloc(700)
+	start2 = memory_manager.malloc(650)
 	# We have enough free space across the ranges, but
 	# not in any single range.
 	assert start2 == -1
 
 
 def test_coalesce(memory_manager):
+	# Like test_multiple_malloc except
+	# that we free the first reserved
+	# block and then the second reserved
+	# block.
+
 	# Reserve [0, 100)
 	start0 = memory_manager.malloc(100)
 	assert start0 == 0
