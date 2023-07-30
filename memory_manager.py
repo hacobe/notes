@@ -204,6 +204,27 @@ def test_coalesce(memory_manager):
 
 
 def test_fuzz(memory_manager):
+	"""Fuzz test.
+
+	Initialize an empty list of start addresses (`starts`).
+	
+	Start looping. The outer loop is through biases
+	(explained shortly) and the inner loop is through
+	the number of operations performed.
+
+	If the `starts` list is empty, then malloc a random size
+	between 1 and the maximum size available (inclusive).
+
+	Append the start address returned from malloc to the
+	the `starts` list.
+
+	If the `starts` list is not empty, then flip a biased coin
+	to either malloc or free a randomly select start address.
+	The bias is determined by the outer loop.
+
+	At the end of the looping, shuffle the remaining starts
+	and free the space associated with them one at a time.
+	"""
 	random.seed(0)
 	starts = []
 	for thd in [0.25, 0.5, 0.75]:
@@ -226,13 +247,3 @@ def test_fuzz(memory_manager):
 		memory_manager.free(start)
 
 	assert memory_manager.free_list == [[0, 1000]]
-
-
-
-
-
-
-
-
-
-
