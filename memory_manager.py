@@ -172,7 +172,7 @@ def test_fragmentation(memory_manager):
 	# Reserve [100, 400)
 	start1 = memory_manager.malloc(300)
 	# Free [0, 100)
-	memory_manager.free(start0)
+	assert memory_manager.free(start0)
 	# By freeing [0, 100), we add it back into the free list.
 	assert memory_manager.free_list == [[0, 100], [400, 1000]]
 	start2 = memory_manager.malloc(650)
@@ -194,12 +194,12 @@ def test_coalesce(memory_manager):
 	start1 = memory_manager.malloc(300)
 	assert start1 == 100
 	# Free [0, 100)
-	memory_manager.free(start0)
+	assert memory_manager.free(start0)
 	assert memory_manager.free_list == [[0, 100], [400, 1000]]
 	# Free [100, 400)
 	# We get [[0, 100], [100, 400], [400, 1000]] in the free list
 	# and then the ranges are coalesced into [[0, 1000]].
-	memory_manager.free(start1)
+	assert memory_manager.free(start1)
 	assert memory_manager.free_list == [[0, 1000]]
 
 
