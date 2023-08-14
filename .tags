@@ -616,21 +616,6 @@
       ]
     },
     {
-      "path": "broadcasting.md"
-    },
-    {
-      "path": "how_to_solve_it.md"
-    },
-    {
-      "path": "modular_exponentiation.md"
-    },
-    {
-      "path": "james_stein_estimation.md"
-    },
-    {
-      "path": "entropy.md"
-    },
-    {
       "path": "dot_product_attention.py",
       "tags": [
         "deep_learning"
