@@ -1,0 +1,908 @@
+{
+  "tags": [
+    "computer_architecture",
+    "operating_systems",
+    "data_structures_and_algorithms",
+    "machine_learning",
+    "deep_learning",
+    "reinforcement_learning",
+    "optimization",
+    "linear_algebra",
+    "probability",
+    "system_design",
+    "robustness_and_uncertainty_for_structured_prediction",
+    "concurrency",
+    "strings"
+  ],
+  "notes": [
+    {
+      "file": "what_is_a_computer.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "binary_addition.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "overflow.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "twos_complement.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "a_tour_of_computer_systems.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "transistors.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "flip_flops.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "synchronous_systems.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "assembly.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "c_memory_management.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "computer_chip.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "floating_point.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "flynns_taxonomy.md",
+      "tags": [
+        "computer_architecture"
+      ]
+    },
+    {
+      "file": "introduction_to_operating_systems.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
+      "file": "concurrency.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
+      "file": "multithreading.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
+      "file": "ostep_concurrency_and_threads.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_locks.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_condition_variables.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_semaphores.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_locked_data_structures.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_common_concurrency_problems.md",
+      "tags": [
+        "operating_systems",
+        "concurrency"
+      ]
+    },
+    {
+      "file": "ostep_free_space_management.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
+      "file": "memory_manager.py",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
+      "file": "Basic comparison sorting.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Non-comparison sorting.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Merge sort.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Quicksort.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Dynamic programming.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Heap.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "Trie.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "backtracking.md",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "sliding_window.md",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "0-1 Knapsack.ipynb",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "correctness_proof.md",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "what_is_machine_learning.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "bias_variance_tradeoff.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "naive_bayes.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "linear_discriminant_analysis.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "k_means_clustering.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "support_vector_machines.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "kernel_trick.md",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "Linear regression.ipynb",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "Logistic regression.ipynb",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "Softmax regression.ipynb",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "MLP.ipynb",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "gradient_descent.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "automatic_differentiation.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "attention.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "graph_neural_networks.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "data_parallelism.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "t5_style_model_parallelism.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "pipeline_parallelism.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "zero_offload.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "zero_dp.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "megatron_style_model_parallelism.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "mixture_of_experts.md",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "reinforcement_learning_framework.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "reinforcement_learning_objective.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "imitation_learning.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "problems_with_imitation_learning.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "policy_gradients.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "policy_gradients_vs_imitation_learning.md",
+      "tags": [
+        "reinforcement_learning"
+      ]
+    },
+    {
+      "file": "linear_algebra_3blue1brown.md",
+      "tags": [
+        "linear_algebra"
+      ]
+    },
+    {
+      "file": "eigendecomposition.md",
+      "tags": [
+        "linear_algebra"
+      ]
+    },
+    {
+      "file": "singular_value_decomposition.md",
+      "tags": [
+        "linear_algebra"
+      ]
+    },
+    {
+      "file": "moore_penrose_pseudoinverse.md",
+      "tags": [
+        "linear_algebra"
+      ]
+    },
+    {
+      "file": "pca.md",
+      "tags": [
+        "linear_algebra"
+      ]
+    },
+    {
+      "file": "critical_points.md",
+      "tags": [
+        "optimization"
+      ]
+    },
+    {
+      "file": "overflow_and_underflow.md",
+      "tags": [
+        "optimization"
+      ]
+    },
+    {
+      "file": "probability_basics.md",
+      "tags": [
+        "probability"
+      ]
+    },
+    {
+      "file": "random_variables.md",
+      "tags": [
+        "probability"
+      ]
+    },
+    {
+      "file": "reliable_maintainable_scalable_applications.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "data_models_and_query_languages.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "log_segments_with_hash_index.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "sstables.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "data_warehousing.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "encoding_and_evolution.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "single_leader_replication.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "multi_leader_replication.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "leaderless_replication.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "partitioning.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "batch_processing.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "client_centric_consistency_models.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "hadoop_distributed_file_system.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "kafka.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "rate_limiting.md",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
+      "file": "selective_sequence_prediction.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "data_synthesis_for_language_reward_models.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "structured_prediction.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "ensemble_methods.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "calibration_definitions.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "post_hoc_calibration.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "decoding_strategies.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "maximum_softmax_probability.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "selective_prediction.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "modeling_model_outputs.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "ood_detection.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "calibration_for_structured_prediction.md",
+      "tags": [
+        "robustness_and_uncertainty_for_structured_prediction"
+      ]
+    },
+    {
+      "file": "broadcasting.md"
+    },
+    {
+      "file": "how_to_solve_it.md"
+    },
+    {
+      "file": "modular_exponentiation.md"
+    },
+    {
+      "file": "james_stein_estimation.md"
+    },
+    {
+      "file": "entropy.md"
+    },
+    {
+      "file": "dot_product_attention.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "autograd.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "batch_norm.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "bellman_ford.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "binary_search.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "binary_search_tree.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "bit_manipulation.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "bounded_blocking_queue.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "breadth_first_search.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "categorical_crossentropy.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "custom_queue.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "dag_relaxation.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "deadlock.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "depth_first_search_iterative.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "depth_first_search_recursive.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "dijkstra.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "floyd_warshall.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "dining_philosophers.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "hash_table.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "hash_map_with_linked_list.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "heap_sort_in_place.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "kth_largest_value.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "linked_list.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "floyd_cycle_detection.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "lru_cache.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "producer_consumer.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "sieve_of_eratosthenes.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "softmax.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "file": "stack.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "thread_error.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "thread_pool_executor.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "thread_pool_executor_from_scratch.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "as_completed.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "web_crawler.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "web_crawler_concurrent_with_queue.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "DataLoader.ipynb",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "readers_writers_balanced.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
+      "file": "k_means.py",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "minhash_lsh.md",
+      "tags": [
+        "data_structures_and_algorithms",
+        "machine_learning"
+      ]
+    },
+    {
+      "file": "needleman_wunsch_algorithm.md",
+      "tags": [
+        "data_structures_and_algorithms",
+        "strings"
+      ]
+    },
+    {
+      "file": "smith_waterman_algorithm.md",
+      "tags": [
+        "data_structures_and_algorithms",
+        "strings"
+      ]
+    },
+    {
+      "file": "String matching.ipynb",
+      "tags": [
+        "data_structures_and_algorithms",
+        "strings"
+      ]
+    },
+    {
+      "file": "union_find.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "fenwick_tree.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "file": "external_merge_sort.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    }
+  ]
+}
