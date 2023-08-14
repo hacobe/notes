@@ -35,8 +35,6 @@ Sources:
 * https://github.com/chyyuu/os_tutorial_lab/blob/master/ostep/ostep3-malloc.py
 * https://github.com/chyyuu/os_tutorial_lab/blob/master/ostep/ostep3-malloc.md
 * https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf
-
-
 """
 class MemoryManager:
 
@@ -93,23 +91,23 @@ class MemoryManager:
 
 		return True
 
-	@property
-	def max_size(self):
-		max_size = 0
-		for i in range(len(self.free_list)):
-			start, end = self.free_list[i]
-			size = end - start
-			max_size = max(size, max_size)
-		return max_size
-
-
 ########
 # Tests
 ########
 
+
 import copy
 import pytest
 import random
+
+
+def _max_size(memory_manager):
+	max_size = 0
+	for i in range(len(memory_manager.free_list)):
+		start, end = memory_manager.free_list[i]
+		size = end - start
+		max_size = max(size, max_size)
+	return max_size
 
 
 @pytest.fixture
@@ -230,9 +228,10 @@ def test_fuzz(memory_manager):
 	for thd in [0.25, 0.5, 0.75]:
 		for _ in range(10000):
 			r = random.random()
-			if (memory_manager.max_size > 0) and ((not starts) or (r <= thd)):
-				# Sample an index in [1, memory_manager.max_size] inclusive.
-				size = random.randint(1, memory_manager.max_size)
+			max_size = _max_size(memory_manager)
+			if (max_size > 0) and ((not starts) or (r <= thd)):
+				# Sample an index in [1, max_size] inclusive.
+				size = random.randint(1, max_size)
 				start = memory_manager.malloc(size)
 				starts.append(start)
 			else:
