@@ -248,25 +248,11 @@ class BuddyMemoryManager:
 
 				Consider the following tree:
 
-						 0:1024
-						/      \
-				  [0:512]  512:512
-                      /       \
-                [512:256]   768:256
-                           /       \
-                        768:128    896:128
-                        /      \    
-                   [768:64]  832:64   
-                             /     \
-                        [832:32] 864:32 
+				([0:512]([512:256](([768:64]([832:32](864:32)))(896:128))))
 
-            Or in string form:
-
-            ([0:512]([512:256](([768:64]([832:32](864:32)))(896:128))))
-
-            If we call malloc(64), then we'll end up at node 832:64,
-            but that node is a parent, so it cannot be reserved. We want
-            to go to the next node, but the next node does not exist.
+				If we call malloc(64), then we'll end up at node 832:64,
+				but that node is a parent, so it cannot be reserved. We want
+				to go to the next node, but the next node does not exist.
 				"""
 				i = next_index
 				while i >= 0:
