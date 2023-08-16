@@ -166,6 +166,12 @@
       ]
     },
     {
+      "path": "buddy_memory_manager.py",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
       "path": "Basic comparison sorting.ipynb",
       "tags": [
         "data_structures_and_algorithms"
