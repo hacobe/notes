@@ -1,11 +1,8 @@
 """Educational implementation of a buddy memory allocator.
 
-We initialize the BuddyMemoryManager with a `capacity`, which is the total
-amount of memory under management. We require that the `capacity` is a power
+We initialize the BuddyMemoryManager with a `size`, which is the total
+amount of memory under management. We require that the `size` is a power
 of 2.
-
-We initialize a tree with a root node. We associate the root node with
-the interval [0, `capacity`) and mark it as unreserved.
 
 The malloc method takes as input a `size`, i.e., the amount of free space
 to reserve. If the request can be accommodated, then it returns the
@@ -15,31 +12,6 @@ Otherwise, it returns -1.
 At a high level, a call to the malloc method keeps splitting intervals
 in half until it finds a free interval that matches the smallest power of
 2 greater than or equal to the requested size.
-
-In more detail:
-1. Find the smallest power of 2 that is greater than or equal to `size`.
-   Call this quantity the `target_length`.
-2. Set the current node to the root node.
-3. If the `target_length` is greater than the length of the interval
-   associated with the current node, then return -1, because the request
-   cannot be accommodated.
-4. If the `target_length` is equal to the length of the interval, the
-   current node is a leaf node and is not reserved, then mark the current
-   node as reserved and return the start of the interval associated with it.
-   (When we mark the current node as reserved, we also update the ancestors
-   of the node so that if the children of a node are reserved then that
-   node is also marked as reserved)
-5. If the `target_length` is less than the length of the interval and the
-   current node is not reserved, then go to the left child of the current
-   node. If the left child does not exist, then first "split" the current
-   node (i.e., create an unreserved left child associated with the left half
-   of the current node's interval and an unreserved right child associated
-   with the right half), then set the current node to the left child and
-   go back to (3).
-6. Otherwise, the node is reserved or the node is not reserved but is a parent
-   with a descendant that is reserved. In either of these cases, set the current
-   node to the next node in a breadth-first ordering of the nodes and go back
-   to (3). If no next node exists, then create it.
 
 The free method takes as input a `start`, i.e., the start of a previously
 reserved interval to free. If it successfully frees the interval, it returns
@@ -51,46 +23,21 @@ it joins the 2 intervals into a single, free interval. If the interval adjacent
 to that single, free interval is also free, then it joins those 2 intervals
 and so on until it reaches an adjacent interval that is not free or the root.
 
-In more detail:
-1. Set the current node to the root node.
-2. If the current node is a leaf and is reserved, then it must be the interval
-   that starts with the given `start` (otherwise, the given `start` is invalid
-   and we return False)
-
-   a) If the current node is the root or the sibling of the current node is
-      reserved or the sibling of the current node is a parent (i.e., one of
-      its descendants is reserved), then mark the current node as unreserved,
-      remove its descendants and return True.
-      (When we mark the current node as unreserved, we also update the
-      ancestors of the node so that if any children of a node are unreserved
-      then that node is also marked as unreserved)
-
-   b) Otherwise, set the current node to its parent and go to (a).
-
-   In this way, if a parent's children will both be unreserved after we mark
-   the current node unreserved, then we "coalesce", i.e., join the intervals
-   associated with the children, and go up a level.
-3. Otherwise, if `start` is less than the midpoint of the interval associated
-   with the current node, set the current node to its left child node and go
-   to (2). If `start` is greater than or equal to the midpoint of the interval,
-   set the current node to its right child node and go to (2).
-
 Notes:
-
-The implementation below is inspired by cloudwu's implementation
-(see "Sources" below) though it uses a node class with pointers instead of an
-array to represent the binary tree. It also generally sacrifices efficiency for
-readability. It does not exploit some of the bit manipulation tricks that are often
-used in implementations of buddy memory allocation. For example: "The address of a
-block's 'buddy' is equal to the bitwise exclusive OR (XOR) of the block's address
-and the block's size" (Wikipedia). It also uses a minimum interval size of 1 though:
-"Typically the lower limit would be small enough to minimize the average wasted space
-per allocation, but large enough to avoid excessive overhead" (Wikipedia).
-
-From cloudwu's blog post (according to Google Translate):
-"Under the standard algorithm, the time complexity of allocation and release is O(log N),
- and N will not be particularly large. The advantage of the algorithm is that the fragmentation
- rate is very small."
+* The implementation below is basically a translation of wuwenbin's implementation
+  from C to Python with a few changes for readability.
+  (h/t to cloudwu for pointing me to wuwenbin's implementation)
+* The implementation uses a minimum interval size of 1 even though:
+  "Typically the lower limit would be small enough to minimize the average wasted space
+   per allocation, but large enough to avoid excessive overhead" (Wikipedia).
+* test_cloudwu are the unit tests from cloudwu's implementation translated from
+  C to Python.
+* From cloudwu's blog post (according to Google Translate):
+  "Under the standard algorithm, the time complexity of allocation and release
+  is O(log N), and N will not be particularly large. The advantage of the algorithm
+  is that the fragmentation rate is very small."
+* Calculating node start and node size recursively is more intuitive
+  than the bit manipulation tricks.
 
 Run tests:
 
@@ -101,7 +48,10 @@ See also:
 * memory_manager.py
 
 Sources:
+* https://github.com/wuwenbin/buddy2
+* https://web.archive.org/web/20230817144142/https://coolshell.cn/articles/10427.html
 
+Additional sources:
 * https://github.com/cloudwu/buddy
 * https://web.archive.org/web/20230803151249/https://blog.codingnow.com/2011/12/buddy_memory_allocation.html
 * Wikipedia (https://web.archive.org/web/20230813151519/https://en.wikipedia.org/wiki/Buddy_memory_allocation)
@@ -110,217 +60,221 @@ Sources:
 
 
 def _is_pow_of_2(x):
-	return (x & (x-1)) == 0
+	return (x & (x - 1)) == 0
 
 
 def _next_pow_of_2(x):
 	return 1 if x == 0 else 1 << (x-1).bit_length()
 
 
-class Node:
-	
-	def __init__(self, index, start, length, parent):
-		self.index = index
-		self.start = start
-		self.length = length
-		self.parent = parent
-		self.left = None
-		self.right = None
-		self._is_reserved = False
+def _left(i):
+	return 2 * i + 1
 
-	def reserve(self):
-		self._is_reserved = True
 
-	def unreserve(self):
-		self._is_reserved = False
+def _right(i):
+	return 2 * i + 2
 
-	@property
-	def is_leaf(self):
-		return (not self.left) and (not self.right)
 
-	@property
-	def is_parent(self):
-		return self.left or self.right
-
-	@property
-	def sibling(self):
-		if not self.parent:
-			return
-
-		if self.parent.left == self:
-			return self.parent.right
-
-		return self.parent.left
-
-	@property
-	def is_reserved(self):
-		return self._is_reserved
-
-	def __str__(self, prefix=""):
-		start = self.start
-		length = self.length
-		if self.is_leaf and (not self.is_reserved):
-			return prefix + f"({start}:{length})"
-		elif self.is_leaf and self.is_reserved:
-			return prefix + f"[{start}:{length}]"
-		elif self.is_parent and (not self.is_reserved):
-			string = "("
-			string += self.left.__str__(prefix)
-			string += self.right.__str__(prefix)
-			string += ")"
-			return string
-		elif self.is_parent and self.is_reserved:
-			string = "{"
-			string += self.left.__str__(prefix)
-			string += self.right.__str__(prefix)
-			string += "}"
-			return string
+def _parent(i):
+	return (i + 1) // 2 - 1
 
 
 class BuddyMemoryManager:
 
-	def __init__(self, capacity):
-		if not isinstance(capacity, int):
-			raise ValueError("capacity must be an integer")
-		if not (capacity > 0):
-			raise ValueError("capacity must be > 0")
-		if not _is_pow_of_2(capacity):
-			raise ValueError("capacity must be a power of 2")
-		
-		self._root = Node(
-			index=0,
-			start=0,
-			length=capacity,
-			parent=None)
-		max_num_nodes = (1 << capacity.bit_length()) - 1
-		self._nodes = [None] * max_num_nodes
+	def __init__(self, size):
+		assert size >= 1
+		assert isinstance(size, int)
+		assert _is_pow_of_2(size)
 
-	def _split(self, node):
-		node.left = Node(
-			index=(2 * (node.index + 1)) - 1,
-			parent=node,
-			start=node.start,
-			length=node.length // 2)
-		self._nodes[node.left.index] = node.left
+		self._size = size
 
-		node.right = Node(
-			index=2 * (node.index + 1),
-			parent=node,
-			start=node.start + node.length // 2,
-			length=node.length // 2)
-		self._nodes[node.right.index] = node.right
+		# If `size` is 4, then we have [4, 2, 2, 1, 1, 1, 1],
+		# which is 2 * `size` - 1 nodes.
+		num_nodes = 2 * size - 1
+
+		# Build `self._longest` such that `self._longest[i]`
+		# is equal to the length of the longest free interval 
+		# associated with a node in the subtree rooted at node `i`.
+		# 
+		# We want the root to have `node_size` equal to `size`.
+		# Start at 2 * `size`, because we will divide by 2.
+		node_size = 2 * size
+		self._longest = [0 for _ in range(num_nodes)]
+		for i in range(num_nodes):
+			if _is_pow_of_2(i+1):
+				# We move a level down the tree.
+				node_size //= 2
+			self._longest[i] = node_size
 
 	def malloc(self, size):
-		target_length = _next_pow_of_2(size)
+		size = _next_pow_of_2(size)
 
-		node = self._root
-		while node:
-			if target_length > node.length:
-				return -1
-			elif target_length == node.length and node.is_leaf and (not node.is_reserved):
-				node.reserve()
+		i = 0
+		if size > self._longest[i]:
+			return -1
 
-				curr = node
-				while curr:
-					if curr.sibling and curr.sibling.is_reserved:
-						curr = curr.parent
-						curr.reserve()
-					else:
-						break
-
-				return node.start
-			elif target_length < node.length and (not node.is_reserved):
-				if node.is_leaf:
-					self._split(node)
-				node = node.left
+		# Find a node with `node_size` equal to `size`.
+		node_size = self._size
+		node_start = 0
+		while node_size != size:
+			# Splitting.
+			#
+			# If there does not exist a reserved node in
+			# the subtree, then going a level down in the
+			# the tree amounts to splitting the current
+			# node.
+			if size <= self._longest[_left(i)]:
+				i = _left(i)
 			else:
-				a = (target_length <= node.length and node.is_reserved) 
-				# If a node is a parent, then one of its children is reserved
-				# even if the node itself is not reserved.
-				b = (target_length == node.length and node.is_parent and (not node.is_reserved))
-				assert a or b
-				next_index = node.index + 1
-				if next_index >= len(self._nodes):
-					return -1
+				i = _right(i)
+				node_start += node_size // 2
+			node_size //= 2
 
-				"""
-				If the next node does not exist, we have to create it.
+		# Reserve the node.
+		self._longest[i] = 0
 
-				Consider the following tree:
+		# Update the ancestors of the node.
+		while i != 0:
+			i = _parent(i)
+			l = _left(i)
+			r = _right(i)
+			# Maintain the max-property.
+			self._longest[i] = max(self._longest[l], self._longest[r])
 
-				([0:512]([512:256](([768:64]([832:32](864:32)))(896:128))))
-
-				If we call malloc(64), then we'll end up at node 832:64,
-				but that node is a parent, so it cannot be reserved. We want
-				to go to the next node, but the next node does not exist.
-				"""
-				i = next_index
-				while i >= 0:
-					node = self._nodes[i]
-
-					if node:
-						while node.index < next_index:
-							if node.is_leaf:
-								self._split(node)
-							node = node.left
-						break
-					else:
-						# parent
-						i = ((i + 1) // 2) - 1
-
-				assert node.index == next_index
-
-		return -1
+		return node_start
 
 	def free(self, start):
-		node = self._root
-		while node:
-			if node.is_leaf and node.is_reserved:
-				if start != node.start:
-					return False
+		if start < 0:
+			return False
 
+		# Find the node at the bottom of tree associated
+		# with an interval that starts at `start`.
+		#
+		# For example, suppose that `self._size` = 4.
+		#
+		# i:        0  1  2  3  4  5  6
+		# _longest: 4  2  2  1  1  1  1
+		#
+		# The leftmost node at the bottom of the tree starts
+		# at index `self._size` - 1 = 3.
+		#
+		# Here is the tree along with the interval for each
+		# node and the node index under the interval:
+		#
+		#             [0, 4)
+		#               0
+		#       /               \
+		#     [0, 2)          [2, 4)
+		#       1               2
+		#    /      \       /       \
+		# [0, 1)  [1, 2)  [2, 3)  [3, 4)
+		#   3       4       5       6
+		i = self._size - 1 + start
+
+		if i >= len(self._longest):
+			return False
+
+		node_size = 1
+		while self._longest[i] != 0:			
+			if i == 0:
+				return False
+			node_size *= 2
+			i = _parent(i)
+
+		# If `i` + 1 does not change the level of the node,
+		# then it gives the number of nodes in the level up
+		# to and including the `i`-th node.
+		#
+		# Each node on the level is associated with an interval of
+		# length `node_size`.
+		#
+		# The sum of all the interval lengths on a level is `self._size`.
+		#
+		# If `i` + 1 does change the level of the node, then `i` + 1 is the
+		# total number of nodes on the original level, so
+		# (`i` + 1) * `node_size` = self._size and the start of that node is 0
+		# as expected (the leftmost node on each level always starts at 0).
+		node_start = (i + 1) * node_size - self._size
+
+		if node_start != start:
+			return False
+
+		# Free the node.
+		self._longest[i] = node_size
+
+		# Update the ancestors of the node.
+		while i != 0:
+			i = _parent(i)
+			l = _left(i)
+			r = _right(i)
+			node_size *= 2
+
+			if self._longest[l] + self._longest[r] == node_size:
 				# Coalescing.
-
-				curr = node
-				while curr:
-					if (not curr.sibling) or curr.sibling.is_parent or curr.sibling.is_reserved:
-						# We cut off access to descendants.
-						# Python handles the garbage collection.
-						curr.left = None
-						curr.right = None
-
-						while curr and curr.is_reserved:
-							curr.unreserve()
-							curr = curr.parent
-
-						break
-					curr = curr.parent
-
-				return True
+				#
+				# If the left and the right children of a node
+				# are free, then free the node too.
+				self._longest[i] = node_size
 			else:
-				if start < node.start + node.length // 2:
-					node = node.left
-				else:
-					node = node.right
-		return False
+				# Maintain the max-property.
+				self._longest[i] = max(self._longest[l], self._longest[r])
+
+		return True
 
 	def size(self, start):
-		node = self._root
-		while node:
-			if node.is_leaf and node.is_reserved:
-				if start != node.start:
-					return -1
-				return node.length
-			else:
-				assert node.is_parent or node.is_reserved
-				if start < node.start + node.length // 2:
-					node = node.left
-				else:
-					node = node.right
-		return -1
+		assert start >= 0 and start < self._size
+		node_size = 1
+		i = self._size - 1 + start
+		while self._longest[i] != 0:
+			node_size *= 2
+			i = _parent(i)
+		return node_size
+
+	def _str(self, i, node_start, node_size, prefix=""):
+		longest = self._longest[i]
+
+		if longest == node_size:
+			return prefix + f"({node_start}:{node_size})"
+
+		l = _left(i)
+		if longest == 0 and l >= len(self._longest):
+			return prefix + f"[{node_start}:{node_size}]"
+
+		r = _right(i)
+		if longest == 0 and self._longest[l] != 0 and self._longest[r] != 0:
+			return prefix + f"[{node_start}:{node_size}]"
+
+		if longest == 0:
+			string = "{"
+			string += self._str(
+				_left(i),
+				node_start=node_start,
+				node_size=node_size // 2,
+				prefix=prefix)
+			string += self._str(
+				_right(i),
+				node_start=node_start + node_size // 2,
+				node_size=node_size // 2,
+				prefix=prefix)
+			string += "}"
+			return string
+
+		string = "("
+		string += self._str(
+			_left(i),
+			node_start=node_start,
+			node_size=node_size // 2,
+			prefix=prefix)
+		string += self._str(
+			_right(i),
+			node_start=node_start + node_size // 2,
+			node_size=node_size // 2,
+			prefix=prefix)
+		string += ")"
+		return string
 
 	def __str__(self):
-		return self._root.__str__()
+		return self._str(0, node_start=0, node_size=self._size)
 
 
 ########
@@ -333,25 +287,7 @@ import random
 
 
 def _max_size(buddy):
-	def traverse(node, nodes):
-		if not node:
-			return
-
-		nodes.append(node)
-
-		traverse(node.left, nodes)
-		traverse(node.right, nodes)
-
-	nodes = []
-	traverse(buddy._root, nodes)
-
-	max_size = 0
-	for node in nodes:
-		if node.is_reserved:
-			continue
-		max_size = max(max_size, node.length)
-
-	return max_size
+	return max(buddy._longest)
 
 
 @pytest.fixture
@@ -544,3 +480,11 @@ def test_cloudwu():
 	assert b.free(m6)
 	assert str(b) == "(0:32)"
 
+
+if __name__ == "__main__":
+	b = BuddyMemoryManager(32)
+	assert str(b) == "(0:32)"
+
+	start0 = b.malloc(16)
+	start1 = b.malloc(16)
+	print((str(b)))
