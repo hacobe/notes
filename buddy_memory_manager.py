@@ -479,12 +479,3 @@ def test_cloudwu():
 
 	assert b.free(m6)
 	assert str(b) == "(0:32)"
-
-
-if __name__ == "__main__":
-	b = BuddyMemoryManager(32)
-	assert str(b) == "(0:32)"
-
-	start0 = b.malloc(16)
-	start1 = b.malloc(16)
-	print((str(b)))
