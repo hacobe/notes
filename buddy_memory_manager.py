@@ -27,6 +27,7 @@ Notes:
 * The implementation below is basically a translation of wuwenbin's implementation
   from C to Python with a few changes for readability.
   (h/t to cloudwu for pointing me to wuwenbin's implementation)
+* The implementation makes use of some clever invariants (see comments in the code)
 * The implementation uses a minimum interval size of 1 even though:
   "Typically the lower limit would be small enough to minimize the average wasted space
    per allocation, but large enough to avoid excessive overhead" (Wikipedia).
@@ -123,12 +124,36 @@ class BuddyMemoryManager:
 			# the subtree, then going a level down in the
 			# the tree amounts to splitting the current
 			# node.
-			if size <= self._longest[_left(i)]:
+
+			# We know that `size` is less than `node_size`,
+			# so we need to make `node_size` smaller.
+			#
+			# We also know that we have enough free space
+			# somewhere, because `size` <= `self._longest[0]`.
+			#
+			# If the length of the longest interval in the
+			# left subtree is longer, then we know we'll
+			# have enough free space in the left subtree,
+			# so we go left. Otherwise, we must have
+			# enough free space in the right subtree, so
+			# we go right.
+			assert size < node_size
+			if self._longest[_left(i)] >= size:
 				i = _left(i)
 			else:
+				assert self._longest[_right(i)] >= size
 				i = _right(i)
 				node_start += node_size // 2
 			node_size //= 2
+
+		# We know that enough free space exists in the
+		# tree and we traversed the tree always choosing
+		# the subtree with enough free space.
+		# When we find a node with `node_size` == `size`,
+		# then it must be free, because if we went any
+		# lower in the tree we wouldn't have enough free space.
+		assert node_size == size
+		assert self._longest[i] == size
 
 		# Reserve the node.
 		self._longest[i] = 0
@@ -174,12 +199,22 @@ class BuddyMemoryManager:
 		if i >= len(self._longest):
 			return False
 
+		# If `start` is odd, then the `node_size` of the
+		# reserved node must be 1, so self._longest[i] must
+		# be 0 and we never enter the loop.
+		#
+		# If `start` is even, then the node must be a left
+		# child, so going to the parent preserves the start.
+		# 
+		# It has to be the first node starting from the bottom
+		# that is reserved, because otherwise the node wouldn't
+		# have been able to be reserved.
 		node_size = 1
-		while self._longest[i] != 0:			
+		while self._longest[i] != 0:
 			if i == 0:
 				return False
-			node_size *= 2
 			i = _parent(i)
+			node_size *= 2
 
 		# If `i` + 1 does not change the level of the node,
 		# then it gives the number of nodes in the level up
@@ -222,6 +257,7 @@ class BuddyMemoryManager:
 		return True
 
 	def size(self, start):
+		# Similar logic to `free`.
 		assert start >= 0 and start < self._size
 		node_size = 1
 		i = self._size - 1 + start
