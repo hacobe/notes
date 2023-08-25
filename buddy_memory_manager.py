@@ -266,32 +266,30 @@ class BuddyMemoryManager:
 			i = _parent(i)
 		return node_size
 
-	def _str(self, i, node_start, node_size, prefix=""):
+	def _str(self, i, node_start, node_size):
 		longest = self._longest[i]
 
 		if longest == node_size:
-			return prefix + f"({node_start}:{node_size})"
+			return f"({node_start}:{node_size})"
 
 		l = _left(i)
 		if longest == 0 and l >= len(self._longest):
-			return prefix + f"[{node_start}:{node_size}]"
+			return f"[{node_start}:{node_size}]"
 
 		r = _right(i)
 		if longest == 0 and self._longest[l] != 0 and self._longest[r] != 0:
-			return prefix + f"[{node_start}:{node_size}]"
+			return f"[{node_start}:{node_size}]"
 
 		if longest == 0:
 			string = "{"
 			string += self._str(
 				_left(i),
 				node_start=node_start,
-				node_size=node_size // 2,
-				prefix=prefix)
+				node_size=node_size // 2)
 			string += self._str(
 				_right(i),
 				node_start=node_start + node_size // 2,
-				node_size=node_size // 2,
-				prefix=prefix)
+				node_size=node_size // 2)
 			string += "}"
 			return string
 
@@ -299,13 +297,11 @@ class BuddyMemoryManager:
 		string += self._str(
 			_left(i),
 			node_start=node_start,
-			node_size=node_size // 2,
-			prefix=prefix)
+			node_size=node_size // 2)
 		string += self._str(
 			_right(i),
 			node_start=node_start + node_size // 2,
-			node_size=node_size // 2,
-			prefix=prefix)
+			node_size=node_size // 2)
 		string += ")"
 		return string
 
