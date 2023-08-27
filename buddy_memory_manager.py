@@ -258,10 +258,17 @@ class BuddyMemoryManager:
 
 	def size(self, start):
 		# Similar logic to `free`.
-		assert start >= 0 and start < self._size
-		node_size = 1
+		if start < 0:
+			return -1
+
 		i = self._size - 1 + start
+		if i >= len(self._longest):
+			return -1
+
+		node_size = 1
 		while self._longest[i] != 0:
+			if i == 0:
+				return -1
 			node_size *= 2
 			i = _parent(i)
 		return node_size
