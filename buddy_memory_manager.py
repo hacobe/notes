@@ -276,16 +276,22 @@ class BuddyMemoryManager:
 	def _str(self, i, node_start, node_size):
 		longest = self._longest[i]
 
+		# Leaf node.
 		if longest == node_size:
 			return f"({node_start}:{node_size})"
 
+		# Leaf node.
 		l = _left(i)
-		if longest == 0 and l >= len(self._longest):
+		if l >= len(self._longest):
+			assert longest == 0
 			return f"[{node_start}:{node_size}]"
 
+		# Leaf node.
 		r = _right(i)
 		if longest == 0 and self._longest[l] != 0 and self._longest[r] != 0:
 			return f"[{node_start}:{node_size}]"
+
+		# Internal node.
 
 		if longest == 0:
 			string = "{"
