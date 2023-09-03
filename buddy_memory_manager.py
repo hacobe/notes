@@ -292,29 +292,21 @@ class BuddyMemoryManager:
 			return f"[{node_start}:{node_size}]"
 
 		# Internal node.
+		left_string = self._str(
+			l, node_start=node_start, node_size=node_size // 2)
+		right_string = self._str(
+			r, node_start=node_start + node_size // 2, node_size=node_size // 2)
 
 		if longest == 0:
 			string = "{"
-			string += self._str(
-				_left(i),
-				node_start=node_start,
-				node_size=node_size // 2)
-			string += self._str(
-				_right(i),
-				node_start=node_start + node_size // 2,
-				node_size=node_size // 2)
+			string += left_string
+			string += right_string
 			string += "}"
 			return string
 
 		string = "("
-		string += self._str(
-			_left(i),
-			node_start=node_start,
-			node_size=node_size // 2)
-		string += self._str(
-			_right(i),
-			node_start=node_start + node_size // 2,
-			node_size=node_size // 2)
+		string += left_string
+		string += right_string
 		string += ")"
 		return string
 
