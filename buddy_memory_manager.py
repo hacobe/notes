@@ -216,19 +216,41 @@ class BuddyMemoryManager:
 			i = _parent(i)
 			node_size *= 2
 
-		# If `i` + 1 does not change the level of the node,
-		# then it gives the number of nodes in the level up
-		# to and including the `i`-th node.
+		# We first show that the formula below holds for the first node
+		# on its level. We then show that the formula holds for subsequent
+		# nodes on the same level by adding increments of node size to the
+		# first node's start.
 		#
-		# Each node on the level is associated with an interval of
-		# length `node_size`.
+		# Let f(i) be the node start of the i-th node.
+		# Let g(i) be the node size of the i-th node.
+		# Let l(i) be the 0-indexed level of the i-th node.
+		# Let p(i) be the 0-indexed position of the i-th node on its level.
 		#
-		# The sum of all the interval lengths on a level is `self._size`.
+		# We want to show that:
+		# f(i) = (i + 1) * g(i) - g(0)
 		#
-		# If `i` + 1 does change the level of the node, then `i` + 1 is the
-		# total number of nodes on the original level, so
-		# (`i` + 1) * `node_size` = self._size and the start of that node is 0
-		# as expected (the leftmost node on each level always starts at 0).
+		# If p(i) = 0, we know that f(i) = 0.
+		#
+		# We also have that:
+		# * i = 2^l(i) - 1
+		# * g(i) = g(0)/(2^l(i))
+		#
+		# Plugging these equalities in, we get:
+		# (i + 1) * g(i) - g(0)
+		# = (2^l(i) - 1 + 1) * (g(0)/(2^l(i))) - g(0)
+		# = g(0) - g(0)
+		# = 0
+		#
+		# If p(i) != 0, we know that:
+		# * f(i) = f(i - p(i)) + g(i) * p(i)
+		# * g(i - p(i)) = g(i)
+		#
+		# We also have that:
+		# f(i - p(i)) + g(i) * p(i)
+		# = (i - p(i) + 1) * g(i - p(i)) - g(0) + g(i) * p(i)
+		# = (i - p(i) + 1) * g(i) - g(0) + g(i) * p(i)
+		# = i * g(i) - p(i) * g(i) + g(i) - g(0) + g(i) * p(i)
+		# = i * g(i) - g(0)
 		node_start = (i + 1) * node_size - self._size
 
 		if node_start != start:
@@ -298,17 +320,9 @@ class BuddyMemoryManager:
 			r, node_start=node_start + node_size // 2, node_size=node_size // 2)
 
 		if longest == 0:
-			string = "{"
-			string += left_string
-			string += right_string
-			string += "}"
-			return string
+			return "{" + left_string + right_string + "}"
 
-		string = "("
-		string += left_string
-		string += right_string
-		string += ")"
-		return string
+		return "(" + left_string + right_string + ")"
 
 	def __str__(self):
 		return self._str(0, node_start=0, node_size=self._size)
