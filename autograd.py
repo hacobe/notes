@@ -3,6 +3,7 @@
 Sources:
 * https://github.com/karpathy/micrograd/blob/master/micrograd/engine.py
 * https://github.com/minitorch/minitorch/tree/main/minitorch
+* https://minitorch.github.io
 """
 
 class Scalar:
