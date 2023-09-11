@@ -14,7 +14,7 @@ Underflow is a problem, because:
 
 As an example, consider the **softmax function**:
 
-$\textrm{softmax}(\textbf{x})_i = \frac{\textrm{exp}(x_i)}{\sum_{j=1}^n \textrm{exp}(x_j)}$
+$\textrm{softmax}(\textbf{x})\_i = \frac{\textrm{exp}(x\_i)}{\sum\limits\_{j=1}^n \textrm{exp}(x\_j)}$
 
 Suppose we set all $x_i$ to some constant $c$. The expression should evaluate to $\frac{1}{n}$. However, if $c$ is very negative, then $\textrm{exp}(c)$ will underflow, which makes both the numerator and the denominator 0 and results in all NaNs. If $c$ is very positive then $\textrm{exp}(c)$ will overflow, which makes both the numerator and the denominator infinity and results in all NaNs
 
