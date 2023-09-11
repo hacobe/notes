@@ -113,7 +113,7 @@ class Linear:
 		- dx: (n, p_in)
 		"""
 		# [p_in, p_out] = [p_in, n] [n, p_out]
-		dw = (1./self._cache['x'].shape[0]) * self._cache['x'].T @ dy
+		dw = self._cache['x'].T @ dy
 		# [n, p_in] = [n, p_out] [p_out, p_in] 
 		dx = dy @ self.weight.T
 		return dw, dx
@@ -221,16 +221,19 @@ class BCEWithLogitsLoss:
 	def backward(self):
 		"""Backward pass for binary cross-entropy from logits.
 
+		For the i-th example:
+
 		a = g(z)
 		L = -y * log(a) - (1 - y) * log(1 - a)
-
+	
 		dLdz = dLda dadz
 		dLda = -y/a + (1 - y)/(1 - a)
 		dadz = a (1 - a)
-		dLdz = a - y 
+		dLdz = a - y
 		"""
 		a = self._sigmoid.forward(self._cache['z'])
-		return (a - self._cache['y'])
+		n = len(self._cache['z'])
+		return (1./n) * (a - self._cache['y'])
 
 
 ########
@@ -248,6 +251,7 @@ _EPS = 1e-4
 
 def test():
 	rng = np.random.default_rng(seed=0)
+
 	n = 10
 	p_in = 4
 	p_out1 = 3
