@@ -3,6 +3,7 @@
 Could do:
 - Testing different shapes
 - Test each layer individually
+- Test for 1 layer using normal equation
 - Multi-class softmax
 - https://stackoverflow.com/questions/51976461/optimal-way-of-defining-a-numerically-stable-sigmoid-function-for-a-list-in-pyth
 - biases
@@ -144,18 +145,29 @@ class BCEWithLogitsLoss:
 		We can write the sigmoid function as:
 
 		```
-		np.exp(z) / (np.exp(0) + np.exp(z))
+		np.exp(0) / (np.exp(0) + np.exp(-z))
 		```
 
 		In this way, we can see that the sigmoid function is equivalent
-		to the softmax over 0 and z, so we can use the log-sum-exp trick:
+		to the softmax over -z and 0.
+
+		We can subtract off the maximum to avoid overflow:
+
+		```
+		t = np.maximum(-z, 0)
+		np.exp(-t) / (np.exp(-t) + np.exp(-z-t))
+		```
+
+		Since we need to take the log of the sigmoid to compute cross-entropy,
+		we can use the log-sum-exp trick:
 
 		```
 		z1 = np.zeros((len(z), 2))
-		z1[:, 0] = z[:, 0]
+		z1[:, 0] = -z[:, 0] - t[:, 0] 
+		z1[:, 1] = -t[:, 0]
 		y1 = np.zeros((len(y), 2))
-		y1[:, 0] = y[:, 0]
-		y1[:, 1] = 1 - y[:, 0]
+		y1[:, 0] = 1 - y[:, 0]
+		y1[:, 1] = y[:, 0]
 		logprobs = z1 - np.log(np.sum(np.exp(z1), axis=1, keepdims=True))
 		loss = -1 * np.sum(y1 * logprobs, axis=1, keepdims=True)
 		```
@@ -163,42 +175,32 @@ class BCEWithLogitsLoss:
 		Here are the columns of logprobs:
 
 		```
-		1st column: z - np.log(np.exp(z) + 1)
-		2nd column: -1 * np.log(np.exp(z) + 1)
+		1st column (y == 0): -z - t - np.log(np.exp(-z-t) + np.exp(-t))
+		2nd column (y == 1): -t - np.log(np.exp(-z-t) + np.exp(-t))
 		```
 
-		We can write the loss more succinctly as:
+		We can write the loss as:
 
 		```
-		loss = -1 * y * (z - np.log(np.exp(z) + 1)) - (1 - y) * (-1 * np.log(np.exp(z) + 1))
+		loss = -1 * y * (-t - np.log(np.exp(-z-t) + np.exp(-t))) - (1 - y) * (-z - t - np.log(np.exp(-z-t) + np.exp(-t)))
 		```
 
 		Simplifying further:
 
 		```
-		-yz + y log(exp(z) + 1) + (1 - y) log(exp(z) + 1)
-		-yz + y log(exp(z) + 1) + log(exp(z) + 1) - y log(exp(z) + 1) 	
-		loss = -1 * y * z + np.log(np.exp(z) + 1)
+		loss = yt + ylog(exp(-z-t) + exp(-t)) - (1-y)z + (1-y)t + (1-y)log(exp(-z-t) + exp(-t))
+		     = yt + ylog(exp(-z-t) + exp(-t)) - z + yz + t -yt + log(exp(-z-t) + exp(-t)) -ylog(exp(-z-t) + exp(-t))
+		     = -z + yz + t + log(exp(-z-t) + exp(-t))
+		     = (1-y) * z + t + np.log(np.exp(-z-t) + np.exp(-t)) 
 		```
 
-		This also works (y -> 1-y and z -> -z):
+		(we get the same loss if we don't subtract off the max, i.e., we set t to 0)
+	
+		Summarizing:
 
 		```
-		loss = (1 - y) * z + np.log(np.exp(-z) + 1)
-		```
-
-		Handling negative and positive cases separately:
-
-		```
-		z < 0: loss = -1 * y * z + np.log(np.exp(z) + 1)
-		otherwise: loss = (1 - y) * z + np.log(np.exp(-z) + 1)
-		```
-
-		Avoid taking exponentials of positive values to avoid overflow:
-
-		```
-		t = -np.maximum(z, 0)
-		loss = (1 - y) * z + t + np.log(np.exp(-t) + np.exp(-z - t))
+		t = np.maximum(-z, 0)
+		loss = (1-y) * z + t + np.log(np.exp(-z-t) + np.exp(-t))
 		```
 
 		Args:
@@ -214,8 +216,8 @@ class BCEWithLogitsLoss:
 		"""
 		self._cache['z'] = z
 		self._cache['y'] = y
-		t = -np.maximum(z, 0)
-		loss = (1 - y) * z + t + np.log(np.exp(-t) + np.exp(-z - t))
+		t = np.maximum(-z, 0)
+		loss = (1-y) * z + t + np.log(np.exp(-z-t) + np.exp(-t))
 		return np.mean(loss)
 
 	def backward(self):
