@@ -298,6 +298,12 @@
       ]
     },
     {
+      "path": "mlp.py",
+      "tags": [
+        "machine_learning"
+      ]
+    },
+    {
       "path": "MLP.ipynb",
       "tags": [
         "machine_learning"
