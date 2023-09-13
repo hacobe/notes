@@ -15,28 +15,34 @@ class Scalar:
 		self._backward = lambda: None
 
 	def __add__(self, other):
-		out = Scalar(
+		# We create the parent from its children.
+		#
+		#      parent
+		#        +
+		#      /   \
+		#   self  other 
+		parent = Scalar(
 			data=self.data + other.data,
 			children=(self, other))
 
 		def _backward():
-			self.grad += out.grad
-			other.grad += out.grad
+			self.grad += parent.grad
+			other.grad += parent.grad
 		self._backward = _backward
 
-		return out
+		return parent
 
 	def __mul__(self, other):
-		out = Scalar(
+		parent = Scalar(
 			data=self.data * other.data,
 			children=(self, other))
 
 		def _backward():
-			self.grad += other.data * out.grad
-			other.grad += self.data * out.grad
+			self.grad += other.data * parent.grad
+			other.grad += self.data * parent.grad
 		self._backward = _backward
 
-		return out	
+		return parent	
 
 	def backward(self):
 
