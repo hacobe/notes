@@ -120,6 +120,24 @@ class Linear:
 		return dw, dx
 
 
+class BCELoss:
+
+	def __init__(self):
+		self._cache = {}
+		self._eps = 1e-7
+
+	def forward(self, p, y):
+		p_clipped = np.clip(p, self._eps, 1 - self._eps)
+		self._cache['y'] = y
+		self._cache['p_clipped'] = p_clipped
+		return np.mean(-y * np.log(p_clipped) - (1 - y) * np.log(1 - p_clipped))
+
+	def backward(self):
+		y = self._cache['y']
+		n = len(y)
+		return (1./n) * (-y/self._cache['p_clipped'] + (1-y)/(1-self._cache['p_clipped']))
+
+
 class BCEWithLogitsLoss:
 	"""Binary cross-entropy from logits.
 
@@ -251,7 +269,81 @@ import torch
 _EPS = 1e-4
 
 
-def test():
+def test_bce_loss():
+	rng = np.random.default_rng(seed=0)
+
+	n = 10
+	p_in = 4
+	p_out1 = 3
+	p_out2 = 1
+	x = rng.normal(0, 1, (n, p_in))
+
+	l1 = Linear(p_in, p_out1, rng)
+	l2 = Linear(p_out1, p_out2, rng)
+	g1 = ReLU()
+	g2 = Sigmoid()
+	p = g2.forward(l2.forward(g1.forward(l1.forward(x))))
+	y = rng.binomial(1, p)
+
+	loss = BCELoss()
+	actual_loss = loss.forward(p, y)
+
+	dx = loss.backward()
+	dx = g2.backward(dx)
+	actual_dw2, dx = l2.backward(dx)
+	dx = g1.backward(dx)
+	actual_dw1, _ = l1.backward(dx)
+
+	# torch
+
+	l1_ = torch.nn.Linear(p_in, p_out1, bias=False)
+	l2_ = torch.nn.Linear(p_out1, p_out2, bias=False)
+	with torch.no_grad():
+	    l1_.weight[:] = torch.tensor(l1.weight.T).float()
+	    l2_.weight[:] = torch.tensor(l2.weight.T).float()
+	x_ = torch.tensor(x).float()
+	p_ = torch.sigmoid(l2_(torch.relu(l1_(x_))))
+	y_ = torch.tensor(y).float()
+	loss_ = torch.nn.BCELoss()
+	out = loss_(p_, y_)
+	out.backward()
+	expected_loss = out.tolist()
+	expected_dw1 = np.array(l1_.weight.grad.T.tolist())
+	expected_dw2 = np.array(l2_.weight.grad.T.tolist())
+
+	np.testing.assert_almost_equal(actual_loss, expected_loss)
+	np.testing.assert_almost_equal(actual_dw1, expected_dw1)
+	np.testing.assert_almost_equal(actual_dw2, expected_dw2)
+
+	# Gradient checking
+
+	for w, actual_dw in [
+	    (l1.weight, actual_dw1),
+	    (l2.weight, actual_dw2)
+	]:
+
+		approx_dw = np.zeros(w.shape)
+		for i in range(w.shape[0]):
+			for j in range(w.shape[1]):
+				# Why 2-sided gradient checking?
+				# https://stats.stackexchange.com/questions/318380/why-is-two-sided-gradient-checking-more-accurate
+
+				w[i,j] += _EPS
+				p_plus = g2.forward(l2.forward(g1.forward(l1.forward(x))))
+				l_plus = loss.forward(p_plus, y)
+				w[i,j] -= _EPS
+
+				w[i,j] -= _EPS
+				p_minus = g2.forward(l2.forward(g1.forward(l1.forward(x))))
+				l_minus = loss.forward(p_minus, y)
+				w[i,j] += _EPS
+
+				approx_dw[i,j] = (l_plus - l_minus) / (2 * _EPS)
+
+		np.testing.assert_almost_equal(actual_dw, approx_dw)
+
+
+def test_bce_loss_with_logits():
 	rng = np.random.default_rng(seed=0)
 
 	n = 10
@@ -271,8 +363,8 @@ def test():
 	loss = BCEWithLogitsLoss()
 	actual_loss = loss.forward(z, y)
 
-	dy = loss.backward()
-	actual_dw2, dx = l2.backward(dy)
+	dx = loss.backward()
+	actual_dw2, dx = l2.backward(dx)
 	dx = g1.backward(dx)
 	actual_dw1, _ = l1.backward(dx)
 
