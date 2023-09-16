@@ -1,5 +1,11 @@
 # Technical notes
 
+See tags:
+
+```bash
+jq -r '.tags[]' .tags
+```
+
 Filter notes by tag:
 
 ```bash
