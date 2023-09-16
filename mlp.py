@@ -221,6 +221,23 @@ class BCEWithLogitsLoss:
 		loss = (1-y) * z + t + np.log(np.exp(-z-t) + np.exp(-t))
 		```
 
+		A quick derivation:
+
+		```
+		loss = (-y log(g(z)) - (1-y)log(1-g(z)))
+		g(z) = exp(0) / (exp(0) + exp(-z))
+		t = np.maximum(-z, 0)
+		g(z) = exp(-t) / (exp(-t) + exp(-z-t))
+		1-g(z) = exp(-z-t) / (exp(-t) + exp(-z-t))
+		-t - d
+		-z-t - d
+		-y (-t - d) - (1-y) (-z - t - d)
+		yt + yd + (1-y)z + (1-y)t + (1-y)d
+		yt + yd + z -zy + t - ty + d - dy
+		z - zy + t + d
+		(1-y)z + t + d
+		```
+
 		Args:
 		- z: (n, 1). The logits.
 		- y: (n, 1). The binary targets.
