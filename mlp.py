@@ -419,11 +419,13 @@ def test_bce_loss_with_logits():
 				# Why 2-sided gradient checking?
 				# https://stats.stackexchange.com/questions/318380/why-is-two-sided-gradient-checking-more-accurate
 
+				# Add _EPS to l*.weight
 				w[i,j] += _EPS
 				z_plus = l2.forward(g1.forward(l1.forward(x)))
 				l_plus = loss.forward(z_plus, y)
 				w[i,j] -= _EPS
 
+				# Subtract _EPS from l*.weight
 				w[i,j] -= _EPS
 				z_minus = l2.forward(g1.forward(l1.forward(x)))
 				l_minus = loss.forward(z_minus, y)
