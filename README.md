@@ -1,3 +1,7 @@
 # Technical notes
 
-https://hacobe.github.io
+Filter notes by tag:
+
+```bash
+jq -r '.notes[] | select(.tags[] == "concurrency") | .path' .tags
+```
