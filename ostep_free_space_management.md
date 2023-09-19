@@ -70,6 +70,20 @@ A call to free only requires a pointer and not the size of the previously alloca
 
 In addition to the size, the header may also store a "magic number". We use the same value for this magic number for each allocation. When we a get a pointer to the header, we can check that the magic number read from the header matches the value that we expect.
 
+## Other approaches
+
+### Segregated lists
+
+The **segregated lists** idea is to maintain multiple free lists, where each list only handles objects of a particular size, in addition to the more general memory manager. The segregated lists are used for objects of popular sizes. The **slab allocator** uses segregated lists. When one of the segregated lists is running low on space, it requests more slabs of memory from the general memory manager and "when the reference counts of the objects within a given slab all go to zero, the general allocator can reclaim them from the specialized allocator".
+
+### Buddy allocation
+
+See buddy_memory_manager.py.
+
+### Other ideas
+
+Searching free lists can be slow. Allocators speed this up by using more complex data structures like "balanced binary trees, splay trees, or partially-ordered trees". Also, "...a lot of effort has been spent making allocators work well on multiprocessor-based systems."
+
 ## Sources
 
-* Chapter 17 ("Free-Space Management"), Operating Systems: Three Easy Pieces, https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf accessed on 7/23/2023. Up to and including "Tracking The Size Of Allocated Regions".
+* Chapter 17 ("Free-Space Management"), Operating Systems: Three Easy Pieces, https://pages.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf accessed on 7/23/2023. Up to and including "Tracking The Size Of Allocated Regions" + "Other approaches"
