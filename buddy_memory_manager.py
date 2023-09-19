@@ -47,6 +47,7 @@ pytest buddy_memory_manager.py
 See also:
 
 * memory_manager.py
+* ostep_free_space_management.md
 
 Sources:
 * https://github.com/wuwenbin/buddy2

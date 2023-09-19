@@ -31,6 +31,10 @@ Run tests:
 
 pytest memory_manager.py
 
+See also:
+* buddy_memory_manager.py
+* ostep_free_space_management.md
+
 Sources:
 * https://github.com/chyyuu/os_tutorial_lab/blob/master/ostep/ostep3-malloc.py
 * https://github.com/chyyuu/os_tutorial_lab/blob/master/ostep/ostep3-malloc.md
