@@ -360,7 +360,7 @@ def test_bce_loss():
 		np.testing.assert_almost_equal(actual_dw, approx_dw)
 
 
-def test_bce_loss_with_logits():
+def test_bce_with_logits_loss():
 	rng = np.random.default_rng(seed=0)
 
 	n = 10
