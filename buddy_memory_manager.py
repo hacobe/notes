@@ -78,7 +78,7 @@ def _right(i):
 
 
 def _parent(i):
-	return (i + 1) // 2 - 1
+	return (i - 1) // 2
 
 
 class BuddyMemoryManager:
