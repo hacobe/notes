@@ -172,6 +172,12 @@
       ]
     },
     {
+      "path": "memory_mapping.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
       "path": "Basic comparison sorting.ipynb",
       "tags": [
         "data_structures_and_algorithms"
