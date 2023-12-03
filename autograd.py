@@ -28,7 +28,7 @@ class Scalar:
 		def _backward():
 			self.grad += parent.grad
 			other.grad += parent.grad
-		self._backward = _backward
+		parent._backward = _backward
 
 		return parent
 
@@ -40,7 +40,7 @@ class Scalar:
 		def _backward():
 			self.grad += other.data * parent.grad
 			other.grad += self.data * parent.grad
-		self._backward = _backward
+		parent._backward = _backward
 
 		return parent	
 
@@ -84,3 +84,10 @@ if __name__ == "__main__":
 	c.backward()
 	assert a.grad == 3.0
 	assert b.grad == 2.0
+
+	# c = a * a + a * a
+	# dcda = 2a + 2a = 4a
+	a = Scalar(3)
+	c = a * a + a * a
+	c.backward()
+	assert a.grad == 12.0
