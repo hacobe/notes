@@ -640,7 +640,13 @@
       ]
     },
     {
-      "path": "autograd.py",
+      "path": "autograd_scalar.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "path": "autograd_tensor.py",
       "tags": [
         "deep_learning"
       ]

@@ -1,18 +1,20 @@
 """Implementation of an MLP using numpy layers.
 
 Could do:
-- Testing different shapes
-- Test each layer individually
-- Test for 1 layer using normal equation
-- Multi-class softmax
-- https://stackoverflow.com/questions/51976461/optimal-way-of-defining-a-numerically-stable-sigmoid-function-for-a-list-in-pyth
-- biases
-- x.exp() vs np.exp(x)
-- torch.nn.functional
-- BinaryCrossEntropy
+* Testing different shapes
+* Test each layer individually
+* Test for 1 layer using normal equation
+* Multi-class softmax
+* https://stackoverflow.com/questions/51976461/optimal-way-of-defining-a-numerically-stable-sigmoid-function-for-a-list-in-pyth
+* biases
+* x.exp() vs np.exp(x)
+* torch.nn.functional
+* BinaryCrossEntropy
 
 See also:
-- https://github.com/hacobe/notes/blob/main/MLP.ipynb
+* https://github.com/hacobe/notes/blob/main/MLP.ipynb
+* autograd_scalar.py
+* autograd_tensor.py
 """
 import numpy as np
 

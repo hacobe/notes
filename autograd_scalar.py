@@ -4,6 +4,11 @@ Sources:
 * https://github.com/karpathy/micrograd/blob/master/micrograd/engine.py
 * https://github.com/minitorch/minitorch/tree/main/minitorch
 * https://minitorch.github.io
+
+See also:
+* autograd_tensor.py
+* mlp.py
+* https://github.com/hacobe/notes/blob/main/MLP.ipynb
 """
 
 class Scalar:
