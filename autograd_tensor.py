@@ -67,7 +67,7 @@ class Tensor:
 		return self * other
 
 	def __neg__(self):
-		return self * Tensor(-1 * np.ones_like(self.arr))
+		return -1 * self
 
 	def __sub__(self, other):
 		return self + (-other)
