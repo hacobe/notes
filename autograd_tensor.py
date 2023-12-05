@@ -22,10 +22,13 @@ class Tensor:
 		self._backward = lambda: None
 
 	def __matmul__(self, other):
-		parent = Tensor(arr=self.arr @ other.arr, children=(self, other))
+		# [n, k] = [n, p] @ [p, k]
+		parent = Tensor(self.arr @ other.arr, children=(self, other))
 
 		def _backward():
+			# [n, p] += [n, k] x [k, p]
 			self.grad += parent.grad @ other.arr.T
+			# [p, k] += [p, n] x [n, k]
 			other.grad += self.arr.T @ parent.grad
 		parent._backward = _backward
 
