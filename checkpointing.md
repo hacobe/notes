@@ -51,7 +51,7 @@ Consider a tensor in the model's `state_dict` on a GPU. `torch.save` first copie
 
 Internally, these methods use the `pickle` module. For more on the strengths and significant weaknesses of pickling, see this [blog post](https://web.archive.org/web/20231111182222/https://blog.nelhage.com/post/pickles-and-ml/).
 
-**How do we save a checkpoint to S3 and load it from S3?**
+## How do we save a checkpoint to S3 and load it from S3?
 
 [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) (the AWS SDK for Python) provides methods for interacting with S3 (and other AWS services) in Python.
 
