@@ -151,19 +151,19 @@ TorchSnapshot implements **zero-copy serialization** for most tensor types. Spec
 **Pipelining device-to-host copy, serialization and storage I/O** speeds up checkpointing. Suppose we have 2 tensors. For each tensor, we need to perform those 3 operations. We could sequence those operations like this to complete storage of the tensors in 6 time steps:
 
 ```
-			    t1 t2 t3 t4 t5 t6
-DtoH copy   	 1        2
-Serialization       1        2
-Storage I/O            1        2
+                  t1 t2 t3 t4 t5 t6
+DtoH copy          1        2 
+Serialization         1        2      
+Storage I/O              1        2
 ```
 
 Or we could use pipelining to complete storage of the tensors in 4 time steps overlapping work:
 
 ```
-			    t1 t2 t3 t4 t5 t6
-DtoH copy   	 1  2      
-Serialization       1  2
-Storage I/O            1  2
+                 t1 t2 t3 t4 t5 t6
+DtoH copy         1  2      
+Serialization        1  2
+Storage I/O             1  2
 ```
 
 Gemini recovers from **in-memory copies of the model state**: "Maintaining a high goodput3 at this scale would have been impossible using the conventional approach of periodic checkpointing of weights to persistent cluster storage. For Gemini, we instead made use of redundant in-memory copies of the model state, and on any unplanned hardware failures, we rapidly recover directly from an intact model replica. Compared to both PaLM and PaLM-2 (Anil et al., 2023), this provided a substantial speedup in recovery time, despite the significantly larger training resources being used." ([source](https://arxiv.org/pdf/2312.11805.pdf)).
