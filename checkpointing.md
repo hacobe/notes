@@ -140,7 +140,7 @@ snapshot.restore(app_state=app_state)
 
 Before restoring, the `app_state` might contain, for example, the model with a random initialization. The `restore` method restores "stateful objects in-place whenever possible to avoid creating unneccessary intermediate copies of the state" ([source](https://web.archive.org/web/20231228162142/https://pytorch.org/torchsnapshot/main/getting_started.html)).
 
-Both the `take` and `restore` method act as [collective operations](https://en.wikipedia.org/wiki/Collective_operation).
+Both the `take` and `restore` methods act as [collective operations](https://en.wikipedia.org/wiki/Collective_operation).
 
 ## How else can we improve the performance of checkpointing?
 
