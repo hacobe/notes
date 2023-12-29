@@ -166,4 +166,6 @@ Serialization        1  2
 Storage I/O             1  2
 ```
 
+**Lazy loading and layout control** gives us the ability to load individual components of a checkpoint without loading the entire checkpoint (see [here](https://github.com/huggingface/safetensors)). For example, the checkpoint format can include a small manifest that acts as a directory for the contents of the checkpoint.
+
 Gemini recovers from **in-memory copies of the model state**: "Maintaining a high goodput3 at this scale would have been impossible using the conventional approach of periodic checkpointing of weights to persistent cluster storage. For Gemini, we instead made use of redundant in-memory copies of the model state, and on any unplanned hardware failures, we rapidly recover directly from an intact model replica. Compared to both PaLM and PaLM-2 (Anil et al., 2023), this provided a substantial speedup in recovery time, despite the significantly larger training resources being used." ([source](https://arxiv.org/pdf/2312.11805.pdf)).
