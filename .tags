@@ -544,7 +544,7 @@
       ]
     },
     {
-      "path": "hadoop_distributed_path_system.md",
+      "path": "hadoop_distributed_file_system.md",
       "tags": [
         "system_design"
       ]
