@@ -12,7 +12,8 @@
     "system_design",
     "robustness_and_uncertainty_for_structured_prediction",
     "concurrency",
-    "strings"
+    "strings",
+    "security"
   ],
   "notes": [
     {
@@ -911,6 +912,12 @@
       "path": "external_merge_sort.py",
       "tags": [
         "data_structures_and_algorithms"
+      ]
+    },
+    {
+      "path": "user_authentication.md",
+      "tags": [
+        "security"
       ]
     }
   ]
