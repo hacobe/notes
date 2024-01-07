@@ -14,6 +14,10 @@ The server provides its public-key certificate. The certificate includes the ser
 
 The client and the server perform a public key exchange in order to create a shared private key, which they then use for symmetric encryption and decryption. In the public key exchange, the server includes a digital signature created using the server's private key, which the client validates using the server's public key from the certificate.
 
+Here's a diagram of the TLS handshake from this [video](https://www.youtube.com/watch?v=j9QmMEWmcfo):
+
+![ByteByteGo TLS](img/bytebytego_tls.png)
+
 ## Public-key cryptography
 
 In symmetric cryptography, Alice and Bob share a secret key. Alice uses the secret key to encrypt a message and sends it to Bob. Bob receives the message from Alice and uses the secret key to decrypt it. If an adversary intercepts the message, they can't read it, because the message is encrypted. For example, Alice and Bob could use a [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher), where the number of rotations of the alphabet is the secret key. The problem is that Alice and Bob need to agree on a secret key before they start sending messages. Maybe they meet clandestinely in a park.
@@ -47,6 +51,7 @@ In Diffie-Hellman key exchange, the client and the server exchange public keys. 
 ## Resources
 
 * [TLS Handshake Explained - Computerphile](https://www.youtube.com/watch?v=86cQJ0MMses&t=322s)
+* [SSL, TLS, HTTPS Explained](https://www.youtube.com/watch?v=j9QmMEWmcfo)
 * [Public Key Cryptography - Computerphile](https://www.youtube.com/watch?v=GSIDS_lvRv4)
 * [Secret Key Exchange (Diffie-Hellman) - Computerphile](https://www.youtube.com/watch?v=NmM9HA2MQGI)
 * [What are Digital Signatures? - Computerphile](https://www.youtube.com/watch?v=s22eJ1eVLTU&t=309s)
