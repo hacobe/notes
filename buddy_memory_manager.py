@@ -45,7 +45,7 @@ Run tests:
 pytest buddy_memory_manager.py
 
 See also:
-
+* linked_list_memory_manager.py
 * memory_manager.py
 * ostep_free_space_management.md
 

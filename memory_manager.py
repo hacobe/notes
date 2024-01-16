@@ -32,6 +32,7 @@ Run tests:
 pytest memory_manager.py
 
 See also:
+* linked_list_memory_manager.py
 * buddy_memory_manager.py
 * ostep_free_space_management.md
 

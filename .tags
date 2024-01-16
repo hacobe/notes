@@ -173,6 +173,12 @@
       ]
     },
     {
+      "path": "linked_list_memory_manager.py",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
       "path": "memory_mapping.md",
       "tags": [
         "operating_systems"
