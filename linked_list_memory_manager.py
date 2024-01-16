@@ -101,10 +101,9 @@ class LinkedListMemoryManager:
 
 		return True
 
-	# Methods for testing.
-
 	@property
 	def free_list(self):
+		# for testing.
 		result = []
 		node = self.head
 		while node:
