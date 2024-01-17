@@ -79,6 +79,8 @@ class LinkedListMemoryManager:
 		if self.head == node:
 			self.head = new_node
 
+		# Order of the coalescing matters.
+
 		# Coalesce new_node and new_node.next.
 		if new_node.next and new_node.next.start == new_node.end:
 			# Extend new_node.
