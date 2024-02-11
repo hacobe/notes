@@ -38,6 +38,19 @@ def dag_relaxation(Adj, s, w):
 
 
 if __name__ == "__main__":
+    """
+         6 -> 7 ---------
+         ^              |
+         |              |
+    0 -> 1 -> 5 --------|
+         |              |
+         v              v
+         2 -> 3 -> 4 -> 8
+
+    9
+
+    10
+    """
     Adj = {}
     Adj[0] = [1]
     Adj[1] = [2, 5, 6]
@@ -51,4 +64,3 @@ if __name__ == "__main__":
     d = dag_relaxation(Adj, 0, lambda u, v: 1)
     print(d)
     assert d == [0, 1, 2, 3, 4, 2, 2, 3, 3, float("inf"), float("inf")]
-
