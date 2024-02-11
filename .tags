@@ -251,6 +251,12 @@
       ]
     },
     {
+      "path": "calculator.py",
+      "tags": [
+        "data_structures_and_algorithms"
+      ]
+    },
+    {
       "path": "what_is_machine_learning.md",
       "tags": [
         "machine_learning"
