@@ -8,14 +8,16 @@ def fun(arr):
 	l = 0
 	r = 0
 	ans = 0
+    state = ...
 	while r < n:
-		# update state of the current window
+		# update state of the current window with arr[r]
 
 		# contract window until we have a valid one
 		while current window is invalid:
-			# update state of the current window
+			# update state of the current window with arr[l]
 			l += 1
 
+        # update ans, e.g.:
 		ans = max(ans, r - l + 1)
 
 		# expand the window
@@ -60,7 +62,7 @@ def fun(arr, k):
     ans = 0
     nz = 0
     while r < n:
-		# update state of the current window
+        # update state of the current window
         if arr[r] == 0:
             nz += 1
 
