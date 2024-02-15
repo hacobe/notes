@@ -4,26 +4,26 @@ Pseudocode for the sliding window algorithm:
 
 ```python
 def fun(arr):
-	n = len(arr)
-	l = 0
-	r = 0
-	ans = 0
+    n = len(arr)
+    l = 0
+    r = 0
+    ans = 0
     state = ...
-	while r < n:
-		# update state of the current window with arr[r]
+    while r < n:
+        # update state of the current window with arr[r]
 
-		# contract window until we have a valid one
-		while current window is invalid:
-			# update state of the current window with arr[l]
-			l += 1
+        # contract window until we have a valid one
+        while current window is invalid:
+            # update state of the current window with arr[l]
+            l += 1
 
         # update ans, e.g.:
-		ans = max(ans, r - l + 1)
+        ans = max(ans, r - l + 1)
 
-		# expand the window
-		r += 1
+        # expand the window
+        r += 1
 
-	return ans
+    return ans
 ```
 
 ## Example
