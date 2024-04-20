@@ -503,6 +503,12 @@
       ]
     },
     {
+      "path": "key_value_store.py",
+      "tags": [
+        "system_design"
+      ]
+    },
+    {
       "path": "sstables.md",
       "tags": [
         "system_design"
