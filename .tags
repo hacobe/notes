@@ -951,5 +951,11 @@
         "networking"
       ]
     },
+    {
+      "path": "echo_server.py",
+      "tags": [
+        "networking"
+      ]
+    },
   ]
 }
