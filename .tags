@@ -13,7 +13,8 @@
     "robustness_and_uncertainty_for_structured_prediction",
     "concurrency",
     "strings",
-    "security"
+    "security",
+    "networking"
   ],
   "notes": [
     {
@@ -943,6 +944,12 @@
       "tags": [
         "security"
       ]
-    }
+    },
+    {
+      "path": "socket_programming.md",
+      "tags": [
+        "networking"
+      ]
+    },
   ]
 }
