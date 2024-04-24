@@ -1,5 +1,7 @@
 """Echo server.
 
+A UDP server that echoes back whatever message is sent to it.
+
 Usage:
 
 ```bash
