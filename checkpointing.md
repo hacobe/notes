@@ -89,9 +89,9 @@ fileobj.seek(0)
 checkpoint = torch.load(fileobj)
 ```
 
-`download_fileobj`, `download_file`, `upload_fileobj` and `upload_file` use the AWS SDK's transfer manager. The transfer manager uses multithreading for concurrency. An alternative is to use coroutines (see [here](https://github.com/pytorch/torchsnapshot/blob/0e601091d91e875f1b4ef0f79a3b6fb7b0069079/torchsnapshot/storage_plugins/s3.py#L51) for an example).
+`download_fileobj`, `download_file`, `upload_fileobj` and `upload_file` use the AWS SDK's transfer manager. The transfer manager uses multithreading for concurrency (an alternative is to use coroutines, e.g., [here](https://github.com/pytorch/torchsnapshot/blob/0e601091d91e875f1b4ef0f79a3b6fb7b0069079/torchsnapshot/storage_plugins/s3.py#L51)). The transfer manager can be configured via the [TransferConfig](https://web.archive.org/web/20240324025421/https://boto3.amazonaws.com/v1/documentation/api/latest/reference/customizations/s3.html#boto3.s3.transfer.TransferConfig).
 
-`boto3` also provides lower-level abstractions. The `get_object` method loads an S3 object into memory. It can also load a specific byte range of an object. The `put_object` method saves an object in memory to S3. We could also write our own uploader with `create_multipart_upload`, `complete_multipart_upload` and related methods.
+`boto3` also provides lower-level abstractions. The `get_object` method loads an S3 object into memory. It can also load a specific byte range of an object. The `put_object` method saves an object in memory to S3. We could also write our own uploader with `create_multipart_upload`, `complete_multipart_upload` and related methods. See [here](https://web.archive.org/web/20240429185450/https://boto3.amazonaws.com/v1/documentation/api/latest/guide/clients.html#multithreading-or-multiprocessing-with-clients) for some guidance on multithreading or multiprocessing with boto3 clients.
 
 ### How do we address throttling errors?
 
@@ -144,7 +144,7 @@ Both the `take` and `restore` methods act as [collective operations](https://en.
 
 ## How else can we improve the performance of checkpointing?
 
-**Asynchronous checkpointing** does not block training when saving a checkpoint. It saves the checkpoint in another thread allowing training to proceed.
+**Asynchronous checkpointing** does not block training when saving a checkpoint. It saves the checkpoint in another thread allowing training to proceed. For example, PyTorch Lightning's [AsyncCheckpointIO](https://github.com/Lightning-AI/pytorch-lightning/blob/d1949766f8cddd424e2fac3a68b275bebe13d3e4/src/lightning/pytorch/plugins/io/async_plugin.py#L37) uses a ThreadPoolExecutor with 1 worker (alternatively, you could use a ProcessPoolExecutor). If checkpointing and training are running concurrently, then it's important to measure the extent to which checkpointing is slowing down training.
 
 TorchSnapshot implements **zero-copy serialization** for most tensor types. Specifically, the library [serializes](https://github.com/pytorch/torchsnapshot/blob/0e601091d91e875f1b4ef0f79a3b6fb7b0069079/torchsnapshot/serialization.py#L200C12-L200C48) a compatible tensor as `memoryview(tensor.numpy()).cast("b")`. With `memoryview`, we can write chunks of the tensor's bytes to storage without making a copy (more on `memoryview` [here](https://stackoverflow.com/questions/18655648/what-exactly-is-the-point-of-memoryview-in-python)). The library [deserializes](https://github.com/pytorch/torchsnapshot/blob/0e601091d91e875f1b4ef0f79a3b6fb7b0069079/torchsnapshot/serialization.py#L258C16-L258C71) the tensor as `torch.reshape(torch.frombuffer(memoryview(buf), dtype=dtype), shape)`. In this way, we serialize the tensor to the same format that we use to represent the tensor in memory and deserialization can then use the bytes read from disk.
 
