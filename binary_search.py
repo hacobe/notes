@@ -6,7 +6,6 @@ Implementation tips:
 * Remember that the input must be sorted
 * Remember that for the recursive implementation you have to return an index into the original array,
   i.e., this naive implementation does *not* work:
-
   ```
   def incorrect_binary_search(nums, target):
     if len(nums) == 0:
