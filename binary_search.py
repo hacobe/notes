@@ -1,11 +1,24 @@
 """Binary search.
 
 Implementation tips:
-- We could split the array in half, but better to pass in the start and end indices
-- Be careful about inclusive vs. exclusive indices
-- Be careful about calculating the mid point
-- Remember that the input must be sorted
-- Remember that for the recursive implementation you have to return an index into the original array
+* Be careful about inclusive vs. exclusive indices
+* Be careful about calculating the mid point
+* Remember that the input must be sorted
+* Remember that for the recursive implementation you have to return an index into the original array,
+  i.e., this naive implementation does *not* work:
+
+  ```
+  def incorrect_binary_search(nums, target):
+    if len(nums) == 0:
+        return -1
+    mid = len(nums) // 2
+    if nums[mid] == target:
+        return mid
+    if target < nums[mid]:
+        return bin_search(nums[:mid], target)
+    return bin_search(nums[mid+1:], target)
+  ```
+* Pass in the start and end indices instead
 """
 import sys
 
