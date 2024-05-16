@@ -18,6 +18,9 @@ Implementation tips:
     return bin_search(nums[mid+1:], target)
   ```
 * Pass in the start and end indices instead
+
+Sources:
+* https://leetcode.com/problems/binary-search/
 """
 import sys
 
