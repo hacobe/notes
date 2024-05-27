@@ -13,8 +13,7 @@
     "robustness_and_uncertainty_for_structured_prediction",
     "concurrency",
     "strings",
-    "security",
-    "networking"
+    "security"
   ],
   "notes": [
     {
@@ -943,24 +942,6 @@
       "path": "transport_layer_security.md",
       "tags": [
         "security"
-      ]
-    },
-    {
-      "path": "socket_programming.md",
-      "tags": [
-        "networking"
-      ]
-    },
-    {
-      "path": "echo_server.py",
-      "tags": [
-        "networking"
-      ]
-    },
-    {
-      "path": "http_header_server.py",
-      "tags": [
-        "networking"
       ]
     }
   ]
