@@ -1,5 +1,10 @@
 """Implementation of a Tensor with autograd and MLP example.
 
+Notes:
+* Only call backward on a scalar
+* Broadcasting addition and multiplication
+* Explain why c.grad is None rather than 1 in torch
+
 Sources:
 * https://github.com/karpathy/micrograd/blob/master/micrograd/engine.py
 * https://github.com/minitorch/minitorch/tree/main/minitorch
@@ -36,13 +41,18 @@ class Tensor:
 
 	def __add__(self, other):
 		if isinstance(other, float) or isinstance(other, int):
-			other = Tensor(np.zeros_like(self.arr) + other)
+			other = Tensor(np.zeros(self.arr.shape) + other)
 
 		parent = Tensor(arr=self.arr + other.arr, children=(self, other))
 
 		def _backward():
-			self.grad += parent.grad
-			other.grad += parent.grad
+			if self.arr.shape == other.arr.shape:
+				# no broadcasting
+				self.grad += parent.grad
+				other.grad += parent.grad
+				return
+			self.grad += np.sum(parent.grad @ np.ones(other.arr.shape).T, axis=1, keepdims=True)
+			other.grad += np.sum(np.ones(self.arr.shape).T @ parent.grad, axis=0, keepdims=True)
 		parent._backward = _backward
 
 		return parent
@@ -52,13 +62,18 @@ class Tensor:
 
 	def __mul__(self, other):
 		if isinstance(other, float) or isinstance(other, int):
-			other = Tensor(np.ones_like(self.arr) * other)
+			other = Tensor(np.ones(self.arr.shape) * other)
 
 		parent = Tensor(arr=self.arr * other.arr, children=(self, other))
 
 		def _backward():
-			self.grad += parent.grad * other.arr
-			other.grad += parent.grad * self.arr
+			if self.arr.shape == other.arr.shape:
+				# no broadcasting
+				self.grad += parent.grad * other.arr
+				other.grad += parent.grad * self.arr
+				return
+			self.grad += np.sum(parent.grad @ other.arr.T, axis=1, keepdims=True)
+			other.grad += np.sum(self.arr.T @ parent.grad, axis=0, keepdims=True)
 		parent._backward = _backward
 
 		return parent
@@ -137,7 +152,7 @@ class Tensor:
 		dfs(self, visited, dfs_order)
 		topo_order = dfs_order[::-1]
 
-		self.grad = np.array([[1.0]])
+		self.grad = 1.0
 		for u in topo_order:
 			u._backward()
 
@@ -192,6 +207,97 @@ import torch
 
 # http://ufldl.stanford.edu/tutorial/supervised/DebuggingGradientChecking/
 _EPS = 1e-4
+
+
+def test_add():
+	a = Tensor(np.array([1.0,2.0,3.0]))
+	b = Tensor(np.array([4.0,5.0,6.0]))
+	c = (a + b).sum()
+	c.backward()
+	assert c.grad == 1.0
+	np.testing.assert_almost_equal(a.grad, np.array([1.0, 1.0, 1.0]))
+	np.testing.assert_almost_equal(b.grad, np.array([1.0, 1.0, 1.0]))
+
+	a_ = torch.tensor(np.array([1.0,2.0,3.0]), requires_grad=True)
+	b_ = torch.tensor(np.array([4.0,5.0,6.0]), requires_grad=True)
+	c_ = (a_ + b_).sum()
+	c_.backward()
+	assert c_.grad is None
+	np.testing.assert_almost_equal(np.array(a_.grad.tolist()), np.array([1.0, 1.0, 1.0]))
+	np.testing.assert_almost_equal(np.array(b_.grad.tolist()), np.array([1.0, 1.0, 1.0]))
+
+
+def test_add_broadcasting():
+	# np.float64 dtype
+	a = Tensor(np.array([1.0,2.0,3.0]).reshape(3,1))
+	b = Tensor(np.array([4.0,5.0,6.0]).reshape(1,3))
+	# d(a1 + b1 + a2 + b2 + a3 + b3)/dai = 1
+	c = (a + b).sum()
+	c.backward()
+	assert c.grad == 1.0
+	np.testing.assert_almost_equal(a.grad, np.array([3.0, 3.0, 3.0]).reshape(3,1))
+	np.testing.assert_almost_equal(b.grad, np.array([3.0, 3.0, 3.0]).reshape(1,3))
+
+	a_ = torch.tensor(np.array([1.0,2.0,3.0]).reshape(3,1), requires_grad=True)
+	b_ = torch.tensor(np.array([4.0,5.0,6.0]).reshape(1,3), requires_grad=True)
+	c_ = (a_ + b_).sum()
+	c_.backward()
+	assert c_.grad is None
+	np.testing.assert_almost_equal(np.array(a_.grad.tolist()), np.array([3.0, 3.0, 3.0]).reshape(3,1))
+	np.testing.assert_almost_equal(np.array(b_.grad.tolist()), np.array([3.0, 3.0, 3.0]).reshape(1,3))
+
+
+def test_mul():
+	a = Tensor(np.array([1.0,2.0,3.0]))
+	b = Tensor(np.array([4.0,5.0,6.0]))
+	c = (a * b).sum()
+	c.backward()
+	assert c.grad == 1.0
+	np.testing.assert_almost_equal(a.grad, np.array([4.0, 5.0, 6.0]))
+	np.testing.assert_almost_equal(b.grad, np.array([1.0, 2.0, 3.0]))
+
+	a_ = torch.tensor(np.array([1.0,2.0,3.0]), requires_grad=True)
+	b_ = torch.tensor(np.array([4.0,5.0,6.0]), requires_grad=True)
+	c_ = (a_ * b_).sum()
+	c_.backward()
+	assert c_.grad is None
+	np.testing.assert_almost_equal(np.array(a_.grad.tolist()), np.array([4.0, 5.0, 6.0]))
+	np.testing.assert_almost_equal(np.array(b_.grad.tolist()), np.array([1.0, 2.0, 3.0]))
+
+
+def test_mul_broadcasting():
+	# np.float64 dtype
+	a = Tensor(np.array([1.0,2.0,3.0]).reshape(3,1))
+	b = Tensor(np.array([4.0,5.0,6.0]).reshape(1,3))
+	# 1 1 1   4 5 6
+	# 2 2 2 * 4 5 6
+	# 3 3 3   4 5 6
+	#
+	# a1 a1 a1   b1 b2 b3
+	# a2 a2 a2 * b1 b2 b3
+	# a3 a3	a3   b1 b2 b3
+	# 
+	# a1*b1 a1*b2 a1*b3
+	# a2*b1 a2*b2 a2*b3
+	# a3*b1 a3*b2 a3*b3
+	#
+	# a1*b1 + a1*b2 + a1*b3 + a2*b1 + a2*b2 + a2*b3 + a3*b1 + a3*b2 + a3*b3
+	#
+	# d(a1*b1 + a1*b2 + a1*b3 + a2*b1 + a2*b2 + a2*b3 + a3*b1 + a3*b2 + a3*b3)/dai = b1 + b2 + b3
+	# d(a1*b1 + a1*b2 + a1*b3 + a2*b1 + a2*b2 + a2*b3 + a3*b1 + a3*b2 + a3*b3)/dbi = a1 + a2 + a3
+	c = (a * b).sum()
+	c.backward()
+	assert c.grad == 1.0
+	np.testing.assert_almost_equal(a.grad, np.array([15.0, 15.0, 15.0]).reshape(3,1))
+	np.testing.assert_almost_equal(b.grad, np.array([6.0, 6.0, 6.0]).reshape(1,3))
+
+	a_ = torch.tensor(np.array([1.0,2.0,3.0]).reshape(3,1), requires_grad=True)
+	b_ = torch.tensor(np.array([4.0,5.0,6.0]).reshape(1,3), requires_grad=True)
+	c_ = (a_ * b_).sum()
+	c_.backward()
+	assert c_.grad is None
+	np.testing.assert_almost_equal(np.array(a_.grad.tolist()), np.array([15.0, 15.0, 15.0]).reshape(3,1))
+	np.testing.assert_almost_equal(np.array(b_.grad.tolist()), np.array([6.0, 6.0, 6.0]).reshape(1,3))
 
 
 def test_bce_loss():
