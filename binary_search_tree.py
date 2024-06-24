@@ -17,7 +17,7 @@ def search(root, key):
 	if (not root) or (root.val == key):
 		return root
 
-	if key <= root.val:
+	if key < root.val:
 		return search(root.left, key)
 
 	return search(root.right, key)
