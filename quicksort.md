@@ -66,10 +66,12 @@ def _partition(nums, left, right):
         nums[l], nums[r] = nums[r], nums[l]
 
 def _quicksort(nums, left, right):
-    if left < right:
-        pivot_index = _partition(nums, left, right)
-        _quicksort(nums, left, pivot_index)
-        _quicksort(nums, pivot_index+1, right)
+    if left >= right:
+        return
+    pivot_index = _partition(nums, left, right)
+    # We don't have to exclude the pivot_index here?
+    _quicksort(nums, left, pivot_index)
+    _quicksort(nums, pivot_index+1, right)
 
 def quicksort(nums):
     random.shuffle(nums)
