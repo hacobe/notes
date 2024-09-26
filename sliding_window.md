@@ -11,10 +11,17 @@ def fun(arr):
     state = ...
     while r < n:
         # update state of the current window with arr[r]
+        ...
 
         # contract window until we have a valid one
-        while current window is invalid:
+        while True:
+            if window is valid:
+                break
+
             # update state of the current window with arr[l]
+            ...
+
+            # contract the window
             l += 1
 
         # update ans, e.g.:
@@ -50,7 +57,7 @@ def fun(arr, k):
 	return ans
 ```
 
-The time complexity is O(n^3) (it's very similar to https://leetcode.com/problems/maximum-subarray/).
+The time complexity is O(n^3) (it's very similar to https://leetcode.com/problems/maximum-subarray/). If the brute force solution looks like this and you want a O(n) solution, then consider the sliding window algorithm.
 
 Now we apply the sliding window template:
 
@@ -119,8 +126,10 @@ def fun(arr, k):
     return ans
 ```
 
+## Other examples
+
+* https://leetcode.com/problems/longest-substring-without-repeating-characters/
+
 ## Sources
 
 * https://leetcode.com/tag/sliding-window/
-* https://leetcode.com/discuss/study-guide/657507/Sliding-Window-for-Beginners-Problems-or-Template-or-Sample-Solutions (most upvoted guide containing the term "sliding window" on leetcode)
-* https://medium.com/leetcode-patterns/leetcode-pattern-2-sliding-windows-for-strings-e19af105316b
