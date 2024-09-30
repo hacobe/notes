@@ -470,6 +470,10 @@ def fun(word, k):
     return helper(word, k) - helper(word, k-1)
 ```
 
+## Other examples
+
+* https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-i/
+
 ## Sources
 
 * https://leetcode.com/tag/sliding-window/
