@@ -960,7 +960,7 @@
       ]
     },
     {
-      "path": "http_syntax.md",
+      "path": "http_protocol.md",
       "tags": [
         "networking"
       ]
