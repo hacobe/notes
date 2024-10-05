@@ -4,3 +4,4 @@ _build/
 .ipynb_checkpoints/
 scratch.ipynb
 scratch.py
+__pycache__

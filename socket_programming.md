@@ -2,7 +2,7 @@
 
 A **socket** is an interface that the operating system provides for sending and receiving data between 2 processes within a computer or across computers.
 
-To initiate communication, a processs starts by opening a socket. Opening a socket requires specifying an **address family** and a **communication protocol**. We will only discuss the IPv4 address family, where an address consists of a version 4 IP address and a port number. We will discuss 2 communication protocols: 1) the **User Datagram Protocol (UDP)** and 2) the **Transmission Control Protocol (TCP)**.
+To initiate communication, a process starts by opening a socket. Opening a socket requires specifying an **address family** and a **communication protocol**. We will only discuss the IPv4 address family, where an address consists of a version 4 IP address and a port number. We will discuss 2 communication protocols: 1) the **User Datagram Protocol (UDP)** and 2) the **Transmission Control Protocol (TCP)**.
 
 In UDP, the client process sends a message to a specific address. The server process then receives the message and the address associated with the client's socket. The server may truncate the message if the message size exceeds the buffer size set by the server.
 
