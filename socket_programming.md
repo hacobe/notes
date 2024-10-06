@@ -91,7 +91,51 @@ def client():
 	s.close()
 ```
 
-Constructing headers for lower layers with the `socket` library presents some difficulties when using Mac OS. We could use `scapy` to do it though. We could also set fields in lower layers via `socket.setsockopt`.
+We could go further and construct the IPv4 header too:
+
+```python
+def client():
+	s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+	s.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
+	s.bind((HOST, CLIENT_PORT))
+
+	# Adapted from:
+	# https://stackoverflow.com/questions/20203549/using-raw-socket-in-python
+	version_ihl = (4 << 4) | 5
+	dscp_ecn = 0
+	total_length = 0
+	identification = 54321
+	flags_fragment_offset = 0
+	ttl = 255
+	ipv4_header_checksum = 0
+	protocol = socket.IPPROTO_UDP
+	saddr = socket.inet_aton(HOST)
+	daddr = socket.inet_aton(HOST)
+	# "4s means "four-letter string" (four char joined together into a bytestring)"
+	# (https://stackoverflow.com/questions/16419794/what-is-4sl-format-in-struct-pack-python)
+	ipv4_header = struct.pack(
+		'!BBHHHBBH4s4s',
+		version_ihl, # B
+		dscp_ecn, # B
+		total_length, # H
+		identification, # H
+		flags_fragment_offset, # H
+		ttl, # B
+		protocol, # B
+		ipv4_header_checksum, # H
+		saddr,
+		daddr
+	)
+
+	udp_length = 8 + len(MESSAGE)
+	checksum = 0  # optional
+	udp_header = struct.pack("!HHHH", CLIENT_PORT, SERVER_PORT, udp_length, checksum)
+	s.sendto(ipv4_header + udp_header + MESSAGE, (HOST, SERVER_PORT))
+	print(f"{HOST}:{CLIENT_PORT} sent message {MESSAGE} to {HOST}:{SERVER_PORT}")
+	s.close()
+```
+
+Note that the code above does not work on Mac OS (it gives a "OSError: [Errno 22] Invalid argument" error). On Mac OS, we could still set fields in lower layers via `socket.setsockopt` or we could use the `scapy` library.
 
 We turn our attention to TCP now. In TCP, the client process establishes a connection with a specific address. The server process listens at a specific address. It then accepts an incoming connection, which returns a socket for the connection and the address associated with the client's socket. The client then sends a message. The message is divided in packets and each packet is assigned a sequence number. Using the sequence numbers, the packets are reassembled in the correct order. The server process receives part of the message from the socket for the connection. Because the server only receives only part of the message, the server needs to keep calling receive until the OS signals that the client has closed the connection by returning an empty message or until the server determines that the client has sent a complete message based on some convention. TCP is a stream-oriented protocol as opposed to a message-oriented protocol like UDP.
 
