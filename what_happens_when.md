@@ -26,7 +26,7 @@ As an aside, the layers discussed above are layers in the [OSI model](https://en
 
 To see a DNS request in action, we can use the `dig` command (the browser may not actually make a DNS request, because it maintains a cache from domain names to IP addresses). First, open WireShark. Then, click the shark icon in the top left corner to start recording traffic. Type `ip.dst == 8.8.8.8` in the command box to filter the traffic. Run  `dig @8.8.8.8 wikipedia.org`. The request should then appear in WireShark.
 
-This post just describes the creation of the UDP packet at a high-level. It does not describe how that packet gets routed through the Internet. It also does not describe how the packet gets received by the DNS server. It also does not describe what happens when the browser gets the IP address for wikipedia.org. In particular, it does not how a TCP connection gets established nor how the HTTP request gets sent.
+This post just describes the creation of the UDP packet at a high-level. It does not describe how that packet gets routed through the Internet. It also does not describe how the packet gets received by the DNS server. It also does not describe what happens when the browser gets the IP address for wikipedia.org. In particular, it does not describe how a TCP connection gets established nor how the HTTP request gets sent.
 
 ## Sources
 

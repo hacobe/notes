@@ -1,6 +1,6 @@
-# HTTP syntax
+# HTTP protocol
 
-In this post, we describe the syntax of HTTP/1.1.
+In this post, we describe the HTTP/1.1 protocol.
 
 A client sends request messages to a server.
 
