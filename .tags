@@ -984,6 +984,12 @@
       ]
     },
     {
+      "path": "reliable_transport.py",
+      "tags": [
+        "networking"
+      ]
+    },
+    {
       "path": "traceroute.py",
       "tags": [
         "networking"
