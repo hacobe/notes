@@ -976,6 +976,12 @@
       "tags": [
         "networking"
       ]
+    },
+    {
+      "path": "traceroute.py",
+      "tags": [
+        "networking"
+      ]
     }
   ]
 }
