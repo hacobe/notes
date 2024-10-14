@@ -6,6 +6,17 @@ A short guide to computational problem solving inspired by Polya's How to Solve 
 
 We start by discussing a specific orientation towards problem solving. Specifically, that **problem solving should not feel too difficult**. In fact, we should take the feeling of confusion or frustration in the course of problem solving as a sign for us to take a step back and simplify the problem. We imagine tackling a problem as climbing a mountain face. An experienced climber moves with grace and economy. They only very rarely exert themselves to leap towards the next hold. Similarly, we take small, concrete and carefully chosen steps. We try to do what seems obvious. And we build up our understanding of the problem incrementally.
 
+## Practice
+
+It takes a lot of practice to get very good at solving certain classes of problems. For example, many serious competitive programmers have solved somewhere around 2000 to 3000 problems (see [here](https://www.redgreencode.com/many-problems-need-solve/)). For practice, don't spend too much time on any one problem (maybe 20 to 30 minutes per problem). 
+
+Here are some sources of problems:
+* leetcode.com
+* csprimer.com
+* problems that come up in interviews
+* https://austinhenley.com/blog/challengingprojects.html
+* https://austinhenley.com/blog/morechallengingprojects.html
+
 ## Four phases
 
 Some quick notes on Polya's four phases of problem solving for computational problems.
