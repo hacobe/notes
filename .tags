@@ -14,7 +14,8 @@
     "concurrency",
     "strings",
     "security",
-    "networking"
+    "networking",
+    "problem_solving"
   ],
   "notes": [
     {
@@ -993,6 +994,18 @@
       "path": "traceroute.py",
       "tags": [
         "networking"
+      ]
+    },
+    {
+      "path": "how_to_solve_it.md",
+      "tags": [
+        "problem_solving"
+      ]
+    },
+    {
+      "path": "computational_problem_solving.md",
+      "tags": [
+        "problem_solving"
       ]
     }
   ]
