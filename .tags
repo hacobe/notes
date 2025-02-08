@@ -15,7 +15,8 @@
     "strings",
     "security",
     "networking",
-    "problem_solving"
+    "problem_solving",
+    "collective_communication"
   ],
   "notes": [
     {
@@ -1006,6 +1007,48 @@
       "path": "computational_problem_solving.md",
       "tags": [
         "problem_solving"
+      ]
+    },
+    {
+      "path": "all_gather.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "all_reduce.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "broadcast.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "gather.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "reduce.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "scatter.py",
+      "tags": [
+        "collective_communication"
+      ]
+    },
+    {
+      "path": "collective_communication.md",
+      "tags": [
+        "collective_communication"
       ]
     }
   ]
