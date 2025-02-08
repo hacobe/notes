@@ -9,14 +9,15 @@
     "optimization",
     "linear_algebra",
     "probability",
-    "system_design",
     "robustness_and_uncertainty_for_structured_prediction",
     "concurrency",
     "strings",
     "security",
     "networking",
     "problem_solving",
-    "collective_communication"
+    "collective_communication",
+    "mapreduce",
+    "distributed_systems"
   ],
   "notes": [
     {
@@ -514,97 +515,97 @@
     {
       "path": "reliable_maintainable_scalable_applications.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "data_models_and_query_languages.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "log_segments_with_hash_index.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "key_value_store.py",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "sstables.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "data_warehousing.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "encoding_and_evolution.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "single_leader_replication.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "multi_leader_replication.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "leaderless_replication.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "partitioning.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "batch_processing.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "client_centric_consistency_models.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "hadoop_distributed_file_system.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "kafka.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
       "path": "rate_limiting.md",
       "tags": [
-        "system_design"
+        "distributed_systems"
       ]
     },
     {
@@ -1073,6 +1074,41 @@
       "path": "collective_communication.md",
       "tags": [
         "collective_communication"
+      ]
+    },
+    {
+      "path": "mapreduce.py",
+      "tags": [
+        "distributed_systems",
+        "mapreduce"
+      ]
+    },
+    {
+      "path": "top_k_words_mapreduce.py",
+      "tags": [
+        "distributed_systems",
+        "mapreduce"
+      ]
+    },
+    {
+      "path": "word_count_in_memory.py",
+      "tags": [
+        "distributed_systems",
+        "mapreduce"
+      ]
+    },
+    {
+      "path": "word_count_mapreduce.py",
+      "tags": [
+        "distributed_systems",
+        "mapreduce"
+      ]
+    },
+    {
+      "path": "word_count_on_disk.py",
+      "tags": [
+        "distributed_systems",
+        "mapreduce"
       ]
     }
   ]
