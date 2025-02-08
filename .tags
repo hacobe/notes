@@ -423,6 +423,12 @@
       ]
     },
     {
+      "path": "embedding_lookup.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
       "path": "reinforcement_learning_framework.md",
       "tags": [
         "reinforcement_learning"
