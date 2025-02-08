@@ -765,6 +765,12 @@
       ]
     },
     {
+      "path": "multithread_merge_sort.py",
+      "tags": [
+        "concurrency"
+      ]
+    },
+    {
       "path": "depth_first_search_iterative.py",
       "tags": [
         "data_structures_and_algorithms"
