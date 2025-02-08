@@ -398,6 +398,30 @@
       ]
     },
     {
+      "path": "mlp_duplicated.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "path": "mlp_dp.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "path": "mlp_tp.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
+      "path": "mlp_pp.py",
+      "tags": [
+        "deep_learning"
+      ]
+    },
+    {
       "path": "reinforcement_learning_framework.md",
       "tags": [
         "reinforcement_learning"
