@@ -108,6 +108,7 @@ def main():
 	wlist = []
 
 	while True:  # event loop
+		# select blocks until a socket is ready.
 		readable, writable, _ = select.select(rlist, wlist, [])
 
 		for s in readable:
