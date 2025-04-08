@@ -163,7 +163,7 @@ In rough analogy to Python's `threading` library:
 | ----------------- | ----------------- | --------------- |
 | Create a thread and start running it | `thread = threading.Thread(...)`<br>`t.start()` | `task = asyncio.create_task(...)` |
 | Block on completion of a child thread | `thread.join()` | `await task` |
-| Block self on socket receiving a message | e.g., `select.select(...)` | e.g., `await loop.sock_recvfrom(...)`
+| Block self on socket receiving a message | `select.select(...)` | `await loop.sock_recvfrom(...)`
 | Scheduling | OS thread scheduler  | user-space scheduler executed by `asyncio.run(...)` |
 
 Unlike multithreading, asynchronous I/O can run many functions concurrently in a single thread avoiding the overhead of spinning up threads, switching between threads and tearing down threads.
