@@ -165,6 +165,12 @@
       ]
     },
     {
+      "path": "ostep_memory_virtualization.md",
+      "tags": [
+        "operating_systems"
+      ]
+    },
+    {
       "path": "memory_manager.py",
       "tags": [
         "operating_systems"
@@ -771,7 +777,7 @@
       ]
     },
     {
-      "path": "multithread_merge_sort.py",
+      "path": "multithreaded_merge_sort.py",
       "tags": [
         "concurrency"
       ]

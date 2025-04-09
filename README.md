@@ -1,5 +1,11 @@
 # Technical notes
 
+See the 5 most recently modified posts:
+
+```bash
+git ls-files | xargs -I{} git log -1 --format="%aI {}" {} | sort -nr | head -n 5
+```
+
 See tags:
 
 ```bash
@@ -12,8 +18,8 @@ Filter notes by tag:
 jq -r '.notes[] | select(.tags[] == "concurrency") | .path' .tags
 ```
 
-See the 5 most recently modified posts:
+Find notes that do not have tags:
 
 ```bash
-git ls-files | xargs -I{} git log -1 --format="%aI {}" {} | sort -nr | head -n 5
+comm -23 <(ls *.py *.md *.ipynb | sort) <(jq -r '.notes[].path' .tags | sort)
 ```
