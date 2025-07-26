@@ -31,6 +31,7 @@ Some quick notes on Polya's four phases of problem solving for computational pro
 
 ### Devise a plan
 
+* Sketch out a naive solution first
 * Sketch out the interface at each layer
 * Define important types
 * Test the design by using lower layer functions without implementing them
