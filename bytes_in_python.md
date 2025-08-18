@@ -92,3 +92,13 @@ assert int("-0x5", 16) == -5
 ```
 
 Note that `int` interprets the string (without the negative sign) as an unsigned integer.
+
+We can also use the [struct](https://docs.python.org/3/library/struct.html) module to convert Python values to binary data and vice versa.
+
+For example:
+
+```python
+import struct
+assert struct.pack("<B", 97) == b"a"
+assert struct.unpack("<B", b"a") == (97,)
+```
