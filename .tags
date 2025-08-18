@@ -8,7 +8,6 @@
     "reinforcement_learning",
     "linear_algebra",
     "probability",
-    "robustness_and_uncertainty_for_structured_prediction",
     "concurrency",
     "strings",
     "security",
@@ -599,78 +598,6 @@
       "path": "rate_limiting.md",
       "tags": [
         "distributed_systems"
-      ]
-    },
-    {
-      "path": "selective_sequence_prediction.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "data_synthesis_for_language_reward_models.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "structured_prediction.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "ensemble_methods.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "calibration_definitions.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "post_hoc_calibration.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "decoding_strategies.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "maximum_softmax_probability.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "selective_prediction.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "modeling_model_outputs.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "ood_detection.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
-      ]
-    },
-    {
-      "path": "calibration_for_structured_prediction.md",
-      "tags": [
-        "robustness_and_uncertainty_for_structured_prediction"
       ]
     },
     {
