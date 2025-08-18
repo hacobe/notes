@@ -1,6 +1,5 @@
 {
   "tags": [
-    "computer_architecture",
     "operating_systems",
     "data_structures_and_algorithms",
     "machine_learning",
@@ -18,78 +17,6 @@
     "distributed_systems"
   ],
   "notes": [
-    {
-      "path": "what_is_a_computer.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "binary_addition.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "overflow.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "twos_complement.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "a_tour_of_computer_systems.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "transistors.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "flip_flops.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "synchronous_systems.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "assembly.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "c_memory_management.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "computer_chip.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
-    {
-      "path": "flynns_taxonomy.md",
-      "tags": [
-        "computer_architecture"
-      ]
-    },
     {
       "path": "ostep_introduction_to_operating_systems.md",
       "tags": [
