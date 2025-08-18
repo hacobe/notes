@@ -13,7 +13,8 @@
     "problem_solving",
     "collective_communication",
     "mapreduce",
-    "distributed_systems"
+    "distributed_systems",
+    "computer_systems"
   ],
   "notes": [
     {
@@ -894,6 +895,36 @@
       "path": "asyncio.md",
       "tags": [
         "concurrency"
+      ]
+    },
+    {
+      "path": "assembly.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "bytes_in_python.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "character_encodings_in_python.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "data_representation.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "overflow_and_underflow.md",
+      "tags": [
+        "computer_systems"
       ]
     }
   ]
