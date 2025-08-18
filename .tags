@@ -227,12 +227,6 @@
       ]
     },
     {
-      "path": "attention.md",
-      "tags": [
-        "deep_learning"
-      ]
-    },
-    {
       "path": "data_parallelism.md",
       "tags": [
         "deep_learning"
@@ -246,18 +240,6 @@
     },
     {
       "path": "pipeline_parallelism.md",
-      "tags": [
-        "deep_learning"
-      ]
-    },
-    {
-      "path": "zero_offload.md",
-      "tags": [
-        "deep_learning"
-      ]
-    },
-    {
-      "path": "zero_dp.md",
       "tags": [
         "deep_learning"
       ]
