@@ -25,13 +25,13 @@
     {
       "path": "concurrency.md",
       "tags": [
-        "operating_systems"
+        "concurrency"
       ]
     },
     {
       "path": "multithreading.md",
       "tags": [
-        "operating_systems"
+        "concurrency"
       ]
     },
     {
