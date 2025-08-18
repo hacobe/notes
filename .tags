@@ -6,7 +6,6 @@
     "machine_learning",
     "deep_learning",
     "reinforcement_learning",
-    "optimization",
     "linear_algebra",
     "probability",
     "robustness_and_uncertainty_for_structured_prediction",
@@ -492,18 +491,6 @@
       "path": "pca.md",
       "tags": [
         "linear_algebra"
-      ]
-    },
-    {
-      "path": "critical_points.md",
-      "tags": [
-        "optimization"
-      ]
-    },
-    {
-      "path": "overflow_and_underflow.md",
-      "tags": [
-        "optimization"
       ]
     },
     {
