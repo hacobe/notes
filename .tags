@@ -2,7 +2,6 @@
   "tags": [
     "operating_systems",
     "data_structures_and_algorithms",
-    "machine_learning",
     "deep_learning",
     "reinforcement_learning",
     "linear_algebra",
@@ -186,75 +185,33 @@
       ]
     },
     {
-      "path": "what_is_machine_learning.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "bias_variance_tradeoff.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "naive_bayes.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "linear_discriminant_analysis.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "k_means_clustering.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "support_vector_machines.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
-      "path": "kernel_trick.md",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
       "path": "Linear regression.ipynb",
       "tags": [
-        "machine_learning"
+        "deep_learning"
       ]
     },
     {
       "path": "Logistic regression.ipynb",
       "tags": [
-        "machine_learning"
+        "deep_learning"
       ]
     },
     {
       "path": "Softmax regression.ipynb",
       "tags": [
-        "machine_learning"
+        "deep_learning"
       ]
     },
     {
       "path": "mlp.py",
       "tags": [
-        "machine_learning"
+        "deep_learning"
       ]
     },
     {
       "path": "MLP.ipynb",
       "tags": [
-        "machine_learning"
+        "deep_learning"
       ]
     },
     {
@@ -271,12 +228,6 @@
     },
     {
       "path": "attention.md",
-      "tags": [
-        "deep_learning"
-      ]
-    },
-    {
-      "path": "graph_neural_networks.md",
       "tags": [
         "deep_learning"
       ]
@@ -762,16 +713,9 @@
       ]
     },
     {
-      "path": "k_means.py",
-      "tags": [
-        "machine_learning"
-      ]
-    },
-    {
       "path": "minhash_lsh.md",
       "tags": [
-        "data_structures_and_algorithms",
-        "machine_learning"
+        "data_structures_and_algorithms"
       ]
     },
     {
