@@ -904,6 +904,12 @@
       ]
     },
     {
+      "path": "c.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "bytes_in_python.md",
       "tags": [
         "computer_systems"
