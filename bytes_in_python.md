@@ -102,3 +102,10 @@ import struct
 assert struct.pack("<B", 97) == b"a"
 assert struct.unpack("<B", b"a") == (97,)
 ```
+
+We can also create integers using the `0b` or `0x` prefixes directly:
+
+```python
+assert 0b101010 == 42
+assert 0x2a == 42
+```
