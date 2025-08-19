@@ -109,3 +109,17 @@ We can also create integers using the `0b` or `0x` prefixes directly:
 assert 0b101010 == 42
 assert 0x2a == 42
 ```
+
+The `bytes` function creates an immutable `bytes` object and the `bytearray` function creates a mutable one:
+
+```python
+assert bytes([97, 98, 99]) == b"abc"
+assert bytearray([97, 98, 99]) == b"abc"
+```
+
+We can encode a string as a `bytes` object using `encode` and decode it using `decode`:
+
+```python
+assert "hello".encode("utf-8") == b"hello"
+assert b"hello".decode("utf-8") == "hello"
+```
