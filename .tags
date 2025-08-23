@@ -938,6 +938,12 @@
       "tags": [
         "computer_systems"
       ]
+    },
+    {
+      "path": "memory_hierarchy.md",
+      "tags": [
+        "computer_systems"
+      ]
     }
   ]
 }
