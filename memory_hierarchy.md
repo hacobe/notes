@@ -96,7 +96,7 @@ Suppose we iterate through a large array of ints. If the value of each element o
 
 Suppose have an array of structs and we want to iterate through one of the fields of the structs. In this case, the cache line will include the data from other fields in the struct next to the field of interest in memory. To improve performance, we could consider a struct of arrays, where we could iterate through the array of interest and the data will be contiguous in memory.
 
-Suppose we have a Python list containing heterogeneous types (e.g., `[1, "foo", 3.14, [1, 2, 3], {"key": "value"}]`). This is implemented as an array of `PyObject*` pointers. When we iterate through this list, we're not accessing the actual values sequentially in memory - instead, we're following pointers to scattered memory locations. This means that even though the pointers themselves are contiguous, the actual data they point to may be spread across different cache lines, reducing cache efficiency compared to arrays of primitive types where the values are stored contiguously.
+Suppose we have a Python list containing heterogeneous types (e.g., `[1, "foo", 3.14, [1, 2, 3], {"key": "value"}]`). When we iterate through the list, we're accessing pointers in scattered memory locations, because Python implements the list as an array of `PyObject*` pointers. To improve performance, we could consider iterating through an array of the primitive types (e.g., using NumPy) instead.
 
 ## Sources
 
