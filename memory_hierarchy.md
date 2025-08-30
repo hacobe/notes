@@ -1,106 +1,53 @@
-# Memory hierarchy
+# The Memory Hierarchy
 
-Computers organize memory into a hierarchy with smaller, faster, costlier per byte storage at the top of the hierarchy and larger, slower and cheaper per byte storage at the bottom. Going from top to bottom in the hierarchy, computers have registers, an L1 cache, an L2 cache, an L3 cache and main memory (and the hierarchy extends further with local disks and remote disks). The caches use SRAM, or static random access memory. The main memory uses DRAM, or dynamic random access memory. The hierarchy helps to hide some of the "processor-memory gap", which has developed as a result of memory not improving as fast as compute historically.
+Modern computer systems use multiple storage technologies with different performance characteristics. SRAM provides the fastest access but costs the most per bit. DRAM offers moderate speed at lower cost. SSDs and rotating disks provide large capacity at low cost but slower access. Programs achieve good performance by exploiting locality—the tendency to access the same data repeatedly or to access nearby data. The memory hierarchy organizes these storage technologies into levels, with faster, smaller storage at the top holding recently accessed data from slower, larger storage below.
 
-Main memory is divided into chunks called cache lines. When a byte in memory is accessed, the entire cache line it belongs to is pulled into the caches. Consider a program reading data sequentially from main memory. When the program reads the first byte from main memory, the cache line it belongs to is pulled into the caches. When the program reads the next byte, it avoids the long trip to main memory and reads the data from the L1 cache.
+## Storage Technologies
 
-Consider the following C program:
+RAM comes in two varieties. Static RAM is faster and more expensive than dynamic RAM. Cache memories use SRAM while main memory uses DRAM.
+
+Disks have much larger capacity than RAM at much lower cost per bit, but are much slower. They rely on mechanical spinning parts to access data, while RAM accesses data electronically.
+
+Solid state disks are flash memory-based storage devices that are faster than rotating disks, particularly for reads, but are more expensive per bit.
+
+From 1985 to 2015, DRAM and disk costs dropped dramatically while their access speeds barely improved, creating a widening gap with processor speeds. SRAM kept pace with processor speeds but its high cost has limited it to small caches. SSDs became mainstream after 2008, filling part of the performance gap between DRAM and rotating disks.
+
+## Locality
+
+Locality has two forms. Temporal locality means a memory location referenced once is likely to be referenced again multiple times in the near future. Spatial locality means if a memory location is referenced once, the program is likely to reference a nearby memory location in the near future.
+
+Programs exhibit locality through their data access patterns. C stores arrays in row-major order, with elements laid out row by row in memory. The `sumarrayrows` function below maintains good spatial locality by traversing elements in their storage order. Each memory access follows the previous one sequentially.
 
 ```C
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-#define SIZE 10000
-
-int main() {
-    // Contiguous block.
-    int *data = (int*)malloc(SIZE * SIZE * sizeof(int));
-    
-    int **arr = (int**)malloc(SIZE * sizeof(int*));
-    for (int r = 0; r < SIZE; r++) {
-        arr[r] = &data[r * SIZE];
-    }
-
-	srand(1);
-	for (int r = 0; r < SIZE; r++) {
-		for (int c = 0; c < SIZE; c++) {
-			arr[r][c] = rand();
-		}
-	}
-
-	clock_t start = clock();
-	int total = 0;
-	for (int c = 0; c < SIZE; c++) {
-		for (int r = 0; r < SIZE; r++) {
-			total += arr[r][c];
-		}
-	}
-    clock_t end = clock();
-	double cpu_seconds = ((double)(end - start)) / CLOCKS_PER_SEC;
-	printf("%f seconds\n", cpu_seconds);
-	
-	free(arr);
-	free(data);
-
-	return 0;
+// Good spatial locality
+int sumarrayrows(int a[M][N]) {
+   for (i = 0; i < M; i++)
+       for (j = 0; j < N; j++)
+           sum += a[i][j];
 }
 ```
 
-Running it a few times with `gcc main.c && ./a.out`, we get around 0.6 seconds. 
-
-If instead we change the order of the loops like this:
+The `sumarraycols` function accesses elements column-wise, jumping through memory rather than accessing consecutive locations, resulting in poor spatial locality.
 
 ```C
-for (int r = 0; r < SIZE; r++) {
-	for (int c = 0; c < SIZE; c++) {
-		total += arr[r][c];
-	}
+// Poor spatial locality
+int sumarraycols(int a[M][N]) {
+   for (j = 0; j < N; j++)
+       for (i = 0; i < M; i++)
+           sum += a[i][j];
 }
 ```
 
-We get around 0.1 seconds.
+Program instructions stored in memory must be fetched by the CPU. Loop instructions execute in sequential memory order, providing good spatial locality. Since loop bodies execute multiple times, they also exhibit good temporal locality. Smaller loop bodies with more iterations yield better locality.
 
-Consider a 3 x 3 dimensional array as an example:
+## The Memory Hierarchy
 
-```
-(0, 0) (0, 1) (0, 2)
-(1, 0) (1, 1) (1, 2)
-(2, 0) (2, 1) (2, 2)
-```
+The memory hierarchy consists of seven storage levels. At the top are CPU registers, followed by three SRAM caches, DRAM main memory, local disks, and remote secondary storage at the bottom. Remote secondary storage includes distributed file systems and Web servers.
 
-We have it laid out in memory in row-major order:
+CPU registers hold words retrieved from the first cache. The first cache holds cache lines retrieved from the second cache. The second cache holds cache lines retrieved from the third cache. The third cache holds cache lines retrieved from main memory. Main memory holds disk blocks retrieved from local disks. Local disks hold files retrieved from remote network servers.
 
-```
-0      1      2      3      4      5      6      7      8
-(0, 0) (0, 1) (0, 2) (1, 0) (1, 1) (1, 2) (2, 0) (2, 1) (2, 2)
-```
-
-If we have columns in the outer loop and rows in the inner loop, then we read in the following order:
-
-```
-0: (0, 0)
-3: (1, 0)
-6: (2, 0)
-1: (0, 1)
-4: (1, 1)
-7: (2, 1)
-2: (0, 2)
-5: (1, 2)
-8: (2, 2)
-```
-
-Notice that it does not read through memory addresses sequentially. However, if we have rows in the outer loop and columns in the inner loop, then we read the array in the same order as it is laid out in memory.
-
-Suppose we iterate through a large array of ints. If the value of each element of the array could be stored in a short, then we could improve performance by changing the type of the array from int to short. In that way, more of the values could fit into the cache.
-
-Suppose have an array of structs and we want to iterate through one of the fields of the structs. In this case, the cache line will include the data from other fields in the struct next to the field of interest in memory. To improve performance, we could consider a struct of arrays, where we could iterate through the array of interest and the data will be contiguous in memory.
-
-Suppose we have a Python list containing heterogeneous types (e.g., `[1, "foo", 3.14, [1, 2, 3], {"key": "value"}]`). When we iterate through the list, we're accessing pointers in scattered memory locations, because Python implements the list as an array of `PyObject*` pointers. To improve performance, we could consider iterating through an array of the primitive types (e.g., using NumPy) instead.
+Storage devices are smaller, faster, and more expensive per byte at higher levels. They are larger, slower, and cheaper per byte at lower levels.
 
 ## Sources
 
-* https://csprimer.com/watch/cache-line/
-* https://csprimer.com/watch/cache-levels/
-* https://csprimer.com/watch/cpu-caches/
-* Computer Systems: A Programmer's Perspective, 1.5 Caches Matter and 1.6 Storage Devices Form a Hierarchy
+* "6 The Memory Hierarchy", Computer Systems: A Programmer's Perspective
