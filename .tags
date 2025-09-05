@@ -951,5 +951,11 @@
         "computer_systems"
       ]
     }
+    {
+      "path": "transistors.md",
+      "tags": [
+        "computer_systems"
+      ]
+    }
   ]
 }
