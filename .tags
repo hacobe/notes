@@ -950,9 +950,15 @@
       "tags": [
         "computer_systems"
       ]
-    }
+    },
     {
       "path": "transistors.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "flip_flops.md",
       "tags": [
         "computer_systems"
       ]
