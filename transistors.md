@@ -6,7 +6,7 @@ Now replace the dominoes, sliding track, and bell with electrical components. In
 
 A **switch** is an electrical component with a gate that, when closed, allows current to flow through the circuit and, when open, blocks current from flowing through the circuit.
 
-![switches](/img/switches.png)
+![switches](img/switches.png)
 
 A **transistor** is a switch whose gate can be opened or closed by an electrical signal rather than mechanical action.
 
@@ -14,7 +14,7 @@ We can compose transistors to build a **logic gate**, i.e., a physical device th
 
 For example, we can arrange 2 transistors in series to build an AND gate, which takes 2 boolean inputs and returns true if both inputs are true and false otherwise. Or we can arrange 2 transistors on parallel tracks to build an OR gate, which takes 2 boolean inputs and returns true if either input is true or both inputs are true and false otherwise.
 
-![and_or_gates](/img/and_or_gates.png)
+![and_or_gates](img/and_or_gates.png)
 
 We can further compose gates to build circuits that perform complex arithmetic and logical computations.
 
