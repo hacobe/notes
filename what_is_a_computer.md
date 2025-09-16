@@ -9,7 +9,7 @@ For example, suppose we need an umbrella if it's raining. We can design a contra
 If it's raining:
 
 ```
-| | | | | *
+/ | | | | *
     -
 ```
 
@@ -17,7 +17,7 @@ Otherwise:
 
 ```
     |
-| |   | | *
+/ |   | | *
     -
 ```
 
@@ -26,7 +26,7 @@ Building on this example, suppose instead we need an umbrella if it's raining an
 If it's raining and we plan to go outside:
 
 ```
-| | | | | | | | | | *
+/ | | | | | | | | | *
     -         -
 ```
 
@@ -34,7 +34,7 @@ Otherwise:
 
 ```
     |         |
-| |   | | | |   | | *
+/ |   | | | |   | | *
     -         -
 ```
 
@@ -43,9 +43,9 @@ Finally, suppose instead we want the bell to ring if we don't need the umbrella.
 If it's raining and we plan to go outside:
 
 ```
+                    /
                     |
-                    |
-| | | | | | | | | | |
+/ | | | | | | | | | |
     -         -     |
                     |
                     *
@@ -54,10 +54,10 @@ If it's raining and we plan to go outside:
 Otherwise:
 
 ```
-                    |
+                    /
                     |
     |         |     |
-| |   | | | |   | | |
+/ |   | | | |   | | |
     -         -     |
                     |
                     *
