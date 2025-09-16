@@ -898,6 +898,12 @@
       ]
     },
     {
+      "path": "what_is_a_computer.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "assembly.md",
       "tags": [
         "computer_systems"
