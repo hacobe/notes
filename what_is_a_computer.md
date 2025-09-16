@@ -2,7 +2,7 @@
 
 A computer is like a Rube Goldberg machine: a contraption that performs a task through an elaborate chain reaction of physical events. It starts off with a domino falling over, a marble rolling down a ramp or a lever being pulled. It ends with the ringing of a bell, the lighting of a candle or the dispensing of toothpaste. In the case of the computer, we set up this contraption so as to provide the answer to a logical or arithmetic question.
 
-![rube_goldberg](/img/rube_goldberg.png)
+![rube_goldberg](img/rube_goldberg.png)
 
 For example, suppose we need an umbrella if it's raining. We can design a contraption to answer the logical question of whether or not we need an umbrella based on whether or not it's raining. To do so, we arrange a set of dominoes in a line. We place the domino in the middle of the line on a sliding track. If it's raining, we slide this middle domino into its place in line. Otherwise, we slide this domino out of its place in line. We place a bell at the end of the line. To start the contraption, we tip the domino at the head of the line. If it's raining, then all the dominoes fall including the last one, which rings the bell signalling we need an umbrella. Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring. The contraption answers the logical question.
 
