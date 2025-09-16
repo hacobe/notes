@@ -18,6 +18,84 @@
   ],
   "notes": [
     {
+      "path": "what_is_a_computer.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "assembly.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "c.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "bytes_in_python.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "character_encoding_in_python.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "data_representation.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "overflow_and_underflow.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "branch_prediction.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "memory_hierarchy.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "optimizing_program_performance.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "nand2tetris.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "transistors.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
+      "path": "flip_flops.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "ostep_introduction_to_operating_systems.md",
       "tags": [
         "operating_systems"
@@ -895,84 +973,6 @@
       "path": "asyncio.md",
       "tags": [
         "concurrency"
-      ]
-    },
-    {
-      "path": "what_is_a_computer.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "assembly.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "c.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "bytes_in_python.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "character_encoding_in_python.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "data_representation.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "overflow_and_underflow.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "branch_prediction.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "memory_hierarchy.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "optimizing_program_performance.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "nand2tetris.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "transistors.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "flip_flops.md",
-      "tags": [
-        "computer_systems"
       ]
     }
   ]
