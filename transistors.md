@@ -1,34 +1,29 @@
 # Transistors
 
-We start with a very simple logic circuit called a switch.
+Consider a set of dominoes arranged in a line with a domino in the middle of the line on a sliding track. We place a bell at the end of the line. To start this contraption, we tip the domino at the head of the line. If the middle domino is in its place, then all the dominoes fall including the last one, which rings the bell. Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring.
+
+Now replace the dominoes, sliding track, and bell with electrical components. Instead of tipping the domino at the head of the line, we apply voltage from a power source. Instead of a cascade of falling dominoes, we have the flow of electrical current through a wire. Instead of the bell, we have a light bulb at the end of the circuit. Instead of the middle domino on a sliding track, we have a gate that can open or close the circuit. If the gate is closed, current flows from the power source through the complete circuit and the light bulb turns on. If the gate is open, the circuit is broken, current cannot flow, and the light bulb remains off. We have constructed a switch.
+
+A **switch** is an electrical component with a gate that, when closed, allows current to flow through the circuit and, when open, blocks current from flowing through the circuit.
 
 ![switches](/img/switches.png)
 
-When the switch's gate is closed (A = 1), the light is on (Z = 1). When the switch's gate is open (A = 0), the light is off (Z = 0). Note that the terminology can be a little confusing, because the gate being closed means that the voltage is allowed to flow through the circuit rather than being blocked.
+A **transistor** is a switch whose gate can be opened or closed by an electrical signal rather than mechanical action.
 
-We can compose switches into logic gates. The image below shows how to build an AND gate and an OR gate.
+We can compose transistors to build a **logic gate**, i.e., a physical device that implements a boolean functions.
+
+For example, we can arrange 2 transistors in series to build an AND gate, which takes 2 boolean inputs and returns true if both inputs are true and false otherwise. Or we can arrange 2 transistors on parallel tracks to build an OR gate, which takes 2 boolean inputs and returns true if either input is true or both inputs are true and false otherwise.
 
 ![and_or_gates](/img/and_or_gates.png)
 
-**A transistor is a switch where its gate can be opened and closed electronically.** It has two inputs: the source and the gate. And one output: the drain. The transistor has the same logic as an AND gate in that the voltage at both the source and the gate have to be high in order for the voltage at the drain to be high.[^1] The voltage is classified as high (1) if it exceeds some threshold between the "ground" voltage (0V) and the voltage from the power supply (1V). Otherwise, the voltage is classified as low (0). This thresholding reduces noise and is one of the main reasons for using digital rather than analog systems to build computers.
+We can further compose gates to build circuits that perform complex arithmetic and logical computations.
 
-Modern computers use Complementary Metal-Oxide Semiconductor (CMOS) transistors. The Complementary part is about pairing two types of transistors: n-channel transistors and p-channel transistors. What I've described in the previous paragraph is an n-channel transistor. The gate for an n-channel transistor is closed when voltage at the gate is high and the gate for a p-channel transistor is closed when voltage at the gate is low. N-channel transistors pass weak 1s and strong 0s and p-channel transistors do the opposite, so we use both to always pass strong values.
+From the 1970s to 2010s, the number of transistors in a computer has doubled every 2 years (Moore's Law is the observation of this trend). As of 2025, a computer uses billions of transistors (e.g., the [Apple M3 Ultra](https://en.wikipedia.org/wiki/Apple_M3) computer chip has 184 billion transistors).
 
-![n_and_p_type_transistors](/img/n_and_p_type_transistors.png)
+## Additional topics
 
-Here is an example of a NOT gate using CMOS transistors:
-
-![cmos_not_gate](/img/cmos_not_gate.png)
-
-Note that the drain output comes from the power supply or the ground rather than the gate inputs, which reduces noise.
-
-Here is an example of a NAND gate:
-
-![cmos_nand_gate](/img/cmos_nand_gate.png)
-
-[^1]: However, we still build an AND gate out of multiple transistors. See https://www.quora.com/Is-a-transistor-basically-an-AND-gate 
+* How to build a NOT gate from transistors
 
 ## Sources
 
-* UC Berkeley, CS61C, Spring 2015
-	* [Lecture 9](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=9)
+* UC Berkeley, CS61C, Spring 2015 ([Lecture 9](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=9))
