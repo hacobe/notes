@@ -4,64 +4,33 @@ A computer is like a Rube Goldberg machine: a contraption that performs a task t
 
 ![An example of a Rube Goldberg machine.](img/rube_goldberg.png){width=50%}
 
-For example, suppose we need an umbrella if it's raining. We can design a contraption to answer the logical question of whether or not we need an umbrella based on whether or not it's raining. To do so, we arrange a set of dominoes in a line. We place the domino in the middle of the line on a sliding track. If it's raining, we slide this middle domino into its place in line. Otherwise, we slide this domino out of its place in line. We place a bell at the end of the line. To start the contraption, we tip the domino at the head of the line. If it's raining, then all the dominoes fall including the last one, which rings the bell signalling we need an umbrella. Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring. The contraption answers the logical question.
+For example, suppose we need an umbrella if it's raining. We can design a contraption to answer the logical question of whether or not we need an umbrella based on whether or not it's raining. To do so, we arrange a set of dominoes in a line. We place the domino in the middle of the line on a sliding track. To start the contraption, we tip the domino at the head of the line.
 
-We illustrate this contraption using `/` for a domino that we tip, `|` for the other dominoes, `_` for the sliding track and `*` for the bell. If it's raining, we have:
+If it's raining, we slide the middle domino into its place in line. When the domino at the head of the line falls, all the dominoes eventually fall, including the last one, which rings the bell signalling we need an umbrella.
 
-```
-/ | | | | *
-    -
-```
+![When it's raining, we need an umbrella.](img/domino-switch-raining.png){width=50%}
 
-Otherwise:
+Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring. The contraption answers the logical question.
 
-```
-    |
-/ |   | | *
-    -
-```
+![When it's not raining, we do not need an umbrella.](img/domino-switch-not-raining.png){width=50%}
 
-Building on this example, suppose instead we need an umbrella if it's raining and we plan to go outside. To do so, we arrange a set of dominoes in a line with the middle domino on a sliding track as before. We then set up a second set up of dominoes in the same way after the first line. We place a bell at the end of the second line. If it's raining, we slide the middle domino in the first line into place. If we plan to go outside, we slide the middle domino in the second line into place. To start this compound contraption, we tip the domino at the head of the first line. If it's raining and we plan to go outside, then all the dominoes fall including the last one, which rings the bell signalling we need an umbrella. Otherwise, the bell does not ring. This compound contraption answers the more complex logical question.
+Building on this example, suppose instead we need an umbrella if it's raining and we plan to go outside. To do so, we arrange a set of dominoes in a line with the middle domino on a sliding track as before. We then set up a second set up of dominoes in the same way after the first line. We place a bell at the end of the second line. To start this compound contraption, we tip the domino at the head of the first line.
 
-If it's raining and we plan to go outside:
+If it's raining, we slide the middle domino in the first line into place. If we plan to go outside, we slide the middle domino in the second line into place. When the domino at the head of the first line falls, all the dominoes eventually fall, including the last one, which rings the bell signalling we need an umbrella.
 
-```
-/ | | | | | | | | | *
-    -         -
-```
+![When it's raining and we plan to go outside, we need an umbrella.](img/domino-raining-and-outside.png)
 
-Otherwise:
+Otherwise, the bell does not ring. This compound contraption answers the more complex logical question.
 
-```
-    |         |
-/ |   | | | |   | | *
-    -         -
-```
+![When it's not raining or we do not plan to go outside, we do not need an umbrella.](img/domino-not-raining-and-not-outside.png)
 
-Finally, suppose instead we want the bell to ring if we don't need the umbrella. We add a line of dominoes perpendicular to the second line and we move the bell to the end of this perpendicular line. To start the contraption, we tip the domino at the head of the first line and then we tip the domino at the head of the perpendicular line. If the last domino of the second line falls, then it blocks the dominoes in the perpendicular line from falling and the bell does not ring. If the last domino of the second line does not fall, then it does not block the dominoes in the perpendicular line and the last domino in that line rings the bell.
+Finally, suppose instead we want the bell to ring if we don't need the umbrella. We add a line of dominoes perpendicular to the second line and we move the bell to the end of this perpendicular line. To start the contraption, we tip the domino at the head of the first line and then we tip the domino at the head of the perpendicular line. If the last domino of the second line falls, then it blocks the dominoes in the perpendicular line from falling and the bell does not ring. 
 
-If it's raining and we plan to go outside:
+![When it's raining and we plan to go outside, do not ring the bell.](img/domino-raining-and-outside-inverted.png)
 
-```
-                    /
-                    |
-/ | | | | | | | | | |
-    -         -     |
-                    |
-                    *
-```
+If the last domino of the second line does not fall, then it does not block the dominoes in the perpendicular line and the last domino in that line rings the bell.
 
-Otherwise:
-
-```
-                    /
-                    |
-    |         |     |
-/ |   | | | |   | | |
-    -         -     |
-                    |
-                    *
-```
+![When it's not raining or we do not plan to go outside, ring the bell.](img/domino-not-raining-and-not-outside-inverted.png)
 
 This last contraption is a NAND gate. A NAND gate takes 2 binary inputs and outputs true if the inputs are both false and outputs false otherwise. In this case, the first input is whether or not it's raining and the second binary input is whether or not we plan to go outside. The output is whether or not we need an umbrella. It turns out that a collection of NAND gates can answer any logical or arithmetic question that a modern computer can.
 
