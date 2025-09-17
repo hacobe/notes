@@ -43,7 +43,7 @@ The **full adder** is a circuit that takes 3 bits ($A$ and $B$ and a carry bit $
 
 We build an adder that takes multiple bits by composing full adders. For example, here is an adder that takes as input 2 4-bit binary numbers and returns a 4-bit sum and a 1-bit carry, where the sum is correct up to 4 bits.
 
-![A 4-bit ripple carry adder.](img/4_bit_ripple_carry_adder.png){width=50%}
+![A 4-bit ripple carry adder.](img/4_bit_ripple_carry_adder.png)
 
 We implement the full adder from 2 half adders. The first half adder takes $A$ and $B$ as inputs and outputs $S_0$ and $C_0$. The second half adder takes $S_0$ and $C_{in}$ as inputs and outputs $S$ and $C_1$. We then feed $C_0$ and $C_1$ through an OR gate to get $C_{out}$.
 
