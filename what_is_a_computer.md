@@ -8,11 +8,11 @@ For example, suppose we need an umbrella if it's raining. We can design a contra
 
 If it's raining, we slide the middle domino into its place in line. When the domino at the head of the line falls, all the dominoes eventually fall, including the last one, which rings the bell signalling we need an umbrella.
 
-![When it's raining, we need an umbrella.](img/domino-switch-raining.png)
+![When it's raining, we need an umbrella.](img/domino-raining.png)
 
 Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring. The contraption answers the logical question.
 
-![When it's not raining, we do not need an umbrella.](img/domino-switch-not-raining.png)
+![When it's not raining, we do not need an umbrella.](img/domino-not-raining.png)
 
 Building on this example, suppose instead we need an umbrella if it's raining and we plan to go outside. To do so, we arrange a set of dominoes in a line with the middle domino on a sliding track as before. We then set up a second set up of dominoes in the same way after the first line. We place a bell at the end of the second line. To start this compound contraption, we tip the domino at the head of the first line.
 

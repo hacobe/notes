@@ -1,4 +1,4 @@
-<svg viewBox="0 0 550 330" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 580 340" xmlns="http://www.w3.org/2000/svg">
   <!-- Floor/base for horizontal line -->
   <line x1="10" y1="150" x2="490" y2="150" stroke="#8B7355" stroke-width="2"/>
   
@@ -61,11 +61,11 @@
   <g transform="translate(480, 278)">
     <!-- Bell body -->
     <path d="M 0 0 Q -15 5 -15 20 L -15 25 Q -15 30 -10 32 L 10 32 Q 15 30 15 25 L 15 20 Q 15 5 0 0" 
-          fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
+          fill="#A0A0A0" stroke="#808080" stroke-width="1.5"/>
     <!-- Bell clapper -->
     <circle cx="0" cy="28" r="3" fill="#8B7355"/>
     <!-- Bell top -->
-    <circle cx="0" cy="0" r="4" fill="#B8860B"/>
+    <circle cx="0" cy="0" r="4" fill="#808080"/>
   </g>
   
   <!-- Last domino (fallen, blocking perpendicular line) - in foreground -->
@@ -74,29 +74,29 @@
   <!-- Motion arrows -->
   <!-- Arrow for horizontal line -->
   <path d="M 25 80 Q 35 85 45 95" stroke="#4169E1" stroke-width="2" fill="none" 
-        marker-end="url(#arrowhead)" opacity="0.7"/>
+        marker-end="url(#arrowhead-inverted1)" opacity="0.7"/>
   
   <!-- Arrow for perpendicular line (moved lower) -->
   <path d="M 460 35 Q 470 40 480 50" stroke="#4169E1" stroke-width="2" fill="none" 
-        marker-end="url(#arrowhead2)" opacity="0.7"/>
+        marker-end="url(#arrowhead-inverted2)" opacity="0.7"/>
   
   <!-- Arrow markers -->
   <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="10" 
+    <marker id="arrowhead-inverted1" markerWidth="10" markerHeight="10" 
             refX="8" refY="3" orient="auto">
       <polygon points="0 0, 10 3, 0 6" fill="#4169E1" opacity="0.7"/>
     </marker>
-    <marker id="arrowhead2" markerWidth="10" markerHeight="10" 
+    <marker id="arrowhead-inverted2" markerWidth="10" markerHeight="10" 
             refX="8" refY="3" orient="auto">
       <polygon points="0 0, 10 3, 0 6" fill="#4169E1" opacity="0.7"/>
     </marker>
   </defs>
   
   <!-- Labels -->
-  <text x="175" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#8B0000">Raining</text>
-  <text x="175" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#555">Sliding track</text>
-  <text x="315" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#8B0000">Going outside</text>
-  <text x="315" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#555">Sliding track</text>
-  <text x="450" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#555">Blocking</text>
-  <text x="480" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#B8860B">Bell (blocked)</text>
+  <text x="175" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8B0000">Raining</text>
+  <text x="175" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Sliding track</text>
+  <text x="315" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#8B0000">Going outside</text>
+  <text x="315" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Sliding track</text>
+  <text x="450" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#555">Blocking</text>
+  <text x="480" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#808080">Bell (blocked)</text>
 </svg>
