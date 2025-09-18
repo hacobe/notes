@@ -1,20 +1,21 @@
 # What is a computer?
 
-A computer is like a Rube Goldberg machine: a contraption that performs a task through an elaborate chain reaction of physical events. It starts off with a domino falling over, a marble rolling down a ramp or a lever being pulled. It ends with the ringing of a bell, the lighting of a candle or the dispensing of toothpaste. In the case of the computer, we set up this contraption so as to provide the answer to a logical or arithmetic question.
+A computer is like a [Rube Goldberg machine](https://en.wikipedia.org/wiki/Rube_Goldberg_machine): a contraption that performs a task through an elaborate chain reaction of physical events. It starts off with a domino falling over, a marble rolling down a ramp or a lever being pulled. It ends with the ringing of a bell, the lighting of a candle or the dispensing of toothpaste. In the case of a computer, we set up the contraption so as to provide the answer to a logical or arithmetic question.
 
-![An example of a Rube Goldberg machine.](img/rube_goldberg.png)
+![A Rube Goldberg machine](img/rube_goldberg.png)
 
-For example, suppose we need an umbrella if it's raining. We can design a contraption to answer the logical question of whether or not we need an umbrella based on whether or not it's raining. To do so, we arrange a set of dominoes in a line. We place the domino in the middle of the line on a sliding track. To start the contraption, we tip the domino at the head of the line. If it's raining, we slide the middle domino into its place in line. When the domino at the head of the line falls, all the dominoes eventually fall, including the last one, which rings the bell signalling we need an umbrella (a). Otherwise, the first half of the line falls, but not the second half, because of the gap in the middle of the line, and the bell does not ring (b). The contraption answers the logical question.
+For example, we can design a contraption to determine whether or not we need an umbrella based on whether or not it's raining or overcast. To do so, we arrange a set of dominoes like this:
 
-![Domino contraptions.](img/dominoes.png)
+![Dominoes arranged in the shape of an upside down Y](img/domino_or_gate.jpg)
 
-Building on this example, suppose instead we need an umbrella if it's raining and we plan to go outside. To do so, we arrange a set of dominoes in a line with the middle domino on a sliding track as before. We then set up a second set up of dominoes in the same way after the first line. We place a bell at the end of the second line. To start this compound contraption, we tip the domino at the head of the first line. If it's raining, we slide the middle domino in the first line into place. If we plan to go outside, we slide the middle domino in the second line into place. When the domino at the head of the first line falls, all the dominoes eventually fall, including the last one, which rings the bell signalling we need an umbrella (c). Otherwise, the bell does not ring (d). This compound contraption answers the more complex logical question.
+If it's raining, we tip over the domino on the bottom left. If it's overcast, we tip over the domino on the bottom right. If it's raining or overcast or it's raining and it's overcast, then all the dominoes eventually fall. Otherwise, none of the dominoes fall. If the last domino falls, we need an umbrella.
 
-Finally, suppose instead we want the bell to ring if we don't need the umbrella. We add a line of dominoes perpendicular to the second line and we move the bell to the end of this perpendicular line. To start the contraption, we tip the domino at the head of the first line and then we tip the domino at the head of the perpendicular line. If the last domino of the second line falls, then it blocks the dominoes in the perpendicular line from falling and the bell does not ring (e). If the last domino of the second line does not fall, then it does not block the dominoes in the perpendicular line and the last domino in that line rings the bell (f).
+This contraption is an example of an OR gate. An OR gate is a physical device that takes 2 or more binary inputs and outputs true if any of its inputs are true and outputs false otherwise. In this case, the OR gate takes 2 binary inputs. The first input is whether or not it's raining. The second input is whether or not it's overcast. The output is whether or not we need an umbrella.
 
-This last contraption is a NAND gate. A NAND gate takes 2 binary inputs and outputs true if the inputs are both false and outputs false otherwise. In this case, the first input is whether or not it's raining and the second binary input is whether or not we plan to go outside. The output is whether or not we need an umbrella. It turns out that a collection of NAND gates can answer any logical or arithmetic question that a modern computer can.
+An OR gate is an example of a logic gate. A logic gate is a physical device that implements a function that takes one or more binary inputs and returns a single binary output. Other examples of logic gates include an AND gate, a NOT gate and a NAND gate. An AND gate takes 2 or more binary inputs and returns true if all of its inputs are true and returns false otherwise. A NOT gate takes a single binary input and returns true if that input is false and returns false if that input is true. A NAND gate takes 2 or more binary inputs and returns the same output as if we fed its input through an AND gate followed by a NOT gate.
 
-## Sources
+By composing a large number of these logic gates, we can answer complex logical or arithmetic questions. For example, here is a calculator built from over 10,000 dominoes that can add 2 small numbers together (and a [video](https://www.youtube.com/watch?v=OpLU__bhu2w) of that calculator in action):
 
-* [Rube Goldberg machine - Wikipedia](https://en.wikipedia.org/wiki/Rube_Goldberg_machine)
+![A domino calculator](img/domino_calculator.jpg)
 
+In fact, it turns out that we can build a general-purpose computer entirely out of NAND gates (the [Nand to Tetris](https://www.nand2tetris.org) course walks through how to do this).
