@@ -1,6 +1,6 @@
-# Binary addition
+# Binary arithmetic
 
-We can build circuit to perform arithmetic using logic gates.
+We can build circuits to perform arithmetic using logic gates.
 
 We start by building a circuit to add 2 bits $A$ and $B$.
 
