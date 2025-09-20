@@ -30,6 +30,12 @@
       ]
     },
     {
+      "path": "analog_and_digital_computing.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "binary_addition.md",
       "tags": [
         "computer_systems"
