@@ -1,36 +1,46 @@
 # Binary arithmetic
 
-We can build circuits to perform arithmetic using logic gates.
+A bit is a single binary value that can be either 0 or 1. A binary digital computer consists of circuits that take bits as input and return bits as output.
 
-We start by building a circuit to add 2 bits $A$ and $B$.
+For example, an **XOR gate** is a circuit that takes 2 input bits ($A$ and $B$) and returns 1 output bit ($S$). The output bit is 1 if exactly 1 of the input bits is 1 and 0 otherwise. Here is the output for each of the possible inputs:
 
-Here are all the possibilities:
-
-|A|B|A+B|
+|$A$|$B$|$S$|
 |-|-|---|
-|0|0|00|
-|1|0|01|
-|0|1|01|
-|1|1|10|
+|0|0|0|
+|1|0|1|
+|0|1|1|
+|1|1|0|
 
-The $A+B$ columns shows the value of $A+B$ in binary, where an $n$-bit binary number with binary digits $b_{n-1} \ldots b_1 b_0$ has the value $\sum_{i=0}^{n-1} b_i 2^i$.
+We can think of the XOR gate as computing the sum of its inputs modulo 2, where $1+1$ "wraps around" from 2 back to 0.
 
-The **half adder** is a circuit that takes as input 2 bits $A$ and $B$ and outputs a sum bit $S$ and a carry bit $C$:
+As another example, a **half adder** is a circuit that takes 2 input bits ($A$ and $B$) and returns 2 output bits ($S$ and $C$) encoding the sum of the inputs as $2C + S$. Here are the outputs (and the sum) for each of the possible inputs:
 
-|A|B|S|C|
-|-|-|-|-|
-|0|0|0|0|
-|0|1|1|0|
-|1|0|1|0|
-|1|1|0|1|
+|$A$|$B$|$S$|$C$|$2C + S$|
+|---|---|---|---|--------|
+|0|0|0|0|0|
+|1|0|1|0|1|
+|0|1|1|0|1|
+|1|1|0|1|2|
 
-$S$ is the least significant bit of the sum and $C$ is the most significant bit of the sum. Alternatively, we can think of $S$ as $A+B$ correct up to 1 digit and $C$ as the overflow into the next digit of a multi-digit addition.
+The half adder feeds the 2 input bits through an XOR gate as before, which gives us $S$. The half adder also feeds the 2 input bits through an AND gate, which returns 1 if all of its inputs are 1 and returns 0 otherwise. The AND gate gives us $C$.
 
-We implement the half adder by sending $A$ and $B$ through an XOR gate, i.e., an exclusive or gate, to get $S$ and through an AND gate to get $C$. The XOR gate takes as input 2 bits and returns true if exactly 1 input is true and false otherwise.
+We can think of $C$ as part of the encoding of the sum of the inputs. Alternatively, we can think of $C$ as a carry bit representing the value that needs to be "carried over" to the next bit position when adding 2 binary digits (just as we "carry the 1" when we add 2 decimal digits whose sum exceeds 10).
 
-The **full adder** is a circuit that takes 3 bits ($A$ and $B$ and a carry bit $C_{in}$) and returns a sum bit $S$ and a carry bit $C_{out}$:
+A **full adder** is a circuit that takes 3 bits ($A$, $B$ and an input carry bit $C_{in}$) and returns a sum bit $S$ and an output carry bit $C_{out}$. The full adder performs one step of the process of adding 2 binary numbers digit by digit. For example, consider adding the bits 1001 and 0011:
 
-|A|B|Cin|S|Cout|
+```
+carry: 0110
+       1001
+      +0011
+       ----
+       1100
+```
+
+At each step, we compute the sum of the 2 binary digits in a column with the carry bit from the last step (or the carry bit of 0 at the first step).
+
+Here are the outputs of the full adder for each of the possible inputs:
+
+|$A$|$B$|$C_{in}$|$S$|$C_{out}$|
 |-|-|---|-|----|
 |0|0|0|0|0|
 |0|0|1|1|0|
@@ -41,11 +51,13 @@ The **full adder** is a circuit that takes 3 bits ($A$ and $B$ and a carry bit $
 |1|1|0|0|1|
 |1|1|1|1|1|
 
-We build an adder that takes multiple bits by composing full adders. For example, here is an adder that takes as input 2 4-bit binary numbers and returns a 4-bit sum and a 1-bit carry, where the sum is correct up to 4 bits.
+We build the circuit from 2 half adders. The first half adder takes $A$ and $B$ as input and outputs $S_0$ and $C_0$. The second half adder takes $S_0$ and $C_{in}$ as input and outputs $S$ and $C_1$. We then feed $C_0$ and $C_1$ through an OR gate, which returns 1 if any of its inputs are 1 and returns 0 otherwise. The output of the OR gate gives us $C_{out}$.
+
+Finally, an **adder** is a circuit that takes 2 $n$-bit inputs ($A_0, A_1, \ldots, A_{n-1}$ and $B_0, B_1, \ldots, B_{n-1}$) and returns an $n+1$-bit output ($S_0, S_1, \ldots, S_{n-1}, S_n$). We interpret the first input as the integer $\sum_{i=0}^{n-1} A_i 2^i$ and the second input analogously. The output bits encode the sum of these 2 integers as $\sum_{i=0}^n S_i 2^i$. We typically distinguish the $S_n$ bit as the carry bit $C$. We then either ignore $C$ and interpret the adder as performing modular arithmetic or we treat $C = 1$ as signaling an "overflow" error, where the number of bits required to represent the output exceeds the number of bits required to represent each input. In this way, we can think of the adder as performing addition on integers consistently encoded with $n$ bits.
+
+For example, here is an adder that takes 2 4-bit inputs and returns a 4-bit sum and the 1-bit carry:
 
 ![A 4-bit ripple carry adder.](img/4_bit_ripple_carry_adder.png)
-
-We implement the full adder from 2 half adders. The first half adder takes $A$ and $B$ as inputs and outputs $S_0$ and $C_0$. The second half adder takes $S_0$ and $C_{in}$ as inputs and outputs $S$ and $C_1$. We then feed $C_0$ and $C_1$ through an OR gate to get $C_{out}$.
 
 ## Sources
 
