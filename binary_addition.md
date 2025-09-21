@@ -1,4 +1,4 @@
-# Binary arithmetic
+# Binary addition
 
 A bit is a single binary value that can be either 0 or 1. A binary digital computer consists of circuits that take bits as input and return bits as output.
 
