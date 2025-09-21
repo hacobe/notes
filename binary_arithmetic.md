@@ -71,6 +71,8 @@ carry: 11110
 
 The adder returns $S_0 = 0$, $S_1 = 0$, $S_2 = 0$, $S_3 = 0$ and $C = 1$. If we interpret the 4-bit inputs and the 4-bit output as unsigned integers, then $C$ indicates the overflow error, where (8 + 4 + 2 + 1) + (0 + 0 + 0 + 1) = 16, which requires 5 bits to represent. However, if we interpret them as signed integers, then $C$ does not indicate an overflow error. We expect the sum to be (-8 + 4 + 2 + 1) + (0 + 0 + 0 + 1) = 0. For signed integers, an $n$-bit adder overflows when the sum falls outside the range that can be represented with $n$ bits in Two's complement. In this case, the adder raises an overflow error when the last carry in bit does not equal the last carry out bit.
 
+To use the adder to subtract the second input from the first, we feed the second input through a NOT gate to flip all of its bits. We then feed the first input and the inverted second input into the adder with the first carry in bit set to 1. In general, if a sequence of bits encodes the unsigned integer $y$, then the sequence of bits obtained by flipping each bit in that sequence and adding 1 will encode $-y$ in Two's complement.
+
 Finally, an **Arithmetic Logic Unit (ALU)** is a circuit that takes 2 $n$-bit inputs along with control bits and returns an $n$-bit output and status flag bits. The control bits determine the operation that the ALU performs. For example, a simple ALU might perform the following operations on inputs $x$ and $y$: $0$, $1$, $-1$, $x$, $y$, $\neg x$, $\neg y$, $-x$, $-y$, $x + 1$, $y + 1$, $x - 1$, $y - 1$, $x + y$, $x - y$, $y - x$, $x \land y$, $x \lor y$. The status flag bits indicate, for example, an unsigned overflow error or a signed overflow error.
 
 ## Sources
