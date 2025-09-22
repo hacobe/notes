@@ -48,6 +48,12 @@
       ]
     },
     {
+      "path": "flip_flops.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "assembly.md",
       "tags": [
         "computer_systems"
@@ -97,12 +103,6 @@
     },
     {
       "path": "nand2tetris.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "flip_flops.md",
       "tags": [
         "computer_systems"
       ]
