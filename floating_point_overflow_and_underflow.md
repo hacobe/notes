@@ -1,14 +1,16 @@
-# Overflow and Underflow
+# Floating-point overflow and underflow
 
 A fundamental difficulty is the **rounding error** introduced when we store real numbers on a computer with a finite number of bits. The rounding error is especially problematic when it compounds across many operations.
 
 There are 2 types of rounding error:
+
 1. **Overflow**: A number with large magnitude is approximated as negative or positive infinity.
 2. **Underflow**: A number near 0 is rounded down to 0.
 
 Overflow is a problem, because it can result in **not-a-number**  (NaN) values. What happens is that numbers overflow, get approximated as negative or positive **infinity** and then get used in arithmetic operations that result in NaNs. In Python, arithmetic operations that result in NaNs include but are not limited to inf/inf, inf - inf, 0 * inf.[^1]
 
 Underflow is a problem, because:
+
 * It can result in a **divide by 0** exception being thrown (In Python, 1/0 results in a ZeroDivisionError)
 * It gets used in an operation that result in negative or positive infinity (e.g., log(0) or np.array([1.]) / np.array([0.])), which then runs into the same problems we saw with overflow.
 
