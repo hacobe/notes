@@ -42,6 +42,12 @@
       ]
     },
     {
+      "path": "floating_point_representation.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "assembly.md",
       "tags": [
         "computer_systems"
