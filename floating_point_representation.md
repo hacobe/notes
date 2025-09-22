@@ -27,7 +27,7 @@ The value is computed as $(-1)^s \times 2^{x - 127} \times \left(1 + \sum_{i=0}^
 |0|0|!=0|$2^{-126} \times \sum_{i=0}^{22} f_{22-i} 2^{-i-1}$|
 |1|0|!=0|$-2^{-126} \times \sum_{i=0}^{22} f_{22-i} 2^{-i-1}$|
 
-The IEEE 754 standard also defines other floating point formats with varying numbers of byte and levels of precision (e.g., 8 bytes for double precision).
+The IEEE 754 standard also defines other floating point formats with varying numbers of bits and levels of precision (e.g., 64 bits for double precision).
 
 ## Sources
 
