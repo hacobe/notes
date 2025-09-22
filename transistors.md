@@ -21,4 +21,4 @@ With a large number of transistors, we can build a general-purpose computer. The
 
 ## Sources
 
-* [Lecture 9 - UC Berkeley, CS61C, Spring 2015](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=9))
+* [Lecture 9 - UC Berkeley, CS61C, Spring 2015](https://www.youtube.com/watch?v=zpGzXfWRk70&list=PLhMnuBfGeCDM8pXLpqib90mDFJI-e1lpk&index=9)
