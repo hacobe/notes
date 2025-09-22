@@ -4,7 +4,7 @@ If a computer can persist the values of bits over time, then it can chain operat
 
 We first build a circuit to persist the value of a single bit. The idea is to create a circuit with 2 stable states like a light switch, which when flipped on stays on until we flip it off (or when flipped off stays off until we flip it on). We do so by introducing a feedback loop, where we feed the circuit's output back into its input, which persists the state of circuit until a new input overpowers the feedback loop to change the circuit's state.
 
-A circuit that contains a feedback loop is called a **sequential circuit** in contrast to a **combinatorial circuit** without feedback loops (e.g., an Arithmetic Logic Unit or Floating-Point Unit).
+A circuit that contains a feedback loop is called a **sequential circuit** in contrast to a **combinational circuit** without feedback loops (e.g., an Arithmetic Logic Unit or Floating-Point Unit).
 
 Consider an OR gate that takes inputs $A$ and $B$ and returns a high signal if $A$ has a high signal or $B$ has a high signal (or both have a high signal) and returns a low signal otherwise. Add a wire that also feeds the output back into one of the inputs (say the input $B$) instead of that input being determined by an external source.
 
