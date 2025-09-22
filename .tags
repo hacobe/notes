@@ -42,13 +42,7 @@
       ]
     },
     {
-      "path": "floating_point_representation.md",
-      "tags": [
-        "computer_systems"
-      ]
-    },
-    {
-      "path": "floating_point_overflow_and_underflow.md",
+      "path": "floating_point_arithmetic.md",
       "tags": [
         "computer_systems"
       ]

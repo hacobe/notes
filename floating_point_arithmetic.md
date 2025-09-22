@@ -1,4 +1,4 @@
-# Floating-point representation
+# Floating-point arithmetic
 
 Computers perform arithmetic operations on numbers encoded as sequences of bits.
 
@@ -29,6 +29,21 @@ The value is computed as $(-1)^s \times 2^{x - 127} \times \left(1 + \sum_{i=0}^
 
 The IEEE 754 standard also defines other floating point formats with varying numbers of bits and levels of precision (e.g., 64 bits for double precision).
 
+A fundamental difficulty is the rounding error introduced when we store real numbers on a computer with a finite number of bits. The rounding error is especially problematic when it compounds across many operations.
+
+There are 2 types of rounding error:
+
+1. Overflow: A number with large magnitude is approximated as negative or positive infinity.
+2. Underflow: A number near 0 is rounded down to 0.
+
+Overflow is a problem, because it can result in not-a-number  (NaN) values. What happens is that numbers overflow, get approximated as negative or positive infinity and then get used in arithmetic operations that result in NaNs.
+
+Underflow is a problem, because:
+
+* It can result in a divide by 0 exception being thrown (In Python, 1/0 results in a ZeroDivisionError)
+* It gets used in an operation that result in negative or positive infinity, e.g., log(0), which then runs into the same problems we saw with overflow.
+
 ## Sources
 
 * [Single-precision floating-point format - Wikipedia](https://en.wikipedia.org/wiki/Single-precision_floating-point_format)
+* Goodfellow, Deep learning, Section 4.1
