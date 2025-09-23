@@ -78,4 +78,4 @@ Finally, an **Arithmetic Logic Unit (ALU)** is a circuit that takes 2 $n$-bit in
 ## Sources
 
 * [Adder (electronics) - Wikipedia](https://en.wikipedia.org/wiki/Adder_(electronics))
-* Chapter 2. The Elements of Computing Systems, 2nd Edition
+* Chapter 2 - The Elements of Computing Systems, 2nd Edition

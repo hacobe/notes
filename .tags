@@ -54,6 +54,12 @@
       ]
     },
     {
+      "path": "synchronous_systems.md",
+      "tags": [
+        "computer_systems"
+      ]
+    },
+    {
       "path": "assembly.md",
       "tags": [
         "computer_systems"
