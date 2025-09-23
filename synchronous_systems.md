@@ -2,10 +2,10 @@
 
 Consider a NOT gate with an input $x$ and an output $y$, where the input is determined by a button. While we press and hold the button down, $x$ is 1. Otherwise, $x$ is 0.
 
-We start at $t = 0$ with $x = 0$ and $y = 1$. Between $t = 1$ and $t = 2$, we press and hold the button down. Suppose further that it takes 2 time steps for the input signal to propagate through the NOT gate to the output signal. We then have the following sequence of events:
+We start at $t = 0$ with $x = 0$ and $y = 1$. At $t = 2$, we press and hold the button down. Suppose further that it takes 2 time steps for the input signal to propagate through the NOT gate to the output signal. We then have the following sequence of events:
 
 ```
-     *
+      *
 t 0 1 2 3 4 5 6 7 8
 x 0 0 1 1 1 1 1 1 1
 y 1 1 1 1 0 0 0 0 0
@@ -30,7 +30,7 @@ Let $c$ be a binary variable indicating when we have a rising edge. Suppose that
 In that case, we have:
 
 ```
-      *
+       *
 t  0 1 2 3 4 5 6 7 8
 x  0 0 1 1 1 1 1 1 1
 c  1 0 0 0 1 0 0 0 1
